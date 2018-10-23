@@ -1,0 +1,70 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+<!-- START CONTENT -->
+<section id="content">
+
+  {% include 'base/barra_busqueda.html' %}
+
+
+  <!--start container-->
+  <div class="container">
+    <div class="section">
+
+      <!--  Boton agregar -->
+            <div class="input-field col m3">
+              <a href="{% url 'persona_create' %}" class="btn cyan waves-effect waves-light "> <i class="mdi-content-add left"></i>Agregar Empleado</a>
+            </div>
+
+      <!-- Inline Form -->
+      <div class="container-fluid">
+        <!-- Image Gallery -->
+        <div class="block-header">
+
+        </div>
+
+        <!-- Tabla Empleados -->
+
+        <div id="striped-table">
+          <h4 class="header">Empleados</h4>
+          <div class="row">
+            
+            <div class="col s12 m8 l12">
+              <table class="striped">
+                <thead>
+                  <tr>
+                    <th data-field="apellido">APELLIDO Y NOMBRE</th>
+                    <th data-field="dni">DNI</th>
+                    <th data-field="legajo">LEGAJO</th>
+                    <th data-field="legajo">N° IMAGENES</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for persona in listado_personas %}
+                  <tr>
+                    <td><a href="{% url 'persona_detail' persona.id %}">{{ persona.apellido }}, {{ persona.nombre }}</a></td>
+                    <td>{{ persona.dni }}</td>
+                    <td>{{ persona.legajo }}</td>
+                    <td>{{ persona.images_count }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- End Tabla Empleados -->
+
+
+
+
+  </section>
+  <!-- END CONTENT -->
+
+  {% include 'base/footer.html' %}
+  {% endblock %} 
