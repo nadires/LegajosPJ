@@ -1,0 +1,43 @@
+# ide and tools extra
+.idea/*
+
+.py[cod]
+
+.idea/
+legajos/*.orig
+legajos/*.sublime-project
+legajos/*.sublime-workspace
+.vscode/
+
+# db
+db.sqlite3
+
+logs/
+
+# archivos temporales y migraciones
+*.pyc
+*.pyo
+*.bak
+*.bak2
+*.log
+*.py.orig
+*/__pycache__/
+
+apps/*/api/__pycache__/
+!apps/*/migrations/__init__.py
+apps/*/migrations/__pycache__
+apps/*/migrations/0*
+apps/*/__pycache__
+
+
+# archivos de configuracion
+legajos/settings/local.py
+"legajos/settings/local.py"
+
+# static y temporales
+/media/*
+legajos/static/*
+legajos/¿
+legajos/Contra
+legajos/s
+legajos/s
