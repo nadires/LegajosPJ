@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.persona',
     'apps.core',
+    'rest_framework',
+    'easy_pdf',
 ]
 
 MIDDLEWARE = [

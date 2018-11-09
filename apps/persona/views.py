@@ -9,6 +9,8 @@ import json
 from .models import Persona, Seccion, Imagen
 from .forms import PersonaForm, ImagenForm
 
+from easy_pdf.views import PDFTemplateResponseMixin
+
 
 def index(request):
 	return render(request, 'login.html')
@@ -116,8 +118,25 @@ class ImagenesPersonaView(View):
 	def post(self, request, *args, **kwargs):
 		form = ImagenForm(self.request.POST, self.request.FILES)
 		if form.is_valid():
-			imagen = form.save()
+			imagen = form.save(commit=False)
+			imagen.created_by = request.user
+			imagen.modified_by = request.user
+			imagen.save()
 			data = {'mensaje':'Success', 'is_valid': True, 'name': imagen.imagen.name, 'url': imagen.imagen.url}
 		else:
 			data = {'mensaje':'Error', 'is_valid': False}
 		return JsonResponse(data)
+
+
+class PersonaPDF(PDFTemplateResponseMixin, DetailView):
+	model = Persona
+	template_name = 'legajos/pdf.html'
+	context_object_name = 'persona'
+
+	def get_context_data(self, **kwargs):
+		context = super(PersonaPDF, self).get_context_data(**kwargs)
+		id_persona = self.kwargs.get('pk', 0)
+		persona = Persona.objects.get(pk=id_persona)
+		imagenes_list = Imagen.objects.filter(persona=persona)
+		context['imagenes_list'] = imagenes_list
+		return context

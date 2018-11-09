@@ -6,7 +6,7 @@ from .models import Persona, Seccion, Imagen
 class ImagenForm(forms.ModelForm):
     class Meta:
         model = Imagen
-        fields = ('imagen', 'persona', 'seccion',)
+        fields = ('imagen', 'persona', 'seccion', )
 
 
 class PersonaForm(forms.ModelForm):

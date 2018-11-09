@@ -5,7 +5,7 @@ from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKe
 from django.contrib.contenttypes.models import ContentType
 
 
-class Persona(models.Model):	
+class Persona(Signature):	
 	apellido = models.CharField(max_length=200)
 	nombre = models.CharField(max_length=200)
 	cuil = models.CharField(max_length=15)
@@ -34,7 +34,7 @@ class Seccion(Signature):
 		ordering = ('orden',)
 
 	def __str__(self):
-		return '{} {}'.format(self.id, self.nombre_seccion)
+		return '{}'.format(self.nombre_seccion)
 
 	# Recibe el id de la persona para filtrar la cantidad de imagenes por seccion por persona
 	def cantidad_imagenes_por_seccion(self, persona): 
@@ -58,14 +58,14 @@ def url_upload_to(instance, filename):
 		return '/'.join(['persona/%s/' %instance.persona.legajo, filename])
 
 
-class Imagen(models.Model):
+class Imagen(Signature):
 	imagen = models.ImageField(upload_to=url_upload_to)
 	persona = models.ForeignKey(Persona, on_delete=models.CASCADE, related_name='imagenes_persona')
 	seccion = models.ForeignKey(Seccion, on_delete=models.SET(default_seccion), related_name='imagenes_seccion')
-	fecha_subida = models.DateTimeField(auto_now_add = True)
+	fecha_subida = models.DateTimeField(auto_now_add = True, editable = False)
 
 	class Meta:
-		verbose_name = ('Imágen')
+		verbose_name = ('Imagen')
 		verbose_name_plural = ('Imágenes')
 
 	def __str__(self):

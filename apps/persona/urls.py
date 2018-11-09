@@ -18,11 +18,12 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
-from apps.persona.views import PersonaList, PersonaDetail, PersonaCreate, ImagenesPersonaView
+from apps.persona.views import PersonaList, PersonaDetail, PersonaCreate, ImagenesPersonaView, PersonaPDF
 
 urlpatterns = [
     path('', PersonaList.as_view(), name="persona_list"),
     path('<int:pk>/', PersonaDetail.as_view(), name="persona_detail"),
     path('nuevo/', PersonaCreate.as_view(), name="persona_create"),
     path('<int:id_persona>/<int:id_seccion>/', ImagenesPersonaView.as_view(), name='imagenes_persona'),
+    path('pdf/<int:pk>', PersonaPDF.as_view(), name="persona_pdf"),
 ]

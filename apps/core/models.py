@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from .manager import ActivesManager
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 
 class Signature(models.Model):
     class Meta:
@@ -16,27 +17,19 @@ class Signature(models.Model):
     )
     created_on = models.DateTimeField(
         auto_now_add=True,
-        null=True,
-        blank=True
     )
     modified_on = models.DateTimeField(
         auto_now=True,
-        null=True,
-        blank=True
     )
     created_by = models.ForeignKey(
-        get_user_model(),
+        settings.AUTH_USER_MODEL,
         related_name="%(class)s_created",
-        null=True,
-        blank=True,
         editable=False,
-        on_delete=models.SET_NULL
+        on_delete=models.CASCADE
     )
     modified_by = models.ForeignKey(
-        get_user_model(),
+        settings.AUTH_USER_MODEL,
         related_name="%(class)s_modified",
-        null=True,
-        blank=True,
         editable=False,
-        on_delete=models.SET_NULL
+        on_delete=models.CASCADE
     )
