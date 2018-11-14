@@ -14,16 +14,31 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from apps.persona.views import PersonaList, PersonaDetail, PersonaCreate, ImagenesPersonaView, PersonaPDF
+from apps.persona.views import PersonaList, PersonaDetail, PersonaCreate, PersonaUpdate, PersonaDelete, ImagenesPersonaView, PersonaPDF
+from apps.persona.api.views import PersonaModelViewSet, PersonaViewSet, PersonaViewSetReadOnly, PersonaApiView
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register('persona',PersonaModelViewSet, basename='persona')
+router.register('readonly-viewset',PersonaViewSetReadOnly, basename='viewSetReadOnly')
+router.register('viewset',PersonaViewSet, basename='personaviewset')
+router.register('viewset/<int:pk>',PersonaViewSet, basename='personaviewset')
+router.register('viewset/<string:apellido>',PersonaViewSet, basename='personaviewset')
 
 urlpatterns = [
     path('', PersonaList.as_view(), name="persona_list"),
     path('<int:pk>/', PersonaDetail.as_view(), name="persona_detail"),
     path('nuevo/', PersonaCreate.as_view(), name="persona_create"),
+    path('modificar/<int:pk>', PersonaUpdate.as_view(), name="persona_update"),
+    path('eliminar/<int:pk>', PersonaDelete.as_view(), name="persona_delete"),
     path('<int:id_persona>/<int:id_seccion>/', ImagenesPersonaView.as_view(), name='imagenes_persona'),
     path('pdf/<int:pk>', PersonaPDF.as_view(), name="persona_pdf"),
+
+    path('api/v1/', include(router.urls)),
+    path('api/v1/apiview', PersonaApiView.as_view(), name="personaapiview"),
+
 ]
