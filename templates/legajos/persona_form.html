@@ -12,7 +12,7 @@
       <div class="center col s12 m12 l12">
         <div class="card ">
           <div class="card-content grey-text">
-            <span class="card-title grey-text">Agregar Persona</span>
+            <span class="card-title grey-text">{{ titulo }}</span>
             <div class="divider"></div>
             <br>
 
@@ -55,7 +55,7 @@
               </div>
 
               <div class="row">
-                  <a href="{% url 'persona_list' %}" class="btn cyan waves-effect waves-light center botones">Volver<i class="mdi-content-reply left"></i></a>
+                  <a href="{{ request.META.HTTP_REFERER }}" class="btn cyan waves-effect waves-light center botones">Volver<i class="mdi-content-reply left"></i></a>
 
 
                   <button class="btn cyan waves-effect waves-light center botones" type="submit" name="action">Guardar <i class="mdi-content-send right"></i>

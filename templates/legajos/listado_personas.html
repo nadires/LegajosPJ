@@ -3,8 +3,10 @@
 
 {% block content %}
 
+{% include 'base/header.html' %}
+
 <!-- START CONTENT -->
-<section id="content">
+<main>
 
   {% include 'base/barra_busqueda.html' %}
 
@@ -36,18 +38,18 @@
                 <thead>
                   <tr>
                     <th data-field="apellido">APELLIDO Y NOMBRE</th>
+                    <th data-field="legajo">N° LEGAJO</th>
+                    <th data-field="cuil">CUIL</th>
                     <th data-field="dni">DNI</th>
-                    <th data-field="legajo">LEGAJO</th>
-                    <th data-field="legajo">N° IMAGENES</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for persona in listado_personas %}
                   <tr>
                     <td><a href="{% url 'persona_detail' persona.id %}">{{ persona.apellido }}, {{ persona.nombre }}</a></td>
-                    <td>{{ persona.dni }}</td>
                     <td>{{ persona.legajo }}</td>
-                    <td>{{ persona.images_count }}</td>
+                    <td>{{ persona.cuil }}</td>
+                    <td>{{ persona.dni }}</td>
                   </tr>
                   {% endfor %}
                 </tbody>
@@ -63,7 +65,7 @@
 
 
 
-  </section>
+  </main>
   <!-- END CONTENT -->
 
   {% include 'base/footer.html' %}

@@ -1,0 +1,61 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+{% include 'base/header.html' %}
+
+<!--  CONTENIDO FORMULARIO -->
+<main>
+  <div class="container">
+      <div class="row">
+        <div class="center col s12 m12 l12">
+          <div class="card ">
+            <div class="card-content grey-text">
+              <span class="card-title red-text">¿Está seguro que desea eliminar a esta persona?</span>
+              <div class="divider"></div>
+              <br>
+
+                <div class="row">
+                  <div class="input-field col s12 m6">
+                    <label> Apellido: {{ persona.apellido }} </label> 
+                  </div>
+                </div> 
+                <div class="row">   
+                  <div class="input-field col s12 m6">
+                   <label>Nombre: {{ persona.nombre }}</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12 m4">
+                    <label> Legajo: {{ persona.legajo }} </label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12 m4">                      
+                      <label >CUIL: {{ persona.cuil }}</label>
+                  </div>
+                </div> 
+                <div class="row">
+                  <div class="input-field col s12 m4">
+                    <label> DNI: {{ persona.dni }} </label>
+                  </div>
+                </div>  
+
+                <div class="row">                  
+                    <a href="{{ request.META.HTTP_REFERER }}" class="btn cyan waves-effect waves-light center botones">No, Volver<i class="mdi-content-reply left"></i></a>
+                     
+                    <button class="btn red waves-effect waves-light center botones" type="submit" name="action">Si, Estoy Seguro<i class="mdi-action-delete right"></i>
+                    </button>
+                </div>
+                  
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</main>
+<!-- END CONTENT -->
+
+{% include 'base/footer.html' %}
+{% endblock %} 

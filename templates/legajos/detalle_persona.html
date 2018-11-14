@@ -4,6 +4,8 @@
 {% block content %}
 
 {% include 'base/header.html' %}
+
+<main>
 <!-- START MAIN -->
 <div id="main">
     <!-- START WRAPPER -->
@@ -11,56 +13,44 @@
 
         {% include 'base/sidebar.html' %}
 
-        {% include 'base/barra_busqueda.html' %}
-
         <div class="row">
-            <div class="col s12 m12 l12">
-                <div class="card ">
-                    <div class="card-content grey-text">
+          <div class="col s12 m12 l12">
+            <div class="card ">
+                <div class="card-content grey-text">
                         <span class="card-title grey-text">Datos Personales</span>
                         <div class="divider"></div>
                         <br>
-
-                        <div class="row">
-                            <div class="input-field col s12 m6">
-                                <i class="mdi-action-account-circle prefix icongris"></i>
-                                <input type="text" value= "{{ persona.apellido }}" disabled="true">
-                                <label for="first_name">Apellido:</label>
-                            </div>
-
-                            <div class="input-field col s12 m6">
-                                <i class="mdi-action-account-circle prefix"></i>
-                                <input type="text" value= "{{ persona.nombre }}" disabled="true">
-                                <label for="first_name">Nombre:</label>
-                            </div>
+                        <div class="row">                          
+                            Apellido:<b> {{ persona.apellido }}</b>                       
+                        </div> 
+                        <div class="row">                             
+                           Nombre:<b> {{ persona.nombre }}</b>                        
                         </div>
-
-                        <div class="row">
-                            <div class="input-field col s12 m4">
-                                <i class="mdi-action-picture-in-picture prefix"></i>
-                                <input type="text" value= "{{ persona.cuil }}" disabled="true">
-                                <label for="first_name">CUIL:</label>
-                            </div>
-
-                              
-                            <div class="input-field col s12 m4">
-                                <i class="mdi-action-picture-in-picture prefix"></i>
-                                <input type="text" value= "{{ persona.dni }}" disabled="true">
-                                <label for="first_name">DNI N°:</label>
-                            </div>
-
-                            <div class="input-field col s12 m4">
-                                <i class="mdi-av-subtitles prefix"></i>
-                                <input type="text" value= "{{ persona.legajo }}" disabled="true">
-                                <label for="first_name">Legajo:</label>
-                            </div>
+                        <div class="row">                       
+                             Legajo: <b>{{ persona.legajo }}</b> 
                         </div>
-                    </div>
+                        <div class="row">
+                              CUIL: <b>{{ persona.cuil }}</b>  
+                        </div>
+                        <div class="row">                 
+                             DNI: <b>{{ persona.dni }}</b>  
+                        </div>
+                        
+                    
+                        <div class="row">
+                          <div class="row center">             
+                              <a href="{% url 'persona_update' persona.id %}" class="btn cyan waves-effect waves-light center botones">Modificar<i class="mdi-editor-mode-edit left"></i></a>
+
+                              <a href="{% url 'persona_delete' persona.id %}" class="btn red darken waves-effect waves-light center botones">Eliminar<i class="mdi-action-delete right"></i></a>
+                          </div> 
+                        </div>
                 </div>
             </div>
+          </div>
         </div>
     </div>
 </div>
+</main>
 <!-- END CONTENT -->
 {% include 'base/footer.html' %}
 {% endblock %} 

@@ -47,7 +47,9 @@ background-color: #04b1c7;
 .text-rojo{
 	text-decoration-color: red;
 }
-
+.alert, .alert h3 {
+    text-align: left!important;
+}
 .alert-danger {
     padding: 20px;
     background-color: #faebeb;
@@ -55,10 +57,8 @@ background-color: #04b1c7;
     color: #521822;
 }
 
-.abajo{
-	
-	bottom: 0;
-}
+
+
 body {
     display: flex;
     min-height: 100vh;
@@ -86,4 +86,13 @@ body {
 #search{
 padding-left: 43px;
 
+}
+.seleccionado{
+
+  background-color: #04b1c77a;
+}
+
+.thumbnail{
+    width: 300px;
+    height: 300px;
 }

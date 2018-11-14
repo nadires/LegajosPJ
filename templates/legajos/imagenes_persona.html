@@ -5,6 +5,7 @@
 
 {% include 'base/header.html' %}
 
+<main>
     <!-- START MAIN -->
     <div id="main">
         <!-- START WRAPPER -->
@@ -15,7 +16,6 @@
             <!-- START CONTENT -->
             <section id="content">
 
-              {% include 'base/barra_busqueda.html' %}
               <!--start container-->
               <div class="container">
                 <div class="section">
@@ -27,11 +27,12 @@
                       </div>
 
                       <div class="block-header">
-                          <h4 class="header">Fojas Legajo</h4>
+                          <h4 class="header">{{ seccion.nombre_seccion }}</h4>
                       </div>
 
                       <!--  Boton agregar -->            
                       <div style="margin-bottom: 20px;">
+                          <a href="{% url 'persona_detail' persona.id %}" class="btn cyan waves-effect waves-light "> <i class="mdi-content-reply left"></i>Volver a Datos Personales</a>
                           <button type="button" class="btn cyan btn-primary js-upload-photos">
                             <span class="glyphicon glyphicon-cloud-upload"></span> Subir Imagenes
                           </button>
@@ -77,6 +78,7 @@
         </div>
     </div>
   <!-- END CONTENT -->
+</main>
 
  {% include 'base/footer.html' %}
 {% endblock %} 
@@ -87,3 +89,4 @@
 
   <script src="{% static 'js/subir_imagen.js' %}"></script>
 {% endblock %} 
+
