@@ -43,15 +43,17 @@
                     <th data-field="dni">DNI</th>
                   </tr>
                 </thead>
-                <tbody>
-                  {% for persona in listado_personas %}
-                  <tr>
-                    <td><a href="{% url 'persona_detail' persona.id %}">{{ persona.apellido }}, {{ persona.nombre }}</a></td>
-                    <td>{{ persona.legajo }}</td>
-                    <td>{{ persona.cuil }}</td>
-                    <td>{{ persona.dni }}</td>
-                  </tr>
-                  {% endfor %}
+                <tbody id="cuerpo_tabla">
+                  <div>
+                    {% for persona in listado_personas %}
+                    <tr>
+                      <td><a href="{% url 'persona_detail' persona.id %}">{{ persona.apellido }}, {{ persona.nombre }}</a></td>
+                      <td>{{ persona.legajo }}</td>
+                      <td>{{ persona.cuil }}</td>
+                      <td>{{ persona.dni }}</td>
+                    </tr>
+                    {% endfor %}
+                  </div>
                 </tbody>
               </table>
             </div>
@@ -69,4 +71,8 @@
   <!-- END CONTENT -->
 
   {% include 'base/footer.html' %}
+  {% endblock %} 
+  {% block staticfiles_javascript %} 
+
+    <script src="{% static 'js/listado_personas.js' %}"></script>
   {% endblock %} 
