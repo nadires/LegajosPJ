@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'apps.core',
     'rest_framework',
     'easy_pdf',
+    'dal',
+    'dal_select2',
 ]
 
 MIDDLEWARE = [

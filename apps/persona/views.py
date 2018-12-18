@@ -7,10 +7,12 @@ from django.core import serializers
 import json
 from django.conf import settings
 
-from .models import Persona, Seccion, Imagen
+from .models import Persona, Seccion, Imagen, Familiar
 from .forms import PersonaForm, ImagenForm
 
 from easy_pdf.views import PDFTemplateResponseMixin
+
+from dal import autocomplete
 
 
 def index(request):
@@ -56,6 +58,10 @@ class PersonaCreate(CreateView):
 		context = super(PersonaCreate, self).get_context_data(**kwargs)	
 		context['titulo'] = "Agregar Empleado"
 		return context
+
+	def form_invalid(self, form):
+		print(form)
+		return self.render_to_response(self.get_context_data(form=form))
 
 	def form_valid(self, form):
 		user = self.request.user
@@ -165,3 +171,17 @@ class PersonaPDF(PDFTemplateResponseMixin, DetailView):
 		imagenes_list = Imagen.objects.filter(persona=persona)
 		context['imagenes_list'] = imagenes_list
 		return context
+
+
+class FamiliarAutocomplete(autocomplete.Select2QuerySetView):
+	def get_queryset(self):
+		# Don't forget to filter out results depending on the visitor !
+		# if not self.request.user.is_authenticated():
+		# 	return Familiar.objects.none()
+
+		qs = Familiar.objects.all()
+
+		if self.q:
+			qs = qs.filter(nombre__istartswith=self.q)
+
+		return qs

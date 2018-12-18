@@ -396,7 +396,7 @@ ul.side-nav.fixed hr {
   display: block;
   float: left;
   text-align: center;
-  margin-right: 1rem;
+  margin-right: 0.2rem;
 }
 #slide-out ul.side-nav li {
   padding: 0px !important;

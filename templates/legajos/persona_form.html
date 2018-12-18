@@ -53,6 +53,43 @@
                     <label for="{{form.legajo.name}}">{{form.legajo.label}}</label>
                   </div>
               </div>
+              <div class="row">
+                      <!-- <div class="input-field col s12 m4">
+                        <i class="mdi-av-subtitles prefix"></i>
+                        <label for="search">Buscar: </label>
+                      </div> -->
+                      <div class="input-field col s12 m4">
+                        <i class="mdi-av-subtitles prefix"></i>
+                        <label for="search">Buscar: </label>{{form.familiares}}
+                      </div>
+                      <!-- <div class="input-field col s12 m4">
+                        <i class="mdi-action-picture-in-picture prefix"></i>
+                        {{form.familiares}}
+                      </div> -->
+              </div>
+              {{ form.media }}
+              <div class="col s12 m8 l12">
+                <table class="striped">
+                  <thead>
+                    <tr>
+                      <th data-field="nombre">NOMBRE</th>
+                      <th data-field="parentesco">PARENTESCO</th>
+                    </tr>
+                  </thead>
+                  <tbody id="cuerpo_tabla">
+                    <div>
+                      {% for persona in listado_personas %}
+                      <tr>
+                        <td><a href="{% url 'persona_detail' persona.id %}">{{ persona.apellido }}, {{ persona.nombre }}</a></td>
+                        <td>{{ persona.legajo }}</td>
+                        <td>{{ persona.cuil }}</td>
+                        <td>{{ persona.dni }}</td>
+                      </tr>
+                      {% endfor %}
+                    </div>
+                  </tbody>
+                </table>
+              </div>
 
               <div class="row">
                   <a href="{{ request.META.HTTP_REFERER }}" class="btn cyan waves-effect waves-light center botones">Volver<i class="mdi-content-reply left"></i></a>
@@ -73,3 +110,7 @@
 
 {% include 'base/footer.html' %}
 {% endblock %} 
+{% block staticfiles_javascript %} 
+
+    <script src="{% static 'js/custom.js' %}"></script>
+  {% endblock %} 

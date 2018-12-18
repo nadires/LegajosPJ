@@ -18,7 +18,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from apps.persona.views import PersonaList, PersonaDetail, PersonaCreate, PersonaUpdate, PersonaDelete, ImagenesPersonaView, PersonaPDF
+from apps.persona.views import PersonaList, PersonaDetail, PersonaCreate, PersonaUpdate, PersonaDelete, ImagenesPersonaView, PersonaPDF, FamiliarAutocomplete
 from apps.persona.api.views import PersonaModelViewSet, PersonaViewSet, PersonaViewSetReadOnly, PersonaApiView
 from rest_framework.routers import DefaultRouter
 
@@ -40,5 +40,7 @@ urlpatterns = [
 
     path('api/v1/', include(router.urls)),
     path('api/v1/apiview', PersonaApiView.as_view(), name="personaapiview"),
+
+    path('familiar-autocomplete/', FamiliarAutocomplete.as_view(), name='familiar-autocomplete',),
 
 ]

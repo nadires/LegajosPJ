@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.persona.models import Persona, Seccion, Imagen
+from apps.persona.models import Persona, Seccion, Imagen, Familiar
 
 class PersonasAdmin(admin.ModelAdmin):
     search_fields = ['apellido', 'nombre']
@@ -8,7 +8,7 @@ class PersonasAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (None,
-         {'fields': ('apellido', 'nombre', 'cuil', 'dni', 'legajo')}),
+         {'fields': ('apellido', 'nombre', 'cuil', 'dni', 'legajo', 'familiares')}),
         ('Datos Extras', {'fields': ('created_on', 'created_by', 'modified_on', 'modified_by')}),
     )
 
@@ -70,5 +70,6 @@ class ImagenesAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Persona, PersonasAdmin)
+admin.site.register(Familiar)
 admin.site.register(Seccion, SeccionesAdmin)
 admin.site.register(Imagen, ImagenesAdmin)

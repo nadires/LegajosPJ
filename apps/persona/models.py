@@ -4,6 +4,12 @@ import os
 from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
+class Familiar(models.Model):
+	nombre = models.CharField(max_length=200)
+	parentesco = models.CharField(max_length=100)
+
+	def __str__(self):
+		return '{} - {}'.format(self.nombre, self.parentesco)
 
 class Persona(Signature):	
 	apellido = models.CharField(max_length=200)
@@ -11,6 +17,7 @@ class Persona(Signature):
 	cuil = models.CharField(max_length=15)
 	dni = models.CharField(max_length=10)
 	legajo = models.IntegerField()
+	familiares = models.ManyToManyField(Familiar, related_name='personas_familiar')
 
 	def __str__(self):
 		return '{}, {}'.format(self.apellido, self.nombre)
