@@ -30,5 +30,5 @@ class PersonaForm(forms.ModelForm):
 			'cuil' : forms.NumberInput(attrs={'class':'form-control'}),
 			'dni' : forms.NumberInput(attrs={'class':'form-control'}),
 			'legajo' : forms.NumberInput(attrs={'class':'form-control'}),
-			'familiares': autocomplete.ModelSelect2Multiple(url='familiar-autocomplete', attrs={'class':'form-control'})
+			'familiares': autocomplete.ModelSelect2Multiple(url='familiar-autocomplete', attrs={'class':'form-control', 'data-html': True})
 		}

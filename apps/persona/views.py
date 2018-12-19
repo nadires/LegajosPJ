@@ -13,7 +13,7 @@ from .forms import PersonaForm, ImagenForm
 from easy_pdf.views import PDFTemplateResponseMixin
 
 from dal import autocomplete
-
+from django.utils.html import format_html
 
 def index(request):
 	return render(request, 'login.html')
@@ -185,3 +185,41 @@ class FamiliarAutocomplete(autocomplete.Select2QuerySetView):
 			qs = qs.filter(nombre__istartswith=self.q)
 
 		return qs
+
+	# def get_result_label(self, item):
+	# 	# print('get_result_label: '+item.nombre)
+	# 	return item.nombre
+
+	# def get_selected_result_label(self, item):
+	# 	# print('Inyectar html en tabla: '+item.nombre)
+	# 	return ''
+
+	# def get_result_value(self, result):
+	# 	"""Return the value of a result."""
+	# 	# print('get_result_value:'+result.nombre)
+	# 	return str(result.pk)
+
+	# def post(self, request):
+	# 	"""Create an object given a text after checking permissions."""
+	# 	if not self.has_add_permission(request):
+	# 		return http.HttpResponseForbidden()
+
+	# 	if not self.create_field:
+	# 		raise ImproperlyConfigured('Missing "create_field"')
+
+	# 	text = request.POST.get('text', None)
+
+	# 	if text is None:
+	# 		return http.HttpResponseBadRequest()
+
+	# 	result = self.create_object(text)
+	# 	print(result.pk)
+	# 	return http.JsonResponse({
+	# 		'id': result.pk,
+	# 		'text': self.get_result_label(result),
+	# 	})
+
+	# def results(self, results):
+	# 	"""Return the result dictionary."""
+	# 	print("results")
+	# 	return [dict(id=x, text=x) for x in results]

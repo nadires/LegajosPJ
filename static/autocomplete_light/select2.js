@@ -4,7 +4,6 @@
 
     $(document).on('autocompleteLightInitialize', '[data-autocomplete-light-function=select2]', function() {
         var element = $(this);
-
         // Templating helper
         function template(text, is_html) {
             if (is_html) {
@@ -54,6 +53,7 @@
                     if (element.attr('data-tags')) {
                         $.each(data.results, function(index, value) {
                             value.id = value.text;
+                            console.log(value.text);
                         });
                     }
 
