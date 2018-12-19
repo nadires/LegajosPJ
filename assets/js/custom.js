@@ -38,4 +38,19 @@ document.querySelector('select[name="familiares"]').onchange=function(event) {
     console.log(listado[i]);
   }
   /*console.log(listado);*/
+  var tableRef = document.getElementById('cuerpo_tabla');
+
+  // Insert a row in the table at the last row
+  var newRow   = tableRef.insertRow(tableRef.rows.length);
+
+  // Insert a cell in the row at index 0
+  var newCell  = newRow.insertCell(0);
+
+  // Append a text node to the cell
+  var newText  = document.createTextNode('Nombre de la persona');
+  
+  newCell.appendChild(newText);
+  newCell  = newRow.insertCell(1);
+  newText  = document.createTextNode('Parentesco');
+  newCell.appendChild(newText);
 };
