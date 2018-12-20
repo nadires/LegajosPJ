@@ -70,7 +70,7 @@
                         {{form.familiares}}
                       </div> -->
               </div>
-              {{ form.media }}
+              
               <div class="col s12 m8 l12">
                 <table class="striped">
                   <thead>
@@ -114,6 +114,7 @@
 {% include 'base/footer.html' %}
 {% endblock %} 
 {% block staticfiles_javascript %} 
-
+{{ form.media }}
     <script src="{% static 'js/custom.js' %}"></script>
+    
   {% endblock %} 
