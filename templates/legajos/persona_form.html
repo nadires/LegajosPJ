@@ -60,7 +60,10 @@
                       </div> -->
                       <div class="input-field col s12 m4">
                         <i class="mdi-av-subtitles prefix"></i>
-                        <label for="search">Buscar: </label>{{form.familiares}}
+                        <label for="search">Buscar: </label>
+                        {% spaceless %}
+                        {{form.familiares}}
+                        {% endspaceless %}
                       </div>
                       <!-- <div class="input-field col s12 m4">
                         <i class="mdi-action-picture-in-picture prefix"></i>
