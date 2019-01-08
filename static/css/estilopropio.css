@@ -96,3 +96,9 @@ padding-left: 43px;
     width: 300px;
     height: 300px;
 }
+
+.select2-selection__choice{
+  display: none;
+  background-color: #04b1c77a;
+  visibility: hidden;
+}

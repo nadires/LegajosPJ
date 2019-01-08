@@ -18,10 +18,18 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from apps.persona import views
+from .views import Home, Login, Error404
+
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index, name="index"),
-    path('legajos/', include('apps.persona.urls')),
+    path('', Home.as_view(), name='home'),
+    path('empleado/', include('apps.empleado.urls')),
+
+    path('login/', Login.as_view(), name="login"),
+    path('logout/', LogoutView.as_view(), name='logout'),
+
+    path('error404', Error404.as_view(), name='error404'),
+
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

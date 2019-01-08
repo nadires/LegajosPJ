@@ -1,0 +1,39 @@
+{% extends "base/base.html" %}
+
+{% load staticfiles %}
+{% load static %}
+
+
+
+{% block header %}
+<h2>Prueba PDF Persona</h2>
+{% endblock %}
+
+
+{% block content %}
+
+<br/><br/>
+<table border="1">
+    <tr>
+        <th style="width: 400px;">Apellido</th>
+        <td>{{empleado.apellido}}</td>
+    </tr>
+    <tr>
+        <th style="width: 400px;">Nombre</th>
+        <td>{{empleado.nombre}}</td>
+    </tr>
+    <tr>
+        <th>DNI</th>
+        <td style="color: blue;">{{empleado.dni}}</td>
+    </tr>
+    <tr>
+        <th>Legajo</th>
+        <td>{{empleado.legajo}}</td>
+    </tr>
+</table><br><br>
+
+{% for imagen in imagenes_list %}
+    <br><img width="400" height="500" src="{{imagen.imagen.url}}"><br>
+{% endfor %}
+
+{% endblock %}

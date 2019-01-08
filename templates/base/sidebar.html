@@ -8,7 +8,7 @@
                             <img src="{% static 'images/avatar.jpg' %}" alt="" class="circle responsive-img valign profile-image">
                         </div>
                         <div class="col col s8 m8 l8">
-                            <p class="white-text">{{ persona.apellido }} {{ persona.nombre }}</p>
+                            <p class="white-text">{{ empleado.apellido }} {{ empleado.nombre }}</p>
                         </div>
                     </div>
                 </li>
@@ -17,7 +17,7 @@
                 {% if not forloop.first %}
                 <li class="li-hover"><div class="divider"></div></li>
                 {% endif %}
-                <li class="bold"><a href="{% url 'imagenes_persona' persona.id elemento.seccion.id %}" class="waves-effect waves-cyan"><i class="mdi-action-description"></i> {{ elemento.seccion.nombre_seccion }} <span class="new badge">{{ elemento.cantidad_imagenes }}</span></a></li>
+                <li class="bold"><a href="{% url 'imagenes_empleado' empleado.id elemento.seccion.id %}" class="waves-effect waves-cyan"><i class="mdi-action-description"></i> {{ elemento.seccion.nombre_seccion }} <span class="new badge">{{ elemento.cantidad_imagenes }}</span></a></li>
                 {% endfor %}
 
             </ul>

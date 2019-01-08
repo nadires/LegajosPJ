@@ -4,7 +4,7 @@ $(document).ready(function() {
 
     $.ajax({
             method: 'GET',
-            url: url_data + '/legajos/' +id_persona,
+            url: url_data + '/empleados/' +id_persona,
             success: function(data, status, xho){
                 console.log(status);
             },

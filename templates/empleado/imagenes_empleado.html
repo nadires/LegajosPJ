@@ -1,0 +1,92 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+{% include 'base/header.html' %}
+
+<main>
+    <!-- START MAIN -->
+    <div id="main">
+        <!-- START WRAPPER -->
+        <div class="wrapper">
+
+            {% include 'base/sidebar.html' %}
+
+            <!-- START CONTENT -->
+            <section id="content">
+
+              <!--start container-->
+              <div class="container">
+                <div class="section">
+                    <!-- Inline Form -->
+                    <div class="container-fluid">
+                      <!-- Image Gallery -->
+                      <div class="block-header">
+
+                      </div>
+
+                      <div class="block-header">
+                          <h4 class="header">{{ seccion.nombre_seccion }}</h4>
+                      </div>
+
+                      <!--  Boton agregar -->            
+                      <div style="margin-bottom: 20px;">
+                          <a href="{% url 'empleado_detail' empleado.id %}" class="btn cyan waves-effect waves-light "> <i class="mdi-content-reply left"></i>Volver a Datos Personales</a>
+                          <button type="button" class="btn cyan btn-primary js-upload-photos">
+                            <span class="glyphicon glyphicon-cloud-upload"></span> Subir Imagenes
+                          </button>
+                           <input id="fileupload" type="file" name="imagen" multiple
+                                 style="display: none;"
+                                 data-url="{% url 'imagenes_empleado' empleado.id seccion.id %}"
+                                 data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}", "empleado": {{ empleado.id }}, "seccion" : {{ seccion.id}} }'>
+                      </div>
+
+                      
+                      <div class="row">
+                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <div class="card">
+                                  <div class="header">
+                                      {% if not imagenes_list %}
+                                      <h5 id="cartel_imagenes_no_cargadas">
+                                        No hay imagenes cargadas
+                                      </h5>
+                                      {% endif %}
+                                      <ul class="header-dropdown m-r--5">
+
+                                      </ul>
+                                  </div>
+                                  <div class="body">
+                                      <div id="aniimated-thumbnials" class="list-unstyled row clearfix">
+                                        {% for imagen in imagenes_list %}
+                                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                              <a href="{{ imagen.imagen.url }}" data-sub-html="Legajo">
+                                                  <img class="img-responsive thumbnail" src="{{ imagen.imagen.url }}">
+                                              </a>
+                                        </div>
+                                        {% endfor %}   
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      
+                    </div>
+                </div>
+              </div>
+            </section>
+        </div>
+    </div>
+  <!-- END CONTENT -->
+</main>
+
+ {% include 'base/footer.html' %}
+{% endblock %} 
+{% block staticfiles_javascript %} 
+  <script src="{% static 'js/jquery-file-upload/vendor/jquery.ui.widget.js' %}"></script>
+  <script src="{% static 'js/jquery-file-upload/jquery.iframe-transport.js' %}"></script>
+  <script src="{% static 'js/jquery-file-upload/jquery.fileupload.js' %}"></script>
+
+  <script src="{% static 'js/subir_imagen.js' %}"></script>
+{% endblock %} 
+

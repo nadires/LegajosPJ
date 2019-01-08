@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from django.urls import reverse_lazy
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -37,8 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.persona',
+
+    # Apps propias
+    'apps.empleado',
+    'apps.util',
     'apps.core',
+
+    #Apps externas
     'rest_framework',
     'easy_pdf',
     'dal',
@@ -85,7 +91,7 @@ DATABASES = {
         'NAME': 'SistemaLegajos',
         'USER': 'postgres',
         'PASSWORD': '3578563',
-        'HOST': '127.0.0.1',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
@@ -132,6 +138,10 @@ STATICFILES_DIRS = (
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.abspath(BASE_DIR), 'media')
+
+
+LOGIN_REDIRECT_URL = reverse_lazy('home')
+LOGOUT_REDIRECT_URL = reverse_lazy('login')
 
 
 REST_FRAMEWORK = {
