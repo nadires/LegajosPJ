@@ -17,7 +17,6 @@ from django.urls import reverse_lazy
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-print(BASE_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -118,11 +117,8 @@ STATIC_ROOT = os.path.join(os.path.abspath(BASE_DIR), 'static')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "assets"),
 )
-print('static_root', STATIC_ROOT)
-print('staticfiles_dirs', STATICFILES_DIRS)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.abspath(BASE_DIR), 'media')
-print('media_root', MEDIA_ROOT)
 
 
 LOGIN_REDIRECT_URL = reverse_lazy('home')
