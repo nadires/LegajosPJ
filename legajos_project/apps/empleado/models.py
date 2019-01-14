@@ -4,11 +4,28 @@ from apps.core.models import Signature
 from apps.util.models import Seccion
 
 class Empleado(Signature):	
+	TIPO_DOC = (
+		('DU', 'Documento Único'),
+		('LE', 'Libreta de Enrolamiento'),
+		('LC', 'Libreta Cívica'),
+		('OT', 'Otro'),
+	)
+	SEXO = (
+		('F', 'Femenino'),
+		('M', 'Masculino'),
+	)
+
+    # DATOS PERSONALES
 	apellido = models.CharField(max_length=200)
 	nombre = models.CharField(max_length=200)
+	tipo_doc = models.CharField(max_length=2, choices=TIPO_DOC, default='DU')
+	documento = models.PositiveIntegerField(max_length=10)
 	cuil = models.CharField(max_length=15)
-	dni = models.CharField(max_length=10)
-	legajo = models.IntegerField()
+	sexo = models.CharField(max_length=1, choices=SEXO)
+	
+
+	# DATOS LABORALES
+	legajo = models.PositiveIntegerField()
 
 	def __str__(self):
 		return '{}, {}'.format(self.apellido, self.nombre)

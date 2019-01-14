@@ -36,20 +36,16 @@
               </div>
 
               <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-3">
                   <div class="form-group">
                     <label>Tipo Documento</label>
-                    <select class="form-control">
-                      <option>DNI</option>
-                      <option>LC</option>
-                      <option>LE</option>
-                    </select>
+                    {{form.tipo_doc}}
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Documento N°</label>
-                    {{form.dni}}
+                    {{form.documento}}
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -57,6 +53,26 @@
                     <label for="exampleInputPassword1">CUIL N°</label>
                     {{form.cuil}}
                   </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Sexo</label>
+                    <div class="form-group">
+                    {% for radio in form.sexo %}
+                    
+                      <label>
+                        {{ radio }}
+                      </label>
+                    
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  
                 </div>
               </div>
               <!-- /.card-body -->
@@ -111,6 +127,20 @@
 
     {% endblock %} 
     {% block staticfiles_javascript %} 
-    <script src="{% static 'js/custom.js' %}"></script>
-    
+      <!-- iCheck 1.0.1 -->
+      <script src="{% static 'plugins/iCheck/icheck.min.js' %}"></script>
+      <script>
+        $(function () {
+          
+
+
+          //Flat blue color scheme for iCheck
+          $('input[type="checkbox"].flat-blue, input[type="radio"].flat-blue').iCheck({
+            checkboxClass: 'icheckbox_flat-blue',
+            radioClass   : 'iradio_flat-blue'
+          })
+
+          
+        })
+      </script>
     {% endblock %} 

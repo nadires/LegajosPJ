@@ -8,7 +8,7 @@ class EmpleadosAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (None,
-         {'fields': ('apellido', 'nombre', 'cuil', 'dni', 'legajo')}),
+         {'fields': ('apellido', 'nombre', 'cuil', 'tipo_doc', 'documento', 'legajo')}),
         ('Datos Extras', {'fields': ('created_on', 'created_by', 'modified_on', 'modified_by')}),
     )
 
