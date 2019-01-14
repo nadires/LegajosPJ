@@ -3,55 +3,116 @@
 
 {% block content %}
 
-{% include 'base/header.html' %}
+<!-- Main content -->
+<section class="content content_principal">
+  <div class="container-fluid">
 
-<main>
-<!-- START MAIN -->
-<div id="main">
-    <!-- START WRAPPER -->
-    <div class="wrapper">
+      <div class="row">
+          <div class="col-md-3">
 
-        {% include 'base/sidebar.html' %}
-
-        <div class="row">
-          <div class="col s12 m12 l12">
-            <div class="card ">
-                <div class="card-content grey-text">
-                        <span class="card-title grey-text">Datos Personales</span>
-                        <div class="divider"></div>
-                        <br>
-                        <div class="row">                          
-                            Apellido:<b> {{ empleado.apellido }}</b>                       
-                        </div> 
-                        <div class="row">                             
-                           Nombre:<b> {{ empleado.nombre }}</b>                        
-                        </div>
-                        <div class="row">                       
-                             Legajo: <b>{{ empleado.legajo }}</b> 
-                        </div>
-                        <div class="row">
-                              CUIL: <b>{{ empleado.cuil }}</b>  
-                        </div>
-                        <div class="row">                 
-                             DNI: <b>{{ empleado.dni }}</b>  
-                        </div>
-                        
-                    
-                        <div class="row">
-                          <div class="row center">             
-                              <a href="{% url 'empleado_update' empleado.id %}" class="btn cyan waves-effect waves-light center botones">Modificar<i class="mdi-editor-mode-edit left"></i></a>
-
-                              <a href="{% url 'empleado_delete' empleado.id %}" class="btn red darken waves-effect waves-light center botones">Eliminar<i class="mdi-action-delete right"></i></a>
-                          </div> 
-                        </div>
+            <!-- Profile Image -->
+            <div class="card card-primary card-outline">
+              <div class="card-body box-profile">
+                <div class="text-center">
+                  <img class="profile-user-img img-fluid img-circle"
+                       src="{% static 'images/perfil.png' %}"
+                       alt="User profile picture">
                 </div>
+
+                <h3 class="profile-username text-center">{{empleado.apellido}} {{empleado.nombre}}</h3>
+
+                <p class="text-muted text-center">Secretario de Primera Instancia</p>
+
+                <strong><i class="fa fa-folder"></i> N° Legajo</strong>
+
+                <p class="text-muted">
+                  <h1>
+                  {{empleado.legajo}}
+                  </h1>
+                </p>
+
+                <hr>
+
+                <strong><i class="fa fa-map-marker mr-1"></i> Domicilio</strong>
+
+                <p class="text-muted">República 829, San Fernando del Valle de Catamarca</p>
+
+                <hr>
+
+                <strong><i class="fa fa-phone"></i> Teléfono</strong>
+
+                <p class="text-muted">3834632658</p>
+
+                <hr>
+
+                <strong><i class="fa fa-envelope"></i> Email</strong>
+
+                <p class="text-muted">miemail@gmail.com</p>
+
+              </div>
+              <!-- /.card-body -->
             </div>
+            <!-- /.card -->
+
+            
           </div>
+          <!-- /.col -->
+          <div class="col-md-9">
+            <div class="card">
+              <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                  <li class="nav-item"><a class="nav-link active" href="#personal" data-toggle="tab">Personal</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#laboral" data-toggle="tab">Laboral</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#licencias" data-toggle="tab">Licencias</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#grupo_familiar" data-toggle="tab">Grupo Familiar</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#titulos" data-toggle="tab">Títulos</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#antecedentes" data-toggle="tab">Antecedentes</a></li>
+                </ul>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                <div class="tab-content">
+                  <div class="active tab-pane" id="personal">
+                    <p><strong>Apellido/s: </strong><span class="texto_detalle">{{empleado.apellido}}</span></p>
+                    <p><strong>Nombre/s: </strong><span class="texto_detalle">{{empleado.nombre}}</span></p>
+                    <p><strong>N° Documento: </strong><span class="texto_detalle">{{empleado.dni}}</span></p>
+                    <p><strong>N° CUIL: </strong><span class="texto_detalle">{{empleado.cuil}}</span></p>
+                  </div>
+                  <!-- /.tab-pane -->
+                  <div class="tab-pane" id="laboral">
+                    
+                  </div>
+                  <!-- /.tab-pane -->
+
+                  <div class="tab-pane" id="licencias">
+                    
+                  </div>
+                  <!-- /.tab-pane -->
+
+                  <div class="tab-pane" id="grupo_familiar">
+                    
+                  </div>
+                  <!-- /.tab-pane -->
+
+                  <div class="tab-pane" id="titulos">
+                    
+                  </div>
+                  <!-- /.tab-pane -->
+
+                  <div class="tab-pane" id="antecedentes">
+                    
+                  </div>
+                  <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+              </div><!-- /.card-body -->
+            </div>
+            <!-- /.nav-tabs-custom -->
+          </div>
+          <!-- /.col -->
         </div>
-    </div>
-</div>
-</main>
-<!-- END CONTENT -->
-{% include 'base/footer.html' %}
+        <!-- /.row -->
+  </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
 {% endblock %} 
 
