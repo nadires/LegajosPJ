@@ -31,19 +31,31 @@
   <link rel="stylesheet" href="{% static 'plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css' %}">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}">
     
     {% block extrastatic %}
     {% endblock %}
 
 </head>
 
-<!-- {% block header %}{% endblock %} -->
+
 
 <body class="hold-transition sidebar-mini">
 
-    
+    {% include 'base/navbar.html' %}
+{% include 'base/sidebar.html' %}
+<div class="wrapper">
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
     {% block content %} {% endblock %} 
-    <!-- {% block footer %}{% endblock %} -->
+      </div>
+  <!-- /.content-wrapper -->
+{% include 'base/footer.html' %}
+
+</div>
+<!-- ./wrapper -->
+
     
     <!-- ================================================
     Scripts

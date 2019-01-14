@@ -22,6 +22,12 @@ class EmpleadoList(ListView):
 	template_name = 'empleado/listado_empleados.html'
 	context_object_name = 'listado_empleados'
 
+	def get_context_data(self, **kwargs):
+		context = super(EmpleadoList, self).get_context_data(**kwargs)	
+		context['titulo'] = "Listado de Empleados"
+		context['EmpleadoList'] = True
+		return context
+
 
 class EmpleadoDetail(DetailView):
 	model = Empleado
@@ -55,6 +61,7 @@ class EmpleadoCreate(CreateView):
 	def get_context_data(self, **kwargs):
 		context = super(EmpleadoCreate, self).get_context_data(**kwargs)	
 		context['titulo'] = "Agregar Empleado"
+		context['EmpleadoCreate'] = True
 		return context
 
 	def form_invalid(self, form):

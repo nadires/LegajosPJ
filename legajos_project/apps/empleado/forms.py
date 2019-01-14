@@ -24,10 +24,10 @@ class EmpleadoForm(forms.ModelForm):
 		}
 
 		widgets = {
-			'apellido' : forms.TextInput(attrs={'class':'clase'}),
-			'nombre' : forms.TextInput(attrs={'class':'form-control'}),
-			'cuil' : forms.NumberInput(attrs={'class':'form-control'}),
-			'dni' : forms.NumberInput(attrs={'class':'form-control'}),
-			'legajo' : forms.NumberInput(attrs={'class':'form-control'}),
+			'apellido' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Apellido completo'}),
+			'nombre' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Nombre completo'}),
+			'cuil' : forms.NumberInput(attrs={'class':'form-control', 'placeholder': 'Número de CUIL'}),
+			'dni' : forms.NumberInput(attrs={'class':'form-control', 'placeholder': 'Número de documento'}),
+			'legajo' : forms.NumberInput(attrs={'class':'form-control', 'placeholder': 'Número de legajo'}),
 			# 'familiares': autocomplete.ModelSelect2Multiple(url='familiar-autocomplete', attrs={'class':'form-control', 'data-html': True})
 		}

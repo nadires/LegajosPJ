@@ -1,41 +1,38 @@
 {% extends 'base/base.html' %}
 {% load staticfiles %}
 
+{% block extrastatic %}
+<link rel="stylesheet" href="{% static 'css/barra_busqueda.css' %}">
+{% endblock %}
+
 {% block content %}
 
-{% include 'base/header.html' %}
-
-<!-- START CONTENT -->
-<main>
-
-  {% include 'base/barra_busqueda.html' %}
-
-
-  <!--start container-->
-  <div class="container">
-    <div class="section">
-
-      <!--  Boton agregar -->
-            <div class="input-field col m3">
-              <a href="{% url 'empleado_create' %}" class="btn cyan waves-effect waves-light "> <i class="mdi-content-add left"></i>Agregar Empleado</a>
-            </div>
-
-      <!-- Inline Form -->
+<!-- Main content -->
+    <section class="content content_principal">
       <div class="container-fluid">
-        <!-- Image Gallery -->
-        <div class="block-header">
+
+        {% include 'base/barra_busqueda.html' %}
+        <!--  Boton agregar -->
+        <div class="row separada">
+
+            <a href="{% url 'empleado_create' %}" class="btn btn-primary float-right"><i class="fa fa-plus"></i> Agregar Empleado</a>
 
         </div>
 
-        <!-- Tabla Empleados -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Empleados</h3>
 
-        <div id="striped-table">
-          <h4 class="header">Empleados</h4>
-          <div class="row">
-            
-            <div class="col s12 m8 l12">
-              <table class="striped">
-                <thead>
+                <div class="card-tools">
+                  
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover">
+                  <thead>
                   <tr>
                     <th data-field="apellido">APELLIDO Y NOMBRE</th>
                     <th data-field="legajo">N° LEGAJO</th>
@@ -43,7 +40,7 @@
                     <th data-field="dni">DNI</th>
                   </tr>
                 </thead>
-                <tbody id="cuerpo_tabla">
+                  <tbody id="cuerpo_tabla">
                   <div>
                     {% for empleado in listado_empleados %}
                     <tr>
@@ -55,24 +52,16 @@
                     {% endfor %}
                   </div>
                 </tbody>
-              </table>
+                </table>
+              </div>
+              <!-- /.card-body -->
             </div>
+            <!-- /.card -->
           </div>
         </div>
 
-      </div>
-    </div>
-    <!-- End Tabla Empleados -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
 
-
-
-
-  </main>
-  <!-- END CONTENT -->
-
-  {% include 'base/footer.html' %}
-  {% endblock %} 
-  {% block staticfiles_javascript %} 
-
-    <script src="{% static 'js/listado_empleados.js' %}"></script>
   {% endblock %} 

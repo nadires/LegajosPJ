@@ -9,6 +9,7 @@ from django.contrib.auth.views import LoginView
 @method_decorator(login_required(login_url=reverse_lazy('login')), name='dispatch')
 class Home(TemplateView):
     template_name = 'index.html'
+    extra_context = {'Home': True, 'titulo': 'Inicio'}
 
 
 class Login(LoginView):

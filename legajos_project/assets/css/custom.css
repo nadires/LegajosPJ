@@ -1,0 +1,21 @@
+/*Agrega padding-top al contenedor principal */
+section.content{
+  	padding-top: 30px !important; 
+	padding-left: 15px !important;
+}
+
+.separada{
+	margin-bottom: 20px;
+	margin-left: inherit;
+}
+
+.sidebar-light-primary .nav-treeview>.nav-item>.activo{
+	color: #fff !important;
+    background-color: #007bff !important;
+}
+
+.sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.activo {
+    color: #fff;
+    background-color: #007bff;
+}
+

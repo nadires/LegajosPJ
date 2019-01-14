@@ -3,77 +3,114 @@
 
 {% block content %}
 
-{% include 'base/header.html' %}
-
-<!--  CONTENIDO FORMULARIO -->
-<main>
-  <div class="container">
+<!-- Main content -->
+<section class="content content_principal">
+  <div class="container-fluid">
     <div class="row">
-      <div class="center col s12 m12 l12">
-        <div class="card ">
-          <div class="card-content grey-text">
-            <span class="card-title grey-text">{{ titulo }}</span>
-            <div class="divider"></div>
-            <br>
+      <!-- left column -->
+      <div class="col-md-12">
+        <!-- general form elements -->
+        <form method="post">
+          {% csrf_token %}
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Datos Personales</h3>
+            </div>
+            <!-- /.card-header -->
 
-            <form method="post">
-              {% csrf_token %}
+            <div class="card-body">
+
               <div class="row">
-                  <div class="input-field col s12 m6">
-                    <i class="mdi-action-account-circle prefix icongris"></i>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Apellido/s</label>
                     {{form.apellido}}
-                    <label for="{{form.apellido.name}}">{{form.apellido.label}}</label>
-
                   </div>
-
-                  <div class="input-field col s12 m6">
-                    <i class="mdi-action-account-circle prefix"></i>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Nombre/s</label>
                     {{form.nombre}}
-                    <label for="{{form.nombre.name}}">{{form.nombre.label}}</label>
                   </div>
+                </div>
               </div>
 
               <div class="row">
-                  <div class="input-field col s12 m4">
-                    <i class="mdi-action-picture-in-picture prefix"></i>
-                    {{form.cuil}}
-                    <label for="{{form.cuil.name}}">{{form.cuil.label}}</label>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label>Tipo Documento</label>
+                    <select class="form-control">
+                      <option>DNI</option>
+                      <option>LC</option>
+                      <option>LE</option>
+                    </select>
                   </div>
-
-                  
-                  <div class="input-field col s12 m4">
-                    <i class="mdi-action-picture-in-picture prefix"></i>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Documento N°</label>
                     {{form.dni}}
-                    <label for="{{form.dni.name}}">{{form.dni.label}}</label>
                   </div>
-
-                  <div class="input-field col s12 m4">
-                    <i class="mdi-av-subtitles prefix"></i>
-                    {{form.legajo}}
-                    <label for="{{form.legajo.name}}">{{form.legajo.label}}</label>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">CUIL N°</label>
+                    {{form.cuil}}
                   </div>
+                </div>
               </div>
+              <!-- /.card-body -->
+            </div>
+          </div>
+          <!-- /.card -->
+
+          <div class="card card-info">
+            <div class="card-header">
+              <h3 class="card-title">Datos Laborales</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+
+            <div class="card-body">
 
               <div class="row">
-                  <a href="{{ request.META.HTTP_REFERER }}" class="btn cyan waves-effect waves-light center botones">Volver<i class="mdi-content-reply left"></i></a>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">N° Legajo</label>
+                    {{form.legajo}}
+                  </div>
+                </div>
+                <div class="col-md-6">
 
-
-                  <button class="btn cyan waves-effect waves-light center botones" type="submit" name="action">Guardar <i class="mdi-content-send right"></i>
-                  </button>
+                </div>
               </div>
-            </form>
-            
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</main>
-<!-- END CONTENT -->
 
-{% include 'base/footer.html' %}
-{% endblock %} 
-{% block staticfiles_javascript %} 
+
+              <!-- /.card-body -->
+            </div>
+          </div>
+          <!-- /.card -->
+
+          <div class="row separada">
+            <div class="margin">
+              <div class="btn-group">
+                <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary btn-lg float-right"><i class="fa fa-arrow-circle-left"></i> Volver</a>
+              </div>
+              <div class="btn-group">
+                <button class="btn btn-success btn-lg" type="submit" name="action">Guardar <i class="fa fa-save left"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+
+
+    {% endblock %} 
+    {% block staticfiles_javascript %} 
     <script src="{% static 'js/custom.js' %}"></script>
     
-  {% endblock %} 
+    {% endblock %} 
