@@ -1,18 +1,24 @@
 from django.contrib import admin
 
-from .models import Empleado, ImagenEmpleado
+from .models import Empleado, ImagenEmpleado, HorarioLaboral
 
 class EmpleadosAdmin(admin.ModelAdmin):
-    search_fields = ['apellido', 'nombre']
-    readonly_fields = ('created_on', 'created_by', 'modified_on', 'modified_by',)
+    list_display = ('get_nombre_completo', 'cuil', 'legajo', 'activo', 'borrado')
+    list_filter = ('sexo', 'activo', 'borrado')
+    search_fields = ['apellido', 'nombre', 'activo', 'borrado']
+    readonly_fields = ('created_on', 'created_by', 'modified_on', 'modified_by', 'activo', 'borrado')
 
     fieldsets = (
-        (None,
-         {'fields': ('apellido', 'nombre', 'cuil', 'tipo_doc', 'documento', 'legajo')}),
-        ('Datos Extras', {'fields': ('created_on', 'created_by', 'modified_on', 'modified_by')}),
+        ('Datos Personales', {'fields': ('apellido', 'nombre', 'tipo_doc', 'documento', 'cuil', 
+                                'sexo', 'fecha_nac', 'estado_civil', 'nacionalidad', 'lugar_nac', 
+                                'tel_fijo', 'tel_cel', 'email')}),
+        ('Datos Laborales', {'fields': ('legajo', 'fecha_ingreso', 
+                                'estado_laboral', 'fecha_cambio_estado_lab', 'horario')}),
+        ('Datos Extras', {'fields': ('created_on', 'created_by', 'modified_on', 'modified_by', 
+                            'activo', 'borrado')}),
     )
 
-    search_fields = ('apellido', 'nombre',)
+    search_fields = ('apellido', 'nombre', 'activo', 'borrado')
 
     def save_model(self, request, instance, form, change):
         user = request.user
@@ -48,3 +54,4 @@ class ImagenesEmpleadosAdmin(admin.ModelAdmin):
 
 admin.site.register(Empleado, EmpleadosAdmin)
 admin.site.register(ImagenEmpleado, ImagenesEmpleadosAdmin)
+admin.site.register(HorarioLaboral)

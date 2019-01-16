@@ -1,9 +1,17 @@
 from django.db import models
 from apps.core.models import Signature
 
-from apps.util.models import Seccion
+from apps.util.models import Seccion, AbstractDireccion
 
-class Empleado(Signature):	
+class HorarioLaboral(models.Model):
+	ingreso = models.TimeField()
+	salida = models.TimeField()
+
+	def __str__(self):
+		return '{} a {}'.format(self.ingreso, self.salida)
+
+
+class Empleado(Signature, AbstractDireccion):	
 	TIPO_DOC = (
 		('DU', 'Documento Único'),
 		('LE', 'Libreta de Enrolamiento'),
@@ -14,22 +22,51 @@ class Empleado(Signature):
 		('F', 'Femenino'),
 		('M', 'Masculino'),
 	)
+	ESTADO_CIVIL = (
+		('CA', 'Casado/a'),
+		('CO', 'Comprometido/a'),
+		('DI', 'Divorciado/a'),
+		('SO', 'Soltero/a'),
+		('VI', 'Viudo/a'),
+	)
+	ESTADO_LABORAL = (
+		('AC', 'Activo'),
+		('JU', 'Jubilado'),
+		('SGH', 'S/G de Haberes'),
+		('BA', 'Baja'),
+		('SU', 'Suspendido'),
+	)
 
     # DATOS PERSONALES
 	apellido = models.CharField(max_length=200)
 	nombre = models.CharField(max_length=200)
 	tipo_doc = models.CharField(max_length=2, choices=TIPO_DOC, default='DU')
-	documento = models.PositiveIntegerField(max_length=10)
+	documento = models.PositiveIntegerField()
 	cuil = models.CharField(max_length=15)
 	sexo = models.CharField(max_length=1, choices=SEXO)
+	fecha_nac = models.DateField('Fecha de Nacimiento', blank=True, null=True)
+	estado_civil = models.CharField(max_length=2, choices=ESTADO_CIVIL, blank=True, null=True)
+	nacionalidad = models.TextField(blank=True, null=True)
+	lugar_nac = models.TextField('Lugar de Nacimiento', blank=True, null=True)
+	tel_fijo = models.CharField('Teléfono Fijo', max_length=17, blank=True, null=True)
+	tel_cel = models.CharField('Teléfono Celular', max_length=17, blank=True, null=True)
+	email = models.EmailField('E-mail', blank=True, null=True)
 	
 
 	# DATOS LABORALES
 	legajo = models.PositiveIntegerField()
+	fecha_ingreso = models.DateField('Fecha de Ingreso', blank=True, null=True)
+	estado_laboral = models.CharField(max_length=3, choices=ESTADO_LABORAL, blank=True, null=True)
+	fecha_cambio_estado_lab = models.DateField('Fecha de cambio de Estado Laboral', blank=True, null=True)
+	horario = models.ForeignKey(HorarioLaboral, on_delete=models.SET_NULL, related_name="empleados_horario", blank=True, null=True)
 
 	def __str__(self):
-		return '{}, {}'.format(self.apellido, self.nombre)
+		return self.get_nombre_completo
 
+	@property
+	def get_nombre_completo(self):
+		return '{}, {}'.format(self.apellido, self.nombre)
+	
 	class Meta:
 		ordering = ('apellido', 'nombre',)
 

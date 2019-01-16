@@ -72,9 +72,71 @@
                   </div>
                 </div>
                 <div class="col-md-6">
-                  
+                  <label for="exampleInputEmail1">Fecha de Nacimiento</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                    </div>
+                    {{form.fecha_nac}}
+                  </div>
                 </div>
               </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="exampleInputEmail1">Nacionalidad</label>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-flag"></i></span>
+                    </div>
+                    {{form.nacionalidad}}
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="exampleInputEmail1">Lugar de Nacimiento</label>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
+                    </div>
+                    {{form.lugar_nac}}
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="exampleInputEmail1">Teléfono fijo</label>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                    </div>
+                    {{form.tel_fijo}}
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="exampleInputEmail1">Teléfono celular</label>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-mobile"></i></span>
+                    </div>
+                    {{form.tel_cel}}
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="exampleInputEmail1">E-mail</label>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                    </div>
+                    {{form.email}}
+                  </div>
+                </div>
+                
+              </div>
+
               <!-- /.card-body -->
             </div>
           </div>
@@ -91,8 +153,11 @@
 
               <div class="row">
                 <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">N° Legajo</label>
+                  <label for="exampleInputEmail1">N° Legajo</label>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-folder"></i></span>
+                    </div>
                     {{form.legajo}}
                   </div>
                 </div>
@@ -127,12 +192,19 @@
 
     {% endblock %} 
     {% block staticfiles_javascript %} 
+      <!-- InputMask -->
+      <script src="{% static 'plugins/input-mask/jquery.inputmask.js' %}"></script>
+      <script src="{% static 'plugins/input-mask/jquery.inputmask.date.extensions.js' %}"></script>
+      <script src="{% static 'plugins/input-mask/jquery.inputmask.extensions.js' %}"></script>
       <!-- iCheck 1.0.1 -->
       <script src="{% static 'plugins/iCheck/icheck.min.js' %}"></script>
       <script>
         $(function () {
           
-
+          // Máscaras
+          //Datemask dd/mm/yyyy
+          $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' });
+          $('[data-mask]').inputmask()
 
           //Flat blue color scheme for iCheck
           $('input[type="checkbox"].flat-blue, input[type="radio"].flat-blue').iCheck({

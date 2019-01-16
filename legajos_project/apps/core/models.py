@@ -9,12 +9,11 @@ class Signature(models.Model):
         abstract = True
 
     objects = models.Manager()
-    actives = ActivesManager()
+    activos = ActivesManager()
 
-    is_active = models.BooleanField(
-        default=True,
-        editable=False
-    )
+    activo = models.BooleanField(default=True, editable=False)
+    borrado = models.BooleanField(default=False)
+    
     created_on = models.DateTimeField(
         auto_now_add=True,
     )

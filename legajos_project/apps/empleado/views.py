@@ -107,6 +107,16 @@ class EmpleadoDelete(DeleteView):
 	success_url = reverse_lazy('empleado_list')
 	context_object_name = 'empleado'
 
+	def delete(self, request, *args, **kwargs):
+		"""
+		Calls the delete() method on the fetched object and then
+		redirects to the success URL.
+		"""
+		self.object = self.get_object()
+		self.object.borrado = True
+		self.object.save()
+		return HttpResponseRedirect(self.get_success_url())
+
 
 
 # class ListadoSeccionesView(View):

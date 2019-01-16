@@ -7,6 +7,12 @@
 <section class="content content_principal">
   <div class="container-fluid">
 
+      <div class="container">
+        <div class="clearfix separada">
+          <a href="{% url 'empleado_delete' empleado.pk %}" class="btn btn-danger float-right separa_boton"><i class="fa fa-plus"></i> Eliminar</a>
+          <a href="{% url 'empleado_update' empleado.pk %}" class="btn btn-primary float-right separa_boton"><i class="fa fa-plus"></i> Modificar</a>
+        </div>
+      </div>
       <div class="row">
           <div class="col-md-3">
 
@@ -72,10 +78,36 @@
               <div class="card-body">
                 <div class="tab-content">
                   <div class="active tab-pane" id="personal">
-                    <p><strong>Apellido/s: </strong><span class="texto_detalle">{{empleado.apellido}}</span></p>
-                    <p><strong>Nombre/s: </strong><span class="texto_detalle">{{empleado.nombre}}</span></p>
-                    <p><strong>N° Documento: </strong><span class="texto_detalle">{{empleado.dni}}</span></p>
-                    <p><strong>N° CUIL: </strong><span class="texto_detalle">{{empleado.cuil}}</span></p>
+                    
+                    <div class="row">
+                      <div class="col-md-12">
+                        <p><strong>Apellido/s: </strong><span class="texto_detalle">{{empleado.apellido}}</span></p>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <p><strong>Nombre/s: </strong><span class="texto_detalle">{{empleado.nombre}}</span></p>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-5">
+                        <p><strong>N° Documento: </strong><span class="texto_detalle">{{empleado.documento}}</span></p>
+                      </div>
+                      <div class="col-md-7">
+                        <p><strong>Tipo Documento: </strong><span class="texto_detalle">{{empleado.get_tipo_doc_display}}</span></p>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p><strong>N° CUIL: </strong><span class="texto_detalle">{{empleado.cuil}}</span></p>
+                      </div>
+                      <div class="col-md-6">
+                        <p><strong>Sexo: </strong><span class="texto_detalle">{{empleado.get_sexo_display}}</span></p>
+                      </div>
+                    </div>
                   </div>
                   <!-- /.tab-pane -->
                   <div class="tab-pane" id="laboral">

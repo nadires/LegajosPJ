@@ -1,12 +1,17 @@
 /*Agrega padding-top al contenedor principal */
 section.content{
-  	padding-top: 30px !important; 
+  	padding-top: 20px !important; 
 	padding-left: 15px !important;
 }
 
 .separada{
 	margin-bottom: 20px;
 	margin-left: inherit;
+	margin-right: inherit;
+}
+
+.separa_boton{
+    margin: 5px;
 }
 
 .sidebar-light-primary .nav-treeview>.nav-item>.activo{
