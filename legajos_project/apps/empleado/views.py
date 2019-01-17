@@ -47,6 +47,8 @@ class EmpleadoDetail(DetailView):
 			listado.append(elemento) # Agrego el diccionario a la lista a retornar
 	
 		context['seccion_list'] = listado
+		context['EmpleadoDetail'] = True
+		context['titulo'] = "Detalle del Empleado"
 		return context
 
 
@@ -71,7 +73,6 @@ class EmpleadoCreate(CreateView):
 		instance.modified_by = user
 		instance.save()
 		form.save_m2m()
-		print('---------------- formulario valido')
 		return super().form_valid(form)
 
 
@@ -86,6 +87,7 @@ class EmpleadoUpdate(UpdateView):
 	def get_context_data(self, **kwargs):
 		context = super(EmpleadoUpdate, self).get_context_data(**kwargs)	
 		context['titulo'] = "Modificar Empleado"
+		context['EmpleadoUpdate'] = True
 		return context
 
 	def form_valid(self, form):
@@ -102,6 +104,7 @@ class EmpleadoDelete(DeleteView):
 	template_name = 'empleado/eliminar_empleado.html'
 	success_url = reverse_lazy('empleado_list')
 	context_object_name = 'empleado'
+	extra_context = {'EmpleadoDelete': True, 'titulo': 'Eliminar Empleado'}
 
 	def delete(self, request, *args, **kwargs):
 		"""
