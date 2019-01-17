@@ -13,7 +13,7 @@ class EmpleadosAdmin(admin.ModelAdmin):
                                 'sexo', 'fecha_nac', 'estado_civil', 'nacionalidad', 'lugar_nac', 
                                 'tel_fijo', 'tel_cel', 'email')}),
         ('Datos Laborales', {'fields': ('legajo', 'fecha_ingreso', 
-                                'estado_laboral', 'fecha_cambio_estado_lab', 'horario')}),
+                                'estado_laboral', 'horario')}),
         ('Datos Extras', {'fields': ('created_on', 'created_by', 'modified_on', 'modified_by', 
                             'activo', 'borrado')}),
     )

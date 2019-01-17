@@ -64,18 +64,14 @@ class EmpleadoCreate(CreateView):
 		context['EmpleadoCreate'] = True
 		return context
 
-	def form_invalid(self, form):
-		print(form)
-		return self.render_to_response(self.get_context_data(form=form))
-
 	def form_valid(self, form):
 		user = self.request.user
 		instance = form.save(commit=False)
-		if not instance.pk:
-			instance.created_by = user
-			instance.modified_by = user
+		instance.created_by = user
+		instance.modified_by = user
 		instance.save()
 		form.save_m2m()
+		print('---------------- formulario valido')
 		return super().form_valid(form)
 
 

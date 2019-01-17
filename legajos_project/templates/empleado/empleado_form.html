@@ -57,7 +57,7 @@
               </div>
 
               <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-3">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Sexo</label>
                     <div class="form-group">
@@ -71,18 +71,14 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-6">
-                  <label for="exampleInputEmail1">Fecha de Nacimiento</label>
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Estado Civil</label>
+                    <div class="form-group">
+                    {{form.estado_civil}}
                     </div>
-                    {{form.fecha_nac}}
                   </div>
                 </div>
-              </div>
-
-              <div class="row">
                 <div class="col-md-6">
                   <label for="exampleInputEmail1">Nacionalidad</label>
                   <div class="input-group mb-3">
@@ -90,6 +86,19 @@
                       <span class="input-group-text"><i class="fa fa-flag"></i></span>
                     </div>
                     {{form.nacionalidad}}
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                
+                <div class="col-md-6">
+                  <label for="exampleInputEmail1">Fecha de Nacimiento</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                    </div>
+                    {{form.fecha_nac}}
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -162,11 +171,41 @@
                   </div>
                 </div>
                 <div class="col-md-6">
-
+                  <label for="exampleInputEmail1">Fecha de Ingreso</label>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                    </div>
+                    {{form.fecha_ingreso}}
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Horario laboral</label>
+                    <div class="form-group">
+                    {{form.horario}}
+                    </div>
+                  </div>
                 </div>
               </div>
 
-
+              {% if form.errors %}
+                  {% for field in form %}
+                      {{field.name}}
+                      {% for error in field.errors %}
+                          <div class="alert alert-danger">
+                              <strong>{{ error|escape }}</strong>
+                          </div>
+                      {% endfor %}
+                  {% endfor %}
+                  {% for error in form.non_field_errors %}
+                      <div class="alert alert-danger">
+                          <strong>{{ error|escape }}</strong>
+                      </div>
+                  {% endfor %}
+              {% endif %}
               <!-- /.card-body -->
             </div>
           </div>
