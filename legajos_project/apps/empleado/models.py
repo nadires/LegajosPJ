@@ -1,5 +1,5 @@
 from django.db import models
-import datetime
+from datetime import datetime, date
 from apps.core.models import Signature
 
 from apps.util.models import Seccion, AbstractDireccion
@@ -64,7 +64,7 @@ class Empleado(Signature, AbstractDireccion):
 	legajo = models.PositiveIntegerField()
 	fecha_ingreso = models.DateField('Fecha de Ingreso', blank=True, null=True)
 	estado_laboral = models.CharField(max_length=3, choices=ESTADO_LABORAL, default='AC', blank=True, null=True)
-	fecha_cambio_estado_lab = models.DateField('Fecha de cambio de Estado Laboral',  default=datetime.date.today, blank=True, null=True)
+	fecha_cambio_estado_lab = models.DateField('Fecha de cambio de Estado Laboral',  default=date.today, blank=True, null=True)
 	horario = models.ForeignKey(HorarioLaboral, on_delete=models.SET_NULL, related_name="empleados_horario", blank=True, null=True)
 
 	def __str__(self):
@@ -83,7 +83,7 @@ class Empleado(Signature, AbstractDireccion):
 			día, mes y año actual y mes, día y año de nacimiento.
 			"""
 			# Obtenemos la fecha de hoy:   hoy = date.today()
-			hoy = datetime.date.today()
+			hoy = date.today()
 			# Sustituimos el año de nacimiento por el actual:
 			try:
 				cumpleanios = self.fecha_nac.replace(year=hoy.year)
