@@ -7,12 +7,7 @@
 <section class="content content_principal">
   <div class="container-fluid">
 
-      <div class="container">
-        <div class="clearfix separada">
-          <a href="{% url 'empleado_delete' empleado.pk %}" class="btn btn-danger float-right separa_boton"><i class="fa fa-plus"></i> Eliminar</a>
-          <a href="{% url 'empleado_update' empleado.pk %}" class="btn btn-primary float-right separa_boton"><i class="fa fa-plus"></i> Modificar</a>
-        </div>
-      </div>
+      
       <div class="row">
           <div class="col-md-3">
 
@@ -25,7 +20,7 @@
                        alt="User profile picture">
                 </div>
 
-                <h3 class="profile-username text-center">{{empleado.apellido}} {{empleado.nombre}}</h3>
+                <h3 class="profile-username text-center">{{empleado.apellido|default_if_none:""}} {{empleado.nombre|default_if_none:""}}</h3>
 
                 <p class="text-muted text-center">Secretario de Primera Instancia</p>
 
@@ -33,7 +28,7 @@
 
                 <p class="text-muted">
                   <h1>
-                  {{empleado.legajo}}
+                  {{empleado.legajo|default_if_none:""}}
                   </h1>
                 </p>
 
@@ -45,15 +40,15 @@
 
                 <hr>
 
-                <strong><i class="fa fa-phone"></i> Teléfono</strong>
+                <strong><i class="fa fa-phone"></i> Teléfonos</strong>
 
-                <p class="text-muted">3834632658</p>
+                <p class="text-muted">{{empleado.tel_fijo|default_if_none:""}} - {{empleado.tel_cel|default_if_none:""}}</p>
 
                 <hr>
 
                 <strong><i class="fa fa-envelope"></i> Email</strong>
 
-                <p class="text-muted">miemail@gmail.com</p>
+                <p class="text-muted">{{empleado.email|default_if_none:""}}</p>
 
               </div>
               <!-- /.card-body -->
@@ -81,36 +76,109 @@
                     
                     <div class="row">
                       <div class="col-md-12">
-                        <p><strong>Apellido/s: </strong><span class="texto_detalle">{{empleado.apellido}}</span></p>
+                        <p><strong>Apellido/s: </strong><span class="texto_detalle">{{empleado.apellido|default_if_none:""}}</span></p>
                       </div>
                     </div>
 
                     <div class="row">
                       <div class="col-md-12">
-                        <p><strong>Nombre/s: </strong><span class="texto_detalle">{{empleado.nombre}}</span></p>
+                        <p><strong>Nombre/s: </strong><span class="texto_detalle">{{empleado.nombre|default_if_none:""}}</span></p>
                       </div>
                     </div>
 
                     <div class="row">
                       <div class="col-md-5">
-                        <p><strong>N° Documento: </strong><span class="texto_detalle">{{empleado.documento}}</span></p>
+                        <p><strong>N° Documento: </strong><span class="texto_detalle">{{empleado.documento|default_if_none:""}}</span></p>
                       </div>
                       <div class="col-md-7">
-                        <p><strong>Tipo Documento: </strong><span class="texto_detalle">{{empleado.get_tipo_doc_display}}</span></p>
+                        <p><strong>Tipo Documento: </strong><span class="texto_detalle">{{empleado.get_tipo_doc_display|default_if_none:""}}</span></p>
                       </div>
                     </div>
 
                     <div class="row">
                       <div class="col-md-6">
-                        <p><strong>N° CUIL: </strong><span class="texto_detalle">{{empleado.cuil}}</span></p>
+                        <p><strong>N° CUIL: </strong><span class="texto_detalle">{{empleado.cuil|default_if_none:""}}</span></p>
                       </div>
                       <div class="col-md-6">
-                        <p><strong>Sexo: </strong><span class="texto_detalle">{{empleado.get_sexo_display}}</span></p>
+                        <p><strong>Sexo: </strong><span class="texto_detalle">{{empleado.get_sexo_display|default_if_none:""}}</span></p>
                       </div>
                     </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p><strong>Estado civil: </strong><span class="texto_detalle">{{empleado.get_estado_civil_display|default_if_none:""}}</span></p>
+                      </div>
+                      <div class="col-md-6">
+                        <p><strong><i class="fa fa-flag"></i> Nacionalidad: </strong><span class="texto_detalle">{{empleado.nacionalidad|default_if_none:""}}</span></p>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-5">
+                        <p><strong><i class="fa fa-calendar"></i> Fecha de nacimiento: </strong><span class="texto_detalle">{{empleado.fecha_nac|date:"d/m/Y"|default_if_none:""}}</span></p>
+                      </div>
+                      <div class="col-md-2">
+                        <p><strong>Edad: </strong><span class="texto_detalle">{{empleado.edad|default_if_none:""}}</span></p>
+                      </div>
+                      <div class="col-md-5">
+                        <p><strong><i class="fa fa-map-marker"></i> Lugar de nacimiento: </strong><span class="texto_detalle">{{empleado.lugar_nac|default_if_none:""}}</span></p>
+                      </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p><strong><i class="fa fa-phone"></i> Teléfono Fijo: </strong><span class="texto_detalle">{{empleado.tel_fijo|default_if_none:""}}</span></p>
+                      </div>
+                      <div class="col-md-6">
+                        <p><strong><i class="fa fa-mobile"></i> Teléfono Celular: </strong><span class="texto_detalle">{{empleado.tel_cel|default_if_none:""}}</span></p>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p><strong><i class="fa fa-envelope"></i> E-mail: </strong><span class="texto_detalle">{{empleado.email|default_if_none:""}}</span></p>
+                      </div>
+                      <div class="col-md-6">
+                        <!-- <p><strong>Teléfono Celular: </strong><span class="texto_detalle">{{empleado.tel_cel}}</span></p> -->
+                      </div>
+                    </div>
+
+
                   </div>
                   <!-- /.tab-pane -->
                   <div class="tab-pane" id="laboral">
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p><strong>Estado laboral actual: </strong>
+                          <span class="badge texto_detalle 
+                          {% if empleado.estado_laboral == 'AC' %} badge-success 
+                          {% elif empleado.estado_laboral == 'JU' %} badge-warning
+                          {% elif empleado.estado_laboral == 'SGH' %} badge-warning
+                          {% elif empleado.estado_laboral == 'BA' %} badge-danger
+                          {% elif empleado.estado_laboral == 'SU' %} badge-danger {% endif %}
+                          ">{{empleado.get_estado_laboral_display|default_if_none:""}}</span>
+                        </p>
+                      </div>
+                      <div class="col-md-6">
+                        <p><strong><i class="fa fa-calendar"></i> Últ. cambio de Estado: </strong><span>{{empleado.fecha_cambio_estado_lab|date:"d/m/Y"|default_if_none:""}}</span></p>
+                      </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p><strong><i class="fa fa-folder"></i> N° Legajo: </strong><span class="texto_detalle">{{empleado.legajo|default_if_none:""}}</span></p>
+                      </div>
+                      <div class="col-md-6">
+                        <p><strong><i class="fa fa-calendar"></i> Fecha de ingreso: </strong><span class="texto_detalle">{{empleado.fecha_ingreso|date:"d/m/Y"|default_if_none:""}}</span></p>
+                      </div>
+                    </div>
+
+                    
                     
                   </div>
                   <!-- /.tab-pane -->
@@ -141,8 +209,17 @@
             <!-- /.nav-tabs-custom -->
           </div>
           <!-- /.col -->
+          <div class="container">
+        <div class="clearfix separada">
+          <a href="{% url 'empleado_delete' empleado.pk %}" class="btn btn-danger float-right separa_boton"><i class="fa fa-trash-o"></i> Eliminar</a>
+          <a href="{% url 'empleado_update' empleado.pk %}" class="btn btn-primary float-right separa_boton"><i class="fa fa-pencil"></i> Modificar</a>
+        </div>
+      </div>
         </div>
         <!-- /.row -->
+
+
+
   </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
