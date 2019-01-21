@@ -79,25 +79,9 @@ class Empleado(Signature, AbstractDireccion):
 	def edad(self):
 		""" retorna la edad si es que tiene cargada una fecha de nacimiento"""
 		if self.fecha_nac:
-			"""
-			Calcula la edad exacta de la persona tomando en cuenta
-			día, mes y año actual y mes, día y año de nacimiento.
-			"""
-			# Obtenemos la fecha de hoy:   hoy = date.today()
-			hoy = date.today()
-			# Sustituimos el año de nacimiento por el actual:
-			try:
-				cumpleanios = self.fecha_nac.replace(year=hoy.year)
-				# En caso de que la fecha de nacimiento es 29 de
-				# febrero y el año actual no sea bisiesto:
-			except ValueError:
-				# Le restamos uno al día de nacimiento para que quede en 28:
-				cumpleanios = self.fecha_nac.replace(year=hoy.year, day=self.fecha_nac.day - 1)
-				# Cálculo final:
-			if cumpleanios > hoy:
-				return hoy.year - self.fecha_nac.year - 1
-			else:
-				return hoy.year - self.fecha_nac.year
+			hoy = datetime.now()
+			diff = relativedelta(hoy, self.fecha_nac) 
+			return diff.years
 		else:
 			return ''
 
@@ -105,10 +89,11 @@ class Empleado(Signature, AbstractDireccion):
 	def antiguedad(self):
 		if self.fecha_ingreso:
 			hoy = datetime.now()
-
 			diff = relativedelta(hoy, self.fecha_ingreso) 
 			antiguedad = '{} años, {} meses, {} días'.format(diff.years, diff.months, diff.days)
 			return antiguedad
+		else:
+			return ''
 	
 	
 	class Meta:
