@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime, date
+from dateutil.relativedelta import relativedelta
 from apps.core.models import Signature
 
 from apps.util.models import Seccion, AbstractDireccion
@@ -99,6 +100,16 @@ class Empleado(Signature, AbstractDireccion):
 				return hoy.year - self.fecha_nac.year
 		else:
 			return ''
+
+	@property
+	def antiguedad(self):
+		if self.fecha_ingreso:
+			hoy = datetime.now()
+
+			diff = relativedelta(hoy, self.fecha_ingreso) 
+			antiguedad = '{} años, {} meses, {} días'.format(diff.years, diff.months, diff.days)
+			return antiguedad
+	
 	
 	class Meta:
 		ordering = ('apellido', 'nombre',)
