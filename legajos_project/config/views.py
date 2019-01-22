@@ -8,8 +8,18 @@ from django.contrib.auth.views import LoginView
 # @method_decorator(user_passes_test(lambda u:u.is_admin, login_url=reverse_lazy('login')), name='dispatch')
 @method_decorator(login_required(login_url=reverse_lazy('login')), name='dispatch')
 class Home(TemplateView):
-    template_name = 'index.html'
-    extra_context = {'Home': True, 'titulo': 'Inicio'}
+	template_name = 'index.html'
+
+	def get_context_data(self, **kwargs):
+		context = super(Home, self).get_context_data(**kwargs)
+		from apps.empleado.models import Empleado	
+		from datetime import date
+		este_anio = str(date.today().year)+'-01-01'
+		context['cantidad_empleados'] = Empleado.objects.all().count()
+		context['ingresados_este_anio'] = Empleado.objects.all().filter(fecha_ingreso__gte=este_anio).count()
+		context['titulo'] = "Inicio"
+		context['Home'] = True
+		return context
 
 
 class Login(LoginView):
