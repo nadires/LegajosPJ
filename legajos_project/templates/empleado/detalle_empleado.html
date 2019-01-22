@@ -22,7 +22,7 @@
 
                 <h3 class="profile-username text-center">{{empleado.apellido|default_if_none:""}} {{empleado.nombre|default_if_none:""}}</h3>
 
-                <p class="text-muted text-center">Secretario de Primera Instancia</p>
+                <p class="text-muted text-center">{{ empleado.cargo|default_if_none:"" }}</p>
 
                 <strong><i class="fa fa-folder"></i> N° Legajo</strong>
 
@@ -40,9 +40,11 @@
 
                 <hr>
 
-                <strong><i class="fa fa-phone"></i> Teléfonos</strong>
+                <strong><i class="fa fa-phone"></i> Teléfono/s</strong>
 
-                <p class="text-muted">{{empleado.tel_fijo|default_if_none:""}} - {{empleado.tel_cel|default_if_none:""}}</p>
+                <p class="text-muted">{{empleado.tel_fijo|default_if_none:""}} 
+                {% if empleado.tel_fijo and empleado.tel_cel %}-{% endif %} 
+                {{empleado.tel_cel|default_if_none:""}}</p>
 
                 <hr>
 
@@ -171,7 +173,7 @@
 
                     <div class="row">
                       <div class="col-md-6">
-                        <p><strong><i class="fa fa-folder"></i> N° Legajo: </strong><span class="texto_detalle">{{empleado.legajo|default_if_none:""}}</span></p>
+                        <p><strong><i class="fa fa-folder"></i> N° Legajo: </strong><span class="texto_grande">{{empleado.legajo|default_if_none:""}}</span></p>
                       </div>
                       <div class="col-md-6">
                         <p><strong><i class="fa fa-calendar"></i> Fecha de ingreso: </strong><span class="texto_detalle">{{empleado.fecha_ingreso|date:"d/m/Y"|default_if_none:""}}</span></p>
@@ -179,14 +181,65 @@
                     </div>
 
                     <div class="row">
-                      <div class="col-md-6">
-                        <p><strong><i class="fa fa-folder"></i> Antiguedad: </strong><span class="texto_detalle">{{empleado.antiguedad|default_if_none:""}}</span></p>
-                      </div>
-                      <div class="col-md-6">
-                        <!-- <p><strong><i class="fa fa-calendar"></i> Fecha de ingreso: </strong><span class="texto_detalle">{{empleado.fecha_ingreso|date:"d/m/Y"|default_if_none:""}}</span></p> -->
+                      <div class="col-md-12">
+                        <p><strong>Antiguedad en el organismo: </strong><span class="texto_detalle">{{empleado.antiguedad|default_if_none:""}}</span></p>
                       </div>
                     </div>
 
+                    <div class="row">
+                      <div class="col-md-12">
+                        <p><strong>Antiguedad en otros organismos: </strong><span class="texto_detalle">-</span></p>
+                      </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <p><strong><i class="fa fa-briefcase"></i> Cargo: </strong><span class="texto_grande">{{empleado.cargo|default_if_none:""}}</span></p>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p><strong>Nivel: </strong><span class="texto_detalle">{{empleado.cargo.nivel|default_if_none:""}}</span></p>
+                      </div>
+                      <div class="col-md-6">
+                        <p><strong>Agrupamiento: </strong><span class="texto_detalle">{{empleado.cargo.agrupamiento|default_if_none:""}}</span></p>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p><strong>Situación laboral: </strong><span class="texto_detalle">{{empleado.cargo.get_situacion_display|default_if_none:""}}</span></p>
+                      </div>
+                      <div class="col-md-6">
+                        <p><strong>Jurisdicción: </strong><span class="texto_detalle">{{empleado.cargo.get_jurisdiccion_display|default_if_none:""}}</span></p>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p><strong><i class="fa fa-calendar"></i> Fecha de ingreso al cargo: </strong><span class="texto_detalle">{{empleado.cargo.fecha_ingreso_cargo|date:"d/m/Y"|default_if_none:""}}</span></p>
+                      </div>
+                      {% if empleado.cargo.fecha_vencimiento_cargo %}
+                      <div class="col-md-6">
+                        <p><strong><i class="fa fa-calendar"></i> Fecha de vencimiento del cargo: </strong><span class="texto_detalle">{{empleado.cargo.fecha_vencimiento_cargo|date:"d/m/Y"|default_if_none:""}}</span></p>
+                      </div>
+                      {% endif %}
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-4">
+                        <p><strong>Tipo Intr. legal: </strong><span>{{empleado.cargo.tipo_intrumento_legal|default_if_none:""}}</span></p>
+                      </div>
+                      <div class="col-md-4">
+                        <p><strong>Instrumento legal: </strong><span>{{empleado.cargo.instrumento_legal|default_if_none:""}}</span></p>
+                      </div>
+                      <div class="col-md-4">
+                        <p><strong><i class="fa fa-calendar"></i> Fecha Instr. legal: </strong><span>{{empleado.cargo.fecha_instr_legal|date:"d/m/Y"|default_if_none:""}}</span></p>
+                      </div>
+                    </div>
                     
                     
                   </div>
