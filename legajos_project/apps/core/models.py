@@ -8,8 +8,12 @@ class Signature(models.Model):
     class Meta:
         abstract = True
 
-    objects = models.Manager()
-    activos = ActivesManager()
+    ''' Defino por defecto que la consulta de empleados es solamente los activos
+        Empleado.objects.all() devuelve los empleados con activo=True
+        Empleado.todos.all() devuelve todos los empleados
+    '''
+    objects = ActivesManager() 
+    todos = models.Manager()
 
     activo = models.BooleanField(default=True, editable=False)
     borrado = models.BooleanField(default=False)
