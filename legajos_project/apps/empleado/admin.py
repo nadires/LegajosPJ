@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from .models import Empleado, ImagenEmpleado, HorarioLaboral
+from .models import Empleado, ImagenEmpleado, HorarioLaboral, \
+                    Cargo, TipoCargo, NivelCargo, AgrupamientoCargo, TipoIntrumentoLegalCargo
 
 class EmpleadosAdmin(admin.ModelAdmin):
     list_display = ('get_nombre_completo', 'cuil', 'legajo', 'activo', 'borrado')
@@ -13,7 +14,7 @@ class EmpleadosAdmin(admin.ModelAdmin):
                                 'sexo', 'fecha_nac', 'estado_civil', 'nacionalidad', 'lugar_nac', 
                                 'tel_fijo', 'tel_cel', 'email')}),
         ('Datos Laborales', {'fields': ('legajo', 'fecha_ingreso', 
-                                'estado_laboral', 'fecha_cambio_estado_lab', 'horario')}),
+                                'estado_laboral', 'fecha_cambio_estado_lab', 'horario', 'cargo')}),
         ('Datos Extras', {'fields': ('created_on', 'created_by', 'modified_on', 'modified_by', 
                             'activo', 'borrado')}),
     )
@@ -55,3 +56,8 @@ class ImagenesEmpleadosAdmin(admin.ModelAdmin):
 admin.site.register(Empleado, EmpleadosAdmin)
 admin.site.register(ImagenEmpleado, ImagenesEmpleadosAdmin)
 admin.site.register(HorarioLaboral)
+admin.site.register(Cargo)
+admin.site.register(TipoCargo)
+admin.site.register(NivelCargo)
+admin.site.register(AgrupamientoCargo)
+admin.site.register(TipoIntrumentoLegalCargo)
