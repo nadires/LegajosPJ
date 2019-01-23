@@ -13,6 +13,8 @@ class EmpleadosAdmin(admin.ModelAdmin):
         ('Datos Personales', {'fields': ('apellido', 'nombre', 'tipo_doc', 'documento', 'cuil', 
                                 'sexo', 'fecha_nac', 'estado_civil', 'nacionalidad', 'lugar_nac', 
                                 'tel_fijo', 'tel_cel', 'email')}),
+        ('Domicilio', {'fields': ('domicilio', 'barrio', 'piso', 'dpto', 
+                                    'localidad', 'cod_postal', 'departamento', 'provincia')}),
         ('Datos Laborales', {'fields': ('legajo', 'fecha_ingreso', 
                                 'estado_laboral', 'fecha_cambio_estado_lab', 'horario', 'cargo')}),
         ('Datos Extras', {'fields': ('created_on', 'created_by', 'modified_on', 'modified_by', 

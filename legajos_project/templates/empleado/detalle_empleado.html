@@ -36,7 +36,7 @@
 
                 <strong><i class="fa fa-map-marker mr-1"></i> Domicilio</strong>
 
-                <p class="text-muted">República 829, San Fernando del Valle de Catamarca</p>
+                <p class="text-muted">{{empleado.domicilio|default_if_none:""}}, {{empleado.localidad|default_if_none:""}}, {{empleado.get_departamento_display|default_if_none:""}}, {{empleado.get_provincia_display|default_if_none:""}}</p>
 
                 <hr>
 
@@ -147,6 +147,47 @@
                       </div>
                     </div>
 
+                    <hr>
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <p><strong><i class="fa fa-map-marker"></i> Domicilio: </strong><span class="texto_detalle">{{empleado.domicilio|default_if_none:""}}</span></p>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p><strong>Barrio: </strong><span class="texto_detalle">{{empleado.barrio|default_if_none:""}}</span></p>
+                      </div>
+                      {% if empleado.dpto %}
+                        <div class="col-md-3">
+                          <p><strong>Piso: </strong><span class="texto_detalle">{{empleado.piso|default_if_none:""}}</span></p>
+                        </div>
+                      {% endif %}
+                      {% if empleado.dpto %}
+                        <div class="col-md-3">
+                          <p><strong>N° Dpto: </strong><span class="texto_detalle">{{empleado.dpto|default_if_none:""}}</span></p>
+                        </div>
+                      {% endif %}
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-8">
+                        <p><strong><i class="fa fa-location-arrow"></i> Localidad: </strong><span class="texto_detalle">{{empleado.localidad|default_if_none:""}}</span></p>
+                      </div>
+                      <div class="col-md-4">
+                        <p><strong>Código Postal: </strong><span class="texto_detalle">{{empleado.cod_postal|default_if_none:""}}</span></p>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p><strong>Departamento: </strong><span class="texto_detalle">{{empleado.get_departamento_display|default_if_none:""}}</span></p>
+                      </div>
+                      <div class="col-md-6">
+                        <p><strong>Provincia: </strong><span class="texto_detalle">{{empleado.get_provincia_display|default_if_none:""}}</span></p>
+                      </div>
+                    </div>
 
                   </div>
                   <!-- /.tab-pane -->

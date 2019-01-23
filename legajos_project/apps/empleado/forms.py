@@ -18,6 +18,7 @@ class EmpleadoForm(forms.ModelForm):
 		model = Empleado
 		fields = ('apellido', 'nombre', 'tipo_doc', 'documento', 'cuil', 'sexo', 'estado_civil', 
 				'nacionalidad', 'fecha_nac', 'lugar_nac', 'tel_fijo', 'tel_cel', 'email', 
+				'domicilio', 'barrio', 'piso', 'dpto', 'localidad', 'cod_postal', 'departamento', 'provincia',
 				'legajo', 'fecha_ingreso', 'horario')
 
 		widgets = {
@@ -34,6 +35,14 @@ class EmpleadoForm(forms.ModelForm):
 			'tel_fijo' : forms.NumberInput(attrs={'class':'form-control', 'placeholder': 'Teléfono fijo'}),
 			'tel_cel' : forms.NumberInput(attrs={'class':'form-control', 'placeholder': 'Teléfono celular'}),
 			'email' : forms.EmailInput(attrs={'class':'form-control', 'placeholder': 'E-mail'}),
+			'domicilio' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Domicilio'}),
+			'barrio' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Barrio'}),
+			'piso' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Piso'}),
+			'dpto' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'N° Dpto'}),
+			'localidad' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Localidad'}),
+			'cod_postal' : forms.NumberInput(attrs={'class':'form-control', 'placeholder': 'Código Postal'}),
+			'departamento': forms.Select(attrs={'class': 'form-control'}),
+			'provincia': forms.Select(attrs={'class': 'form-control'}),
 
 			'legajo' : forms.NumberInput(attrs={'class':'form-control', 'placeholder': 'Número de legajo'}),
 			'fecha_ingreso' : forms.DateInput(attrs={'class':'form-control', 'placeholder': 'dd/mm/yyyy', 'data-inputmask': "'alias': 'dd/mm/yyyy'", 'data-mask': ''}),

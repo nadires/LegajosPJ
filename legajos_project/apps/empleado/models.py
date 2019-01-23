@@ -134,10 +134,10 @@ class Empleado(Signature, AbstractDireccion):
 	documento = models.PositiveIntegerField()
 	cuil = models.CharField(max_length=15)
 	sexo = models.CharField(max_length=1, choices=SEXO, default='M')
-	fecha_nac = models.DateField('Fecha de Nacimiento', blank=True, null=True)
-	estado_civil = models.CharField(max_length=2, choices=ESTADO_CIVIL, blank=True, null=True)
-	nacionalidad = models.TextField(blank=True, null=True)
-	lugar_nac = models.TextField('Lugar de Nacimiento', blank=True, null=True)
+	fecha_nac = models.DateField('Fecha de Nacimiento')
+	estado_civil = models.CharField(max_length=2, choices=ESTADO_CIVIL)
+	nacionalidad = models.TextField()
+	lugar_nac = models.TextField('Lugar de Nacimiento')
 	tel_fijo = models.CharField('Teléfono Fijo', max_length=17, blank=True, null=True)
 	tel_cel = models.CharField('Teléfono Celular', max_length=17, blank=True, null=True)
 	email = models.EmailField('E-mail', blank=True, null=True)
@@ -145,7 +145,7 @@ class Empleado(Signature, AbstractDireccion):
 
 	# DATOS LABORALES
 	legajo = models.PositiveIntegerField()
-	fecha_ingreso = models.DateField('Fecha de Ingreso', blank=True, null=True)
+	fecha_ingreso = models.DateField('Fecha de Ingreso')
 	estado_laboral = models.CharField(max_length=3, choices=ESTADO_LABORAL, default='AC', blank=True, null=True)
 	fecha_cambio_estado_lab = models.DateField('Fecha de cambio de Estado Laboral',  default=date.today, blank=True, null=True)
 	horario = models.ForeignKey(HorarioLaboral, on_delete=models.SET_NULL, related_name="empleados_horario", blank=True, null=True)

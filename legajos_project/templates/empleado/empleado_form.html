@@ -23,13 +23,13 @@
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Apellido/s</label>
+                    <label for="exampleInputEmail1">Apellido/s *</label>
                     {{form.apellido}}
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="exampleInputPassword1">Nombre/s</label>
+                    <label for="exampleInputPassword1">Nombre/s *</label>
                     {{form.nombre}}
                   </div>
                 </div>
@@ -38,19 +38,19 @@
               <div class="row">
                 <div class="col-md-3">
                   <div class="form-group">
-                    <label>Tipo Documento</label>
+                    <label>Tipo Documento *</label>
                     {{form.tipo_doc}}
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Documento N°</label>
+                    <label for="exampleInputEmail1">Documento N° *</label>
                     {{form.documento}}
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="exampleInputPassword1">CUIL N°</label>
+                    <label for="exampleInputPassword1">CUIL N° *</label>
                     {{form.cuil}}
                   </div>
                 </div>
@@ -59,7 +59,7 @@
               <div class="row">
                 <div class="col-md-3">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Sexo</label>
+                    <label for="exampleInputEmail1">Sexo *</label>
                     <div class="form-group">
                     {% for radio in form.sexo %}
                     
@@ -73,14 +73,14 @@
                 </div>
                 <div class="col-md-3">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Estado Civil</label>
+                    <label for="exampleInputEmail1">Estado Civil *</label>
                     <div class="form-group">
                     {{form.estado_civil}}
                     </div>
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <label for="exampleInputEmail1">Nacionalidad</label>
+                  <label for="exampleInputEmail1">Nacionalidad *</label>
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fa fa-flag"></i></span>
@@ -112,6 +112,8 @@
                 </div>
               </div>
 
+              <hr>
+
               <div class="row">
                 <div class="col-md-6">
                   <label for="exampleInputEmail1">Teléfono fijo</label>
@@ -142,8 +144,81 @@
                     </div>
                     {{form.email}}
                   </div>
+                </div> 
+              </div>
+
+              <hr>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <label for="exampleInputEmail1">Domicilio *</label>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
+                    </div>
+                    {{form.domicilio}}
+                  </div>
                 </div>
-                
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="exampleInputEmail1">Barrio</label>
+                  <div class="input-group mb-3">
+                    {{form.barrio}}
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <label for="exampleInputEmail1">Piso</label>
+                  <div class="input-group mb-3">
+                    {{form.piso}}
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <label>N° Dpto</label>
+                  <div class="input-group mb-3">
+                    {{form.dpto}}
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-8">
+                  <label for="exampleInputEmail1">Localidad *</label>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-location-arrow"></i></span>
+                    </div>
+                    {{form.localidad}}
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Código Postal *</label>
+                    <div class="form-group">
+                    {{form.cod_postal}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Departamento *</label>
+                    <div class="form-group">
+                    {{form.departamento}}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Provincia *</label>
+                    <div class="form-group">
+                    {{form.provincia}}
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <!-- /.card-body -->
@@ -162,7 +237,7 @@
 
               <div class="row">
                 <div class="col-md-6">
-                  <label for="exampleInputEmail1">N° Legajo</label>
+                  <label for="exampleInputEmail1">N° Legajo *</label>
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fa fa-folder"></i></span>
@@ -171,7 +246,7 @@
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <label for="exampleInputEmail1">Fecha de Ingreso</label>
+                  <label for="exampleInputEmail1">Fecha de Ingreso *</label>
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fa fa-calendar"></i></span>

@@ -21,7 +21,7 @@ class Seccion(Signature):
 		return cantidad
 
 
-class Provincia(models.Model):
+class AbstractDireccion(models.Model):
 	PROVINCIAS = (
 		('BA', 'Buenos Aires'),
 		('CA', 'Catamarca'),
@@ -48,39 +48,36 @@ class Provincia(models.Model):
 		('TU', 'Tucuman'),
 	)
 
-	class Meta:
-		ordering = ('nombre',)
-
-	nombre = models.CharField(max_length=2, choices=PROVINCIAS)
-
-	def __str__(self):
-		return self.nombre
-
-
-class Localidad(models.Model):
-
-	class Meta:
-		ordering = ('nombre',)
-		verbose_name_plural = 'Localidades'
-
-	nombre = models.TextField()
-	cod_postal = models.PositiveIntegerField(null=True, blank=True)
-
-	def __str__(self):
-		return self.nombre
-
-
-class AbstractDireccion(models.Model):
+	DEPARTAMENTOS = (
+		('AMB', 'Ambato'),
+		('ANC', 'Ancasti'),
+		('AND', 'Andalgalá'),
+		('ADS', 'Antofagasta de la Sierra'),
+		('BEL', 'Belén'),
+		('CPY', 'Capayán'),
+		('CAP', 'Capital'),
+		('EAL', 'El Alto'),
+		('FME', 'Fray Mamerto Esquiú'),
+		('LPZ', 'La Paz'),
+		('PAC', 'Paclín'),
+		('PMN', 'Pomán'),
+		('SMA', 'Santa María'),
+		('SRO', 'Santa Rosa'),
+		('TIN', 'Tinogasta'),
+		('VVI', 'Valle Viejo'),
+	)
 
 	class Meta:
 		abstract = True
 
-	domicilio = models.TextField(null=True, blank=True)
+	domicilio = models.TextField()
 	barrio = models.TextField(null=True, blank=True)
 	piso = models.CharField(max_length=3, null=True, blank=True)
 	dpto = models.CharField(max_length=3, null=True, blank=True)
-	localidad = models.ForeignKey(Localidad,null=True, blank=True,on_delete=models.CASCADE)
-	provincia = models.ForeignKey(Provincia, null=True, blank=True, on_delete=models.CASCADE)
+	localidad = models.TextField()
+	cod_postal = models.PositiveIntegerField()
+	departamento = models.CharField(max_length=3, choices=DEPARTAMENTOS)
+	provincia = models.CharField(max_length=2, choices=PROVINCIAS, default='CA')
 
 	def __str__(self):
 		return '{}'.format(self.domicilio)
