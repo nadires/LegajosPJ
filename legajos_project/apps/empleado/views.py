@@ -109,8 +109,7 @@ class EmpleadoDelete(DeleteView):
 
 	def delete(self, request, *args, **kwargs):
 		"""
-		Calls the delete() method on the fetched object and then
-		redirects to the success URL.
+			Modifico el método eliminar, haciendo que cambie los estados de borrado y activo
 		"""
 		self.object = self.get_object()
 		self.object.borrado = True
