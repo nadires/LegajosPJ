@@ -13,6 +13,11 @@
 
             <!-- Profile Image -->
             <div class="card card-primary card-outline">
+              {% if empleado.borrado %}
+                <div class="card-header">
+                  <span class="badge texto_detalle badge-danger">Empleado Eliminado</span>
+                </div>
+              {% endif %}
               <div class="card-body box-profile">
                 <div class="text-center">
                   <img class="profile-user-img img-fluid img-circle"
@@ -314,8 +319,12 @@
           <!-- /.col -->
           <div class="container">
         <div class="clearfix separada">
-          <a href="{% url 'empleado_delete' empleado.pk %}" class="btn btn-danger float-right separa_boton"><i class="fa fa-trash-o"></i> Eliminar</a>
-          <a href="{% url 'empleado_update' empleado.pk %}" class="btn btn-primary float-right separa_boton"><i class="fa fa-pencil"></i> Modificar</a>
+          {% if not empleado.borrado %}            
+            <a href="{% url 'empleado_delete' empleado.pk %}" class="btn btn-danger float-right separa_boton"><i class="fa fa-trash-o"></i> Eliminar</a>
+            <a href="{% url 'empleado_update' empleado.pk %}" class="btn btn-primary float-right separa_boton"><i class="fa fa-pencil"></i> Modificar</a>
+          {% else %}
+            <a href="" class="btn btn-primary float-right separa_boton"><i class="fa fa-repeat"></i> Restaurar</a>
+          {% endif %}
         </div>
       </div>
         </div>

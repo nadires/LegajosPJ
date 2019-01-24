@@ -30,6 +30,22 @@ class EmpleadoList(ListView):
 		return context
 
 
+class EmpleadoListDeletes(ListView):
+	'''
+		Muestra el listado de empleados eliminados
+	'''
+	model = Empleado
+	template_name = 'empleado/listado_empleados_eliminados.html'
+	context_object_name = 'listado_empleados_eliminados'
+	queryset = Empleado.objects.filter(borrado=True)
+
+	def get_context_data(self, **kwargs):
+		context = super(EmpleadoListDeletes, self).get_context_data(**kwargs)	
+		context['titulo'] = "Listado de Empleados Eliminados"
+		context['EmpleadoListDeletes'] = True
+		return context
+
+
 class EmpleadoDetail(DetailView):
 	model = Empleado
 	template_name = 'empleado/detalle_empleado.html'

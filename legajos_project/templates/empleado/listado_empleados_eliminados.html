@@ -1,0 +1,82 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+{% block extrastatic %}
+<link rel="stylesheet" href="{% static 'css/barra_busqueda.css' %}">
+
+<!--Datatable CSS-->
+<link rel="stylesheet" type="text/css" href="{% static 'DataTables/datatables.min.css' %}"/>
+{% endblock %}
+
+{% block content %}
+
+<!-- Main content -->
+    <section class="content content_principal">
+      <div class="container-fluid">
+
+        <div class="row">
+              <div class="col-md-9">
+                  <div id="custom-search-input">
+                      <div class="input-group col-md-12">
+                          <input type="text" id="input_search" class="form-control input-lg" placeholder="Ingrese Apellido / Nombre / Legajo / CUIL para buscar empleado" />
+                          <span class="input-group-btn">
+                              <label class="">
+                                  <i class="fa fa-search"></i>
+                              </label>
+                          </span>
+                      </div>
+                  </div>
+              </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Total de Empleados Eliminados: {{listado_empleados_eliminados|length}}</h3>
+
+                <div class="card-tools">
+                  
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                <table id="listTable" class="table table-hover">
+                  <thead>
+                  <tr>
+                    <th data-field="apellido">APELLIDO Y NOMBRE</th>
+                    <th data-field="legajo">N° LEGAJO</th>
+                    <th data-field="cuil">CUIL</th>
+                    <th data-field="dni">DNI</th>
+                  </tr>
+                </thead>
+                  <tbody id="cuerpo_tabla">
+                  <div>
+                    {% for empleado in listado_empleados_eliminados %}
+                    <tr>
+                      <td><a href="{% url 'empleado_detail' empleado.id %}">{{ empleado.apellido }}, {{ empleado.nombre }}</a></td>
+                      <td>{{ empleado.legajo }}</td>
+                      <td>{{ empleado.cuil }}</td>
+                      <td>{{ empleado.documento }}</td>
+                    </tr>
+                    {% endfor %}
+                  </div>
+                </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+
+  {% endblock %} 
+  {% block staticfiles_javascript %} 
+  <!--Datatable JS-->
+  <script type="text/javascript" src="{% static 'js/custom_datatable.js' %}"></script>
+  <script type="text/javascript" src="{% static 'DataTables/datatables.min.js' %}"></script>
+  {% endblock %} 
