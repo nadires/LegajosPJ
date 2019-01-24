@@ -21,6 +21,7 @@ class EmpleadoList(ListView):
 	model = Empleado
 	template_name = 'empleado/listado_empleados.html'
 	context_object_name = 'listado_empleados'
+	queryset = Empleado.activos.all()
 
 	def get_context_data(self, **kwargs):
 		context = super(EmpleadoList, self).get_context_data(**kwargs)	
@@ -113,6 +114,7 @@ class EmpleadoDelete(DeleteView):
 		"""
 		self.object = self.get_object()
 		self.object.borrado = True
+		self.object.activo = False
 		self.object.save()
 		return HttpResponseRedirect(self.get_success_url())
 

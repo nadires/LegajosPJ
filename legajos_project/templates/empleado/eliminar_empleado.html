@@ -41,8 +41,10 @@
                       <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-primary btn-lg float-right"><i class="fa fa-arrow-circle-left"></i> No, volver</a>
                     </div>
                     <div class="btn-group">
-                      <button class="btn btn-danger btn-lg" type="submit" name="action">Si, estoy seguro <i class="fa fa-trash-o left"></i>
-                      </button>
+                      <form method="post">{% csrf_token %}
+                        <button class="btn btn-danger btn-lg" type="submit">Si, estoy seguro <i class="fa fa-trash-o left"></i>
+                        </button>
+                      </form>
                     </div>
                   </div>
                 </div>

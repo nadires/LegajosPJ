@@ -15,7 +15,7 @@ class Home(TemplateView):
 		from apps.empleado.models import Empleado	
 		from datetime import date
 		este_anio = str(date.today().year)+'-01-01'
-		context['cantidad_empleados'] = Empleado.objects.all().count()
+		context['cantidad_empleados'] = Empleado.activos.all().count()
 		context['ingresados_este_anio'] = Empleado.objects.all().filter(fecha_ingreso__gte=este_anio).count()
 		context['titulo'] = "Inicio"
 		context['Home'] = True

@@ -12,8 +12,8 @@ class Signature(models.Model):
         Empleado.objects.all() devuelve los empleados con activo=True
         Empleado.todos.all() devuelve todos los empleados
     '''
-    objects = ActivesManager() 
-    todos = models.Manager()
+    objects = models.Manager()
+    activos = ActivesManager() 
 
     activo = models.BooleanField(default=True, editable=False)
     borrado = models.BooleanField(default=False)
