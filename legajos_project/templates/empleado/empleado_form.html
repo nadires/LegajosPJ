@@ -34,6 +34,16 @@
                   </div>
                 </div>
               </div>
+              {% if form.nombre.errors or form.apellido.errors %}
+              <div class="row">
+                <div class="col-md-6">
+                  <label class="text-danger">{{ form.nombre.errors }}</label>
+                </div>
+                <div class="col-md-6">
+                  <label class="text-danger">{{ form.apellido.errors }}</label>
+                </div>
+              </div>
+              {% endif %}
 
               <div class="row">
                 <div class="col-md-3">
@@ -55,6 +65,19 @@
                   </div>
                 </div>
               </div>
+              {% if form.tipo_doc.errors or form.documento.errors or form.cuil.errors %}
+                  <div class="row">
+                    <div class="col-md-3">
+                      <label class="text-danger">{{ form.tipo_doc.errors }}</label>
+                    </div>
+                    <div class="col-md-3">
+                      <label class="text-danger">{{ form.documento.errors }}</label>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="text-danger">{{ form.cuil.errors }}</label>
+                    </div>
+                  </div>
+              {% endif %}
 
               <div class="row">
                 <div class="col-md-3">
@@ -89,9 +112,21 @@
                   </div>
                 </div>
               </div>
+              {% if form.sexo.errors or form.estado_civil.errors or form.nacionalidad.errors %}
+                  <div class="row">
+                    <div class="col-md-3">
+                      <label class="text-danger">{{ form.sexo.errors }}</label>
+                    </div>
+                    <div class="col-md-3">
+                      <label class="text-danger">{{ form.estado_civil.errors }}</label>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="text-danger">{{ form.nacionalidad.errors }}</label>
+                    </div>
+                  </div>
+              {% endif %}
 
-              <div class="row">
-                
+              <div class="row">  
                 <div class="col-md-6">
                   <label for="exampleInputEmail1">Fecha de Nacimiento</label>
                   <div class="input-group">
@@ -111,6 +146,16 @@
                   </div>
                 </div>
               </div>
+              {% if form.fecha_nac.errors or form.lugar_nac.errors %}
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label class="text-danger">{{ form.fecha_nac.errors }}</label>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="text-danger">{{ form.lugar_nac.errors }}</label>
+                    </div>
+                  </div>
+              {% endif %}
 
               <hr>
 
@@ -134,6 +179,16 @@
                   </div>
                 </div>
               </div>
+              {% if form.tel_fijo.errors or form.tel_cel.errors %}
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label class="text-danger">{{ form.tel_fijo.errors }}</label>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="text-danger">{{ form.tel_cel.errors }}</label>
+                    </div>
+                  </div>
+              {% endif %}
 
               <div class="row">
                 <div class="col-md-6">
@@ -146,6 +201,13 @@
                   </div>
                 </div> 
               </div>
+              {% if form.email.errors %}
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label class="text-danger">{{ form.email.errors }}</label>
+                    </div>
+                  </div>
+              {% endif %}
 
               <hr>
 
@@ -160,6 +222,13 @@
                   </div>
                 </div>
               </div>
+              {% if form.domicilio.errors %}
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label class="text-danger">{{ form.domicilio.errors }}</label>
+                    </div>
+                  </div>
+              {% endif %}
 
               <div class="row">
                 <div class="col-md-6">
@@ -181,6 +250,19 @@
                   </div>
                 </div>
               </div>
+              {% if form.barrio.errors or form.piso.errors or form.dpto.errors %}
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label class="text-danger">{{ form.barrio.errors }}</label>
+                    </div>
+                    <div class="col-md-3">
+                      <label class="text-danger">{{ form.piso.errors }}</label>
+                    </div>
+                    <div class="col-md-3">
+                      <label class="text-danger">{{ form.dpto.errors }}</label>
+                    </div>
+                  </div>
+              {% endif %}
 
               <div class="row">
                 <div class="col-md-8">
@@ -201,6 +283,16 @@
                   </div>
                 </div>
               </div>
+              {% if form.localidad.errors or form.cod_postal.errors %}
+                  <div class="row">
+                    <div class="col-md-8">
+                      <label class="text-danger">{{ form.localidad.errors }}</label>
+                    </div>
+                    <div class="col-md-4">
+                      <label class="text-danger">{{ form.cod_postal.errors }}</label>
+                    </div>
+                  </div>
+              {% endif %}
 
               <div class="row">
                 <div class="col-md-6">
@@ -220,6 +312,16 @@
                   </div>
                 </div>
               </div>
+              {% if form.departamento.errors or form.provincia.errors %}
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label class="text-danger">{{ form.departamento.errors }}</label>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="text-danger">{{ form.provincia.errors }}</label>
+                    </div>
+                  </div>
+              {% endif %}
 
               <!-- /.card-body -->
             </div>
@@ -255,6 +357,17 @@
                   </div>
                 </div>
               </div>
+              {% if form.legajo.errors or form.fecha_ingreso.errors %}
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label class="text-danger">{{ form.legajo.errors }}</label>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="text-danger">{{ form.fecha_ingreso.errors }}</label>
+                    </div>
+                  </div>
+              {% endif %}
+
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
@@ -265,19 +378,20 @@
                   </div>
                 </div>
               </div>
+              {% if form.horario.errors %}
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label class="text-danger">{{ form.horario.errors }}</label>
+                    </div>
+                  </div>
+              {% endif %}
 
-              {% if form.errors %}
-                  {% for field in form %}
-                      {{field.name}}
-                      {% for error in field.errors %}
-                          <div class="alert alert-danger">
-                              <strong>{{ error|escape }}</strong>
-                          </div>
-                      {% endfor %}
-                  {% endfor %}
+
+
+              {% if form.non_field_errors %}
                   {% for error in form.non_field_errors %}
-                      <div class="alert alert-danger">
-                          <strong>{{ error|escape }}</strong>
+                      <div class="row">
+                          <label class="text-danger">{{ error|escape }}</label>
                       </div>
                   {% endfor %}
               {% endif %}
