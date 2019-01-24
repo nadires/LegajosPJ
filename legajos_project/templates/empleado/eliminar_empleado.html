@@ -3,59 +3,58 @@
 
 {% block content %}
 
-{% include 'base/header.html' %}
+<!-- Main content -->
+<section class="content content_principal">
+  <div class="container-fluid">
 
-<!--  CONTENIDO FORMULARIO -->
-<main>
-  <div class="container">
       <div class="row">
-        <div class="center col s12 m12 l12">
-          <div class="card ">
-            <div class="card-content grey-text">
-              <span class="card-title red-text">¿Está seguro que desea eliminar a este empleado?</span>
-              <div class="divider"></div>
-              <br>
-
-                <div class="row">
-                  <div class="input-field col s12 m6">
-                    <label> Apellido: {{ empleado.apellido }} </label> 
-                  </div>
-                </div> 
-                <div class="row">   
-                  <div class="input-field col s12 m6">
-                   <label>Nombre: {{ empleado.nombre }}</label>
-                  </div>
+          <div class="col-md-12">
+            <!-- Widget: user widget style 2 -->
+            <div class="card card-widget widget-user-2">
+              <div class="card-header">
+                <h2>¿Está seguro que desea eliminar a este empleado?</h2>
+              </div>
+              <!-- Add the bg color to the header using any of the bg-* classes -->
+              <div class="widget-user-header bg-info">
+                <div class="widget-user-image">
+                  <img class="img-circle elevation-2" src="{% static 'images/user_delete.png' %}" alt="User Avatar">
                 </div>
+                <!-- /.widget-user-image -->
+                <h3 class="widget-user-username">{{ empleado.nombre|default_if_none:"" }} {{ empleado.apellido|default_if_none:"" }}</h3>
+                <h5 class="widget-user-desc">{{ empleado.cargo|default_if_none:"" }}</h5>
+              </div>
+              <div class="card-body">
                 <div class="row">
-                  <div class="input-field col s12 m4">
-                    <label> Legajo: {{ empleado.legajo }} </label>
-                  </div>
+                    <h4> Legajo: {{ empleado.legajo|default_if_none:"" }} </h4>
                 </div>
-                <div class="row">
-                  <div class="input-field col s12 m4">                      
-                      <label >CUIL: {{ empleado.cuil }}</label>
-                  </div>
+                <div class="row">                    
+                    <h4 >CUIL: {{ empleado.cuil|default_if_none:"" }}</h4>
                 </div> 
                 <div class="row">
-                  <div class="input-field col s12 m4">
-                    <label> DNI: {{ empleado.dni }} </label>
-                  </div>
+                    <h4> Documento N°: {{ empleado.documento|default_if_none:"" }} </h4>
                 </div>  
-
-                <div class="row">                  
-                    <a href="{{ request.META.HTTP_REFERER }}" class="btn cyan waves-effect waves-light center botones">No, Volver<i class="mdi-content-reply left"></i></a>
-                     
-                    <button class="btn red waves-effect waves-light center botones" type="submit" name="action">Si, Estoy Seguro<i class="mdi-action-delete right"></i>
-                    </button>
+              </div>
+              <div class="card-footer">
+                <div class="row separada">
+                  <div class="margin">
+                    <div class="btn-group">
+                      <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-primary btn-lg float-right"><i class="fa fa-arrow-circle-left"></i> No, volver</a>
+                    </div>
+                    <div class="btn-group">
+                      <button class="btn btn-danger btn-lg" type="submit" name="action">Si, estoy seguro <i class="fa fa-trash-o left"></i>
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                  
+              </div>
             </div>
+            <!-- /.widget-user -->
           </div>
+          <!-- /.col -->
+          
         </div>
-      </div>
-  </div>
-</main>
-<!-- END CONTENT -->
 
-{% include 'base/footer.html' %}
+  </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
 {% endblock %} 
