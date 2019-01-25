@@ -238,6 +238,12 @@
                       </div>
                     </div>
 
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p><strong>Horario laboral: </strong><span>{{empleado.horario|default_if_none:""}}</span></p>
+                      </div>
+                    </div>
+
                     <hr>
 
                     <div class="row">
@@ -286,7 +292,7 @@
                         <p><strong><i class="fa fa-calendar"></i> Fecha Instr. legal: </strong><span>{{empleado.cargo.fecha_instr_legal|date:"d/m/Y"|default_if_none:""}}</span></p>
                       </div>
                     </div>
-                    
+
                     
                   </div>
                   <!-- /.tab-pane -->
