@@ -17,7 +17,7 @@ class EmpleadosAdmin(admin.ModelAdmin):
                                     'localidad', 'cod_postal', 'departamento', 'provincia')}),
         ('Datos Laborales', {'fields': ('legajo', 'fecha_ingreso', 
                                 'estado_laboral', 'fecha_cambio_estado_lab', 'horario', 'cargo')}),
-        ('Datos Extras', {'fields': ('created_on', 'created_by', 'modified_on', 'modified_by', 
+        ('Datos Extras', {'fields': ('fecha_baja', 'motivo_baja', 'created_on', 'created_by', 'modified_on', 'modified_by', 
                             'activo', 'borrado')}),
     )
 

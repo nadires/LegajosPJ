@@ -152,6 +152,9 @@ class Empleado(Signature, AbstractDireccion):
 
 	cargo = models.ForeignKey(Cargo, on_delete=models.SET_NULL, related_name="empleados_cargo", blank=True, null=True)
 
+	fecha_baja = models.DateField('Fecha de baja', blank=True, null=True)
+	motivo_baja = models.TextField('Motivo de baja', blank=True)
+
 	def __str__(self):
 		return self.get_nombre_completo
 

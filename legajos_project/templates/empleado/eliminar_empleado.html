@@ -7,61 +7,91 @@
 <section class="content content_principal">
   <div class="container-fluid">
 
-      <div class="row">
-          <div class="col-md-12">
-            <!-- Widget: user widget style 2 -->
-            <div class="card card-widget widget-user-2">
-              <div class="card-header">
-                <h2>¿Está seguro que desea eliminar a este empleado?</h2>
+    <div class="row">
+      <div class="col-md-12">
+        <!-- Widget: user widget style 2 -->
+        <div class="card card-widget widget-user-2">
+          <form method="post">{% csrf_token %}
+            <div class="card-header">
+              <h2>¿Está seguro que desea eliminar a este empleado?</h2>
+            </div>
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <div class="widget-user-header bg-info">
+              <div class="widget-user-image">
+                <img class="img-circle elevation-2" src="{% static 'images/user_delete.png' %}" alt="User Avatar">
               </div>
-              <!-- Add the bg color to the header using any of the bg-* classes -->
-              <div class="widget-user-header bg-info">
-                <div class="widget-user-image">
-                  <img class="img-circle elevation-2" src="{% static 'images/user_delete.png' %}" alt="User Avatar">
-                </div>
-                <!-- /.widget-user-image -->
-                <h3 class="widget-user-username">{{ empleado.nombre|default_if_none:"" }} {{ empleado.apellido|default_if_none:"" }}</h3>
-                <h5 class="widget-user-desc">{{ empleado.cargo|default_if_none:"" }}</h5>
+              <!-- /.widget-user-image -->
+              <h3 class="widget-user-username">{{ empleado.nombre|default_if_none:"" }} {{ empleado.apellido|default_if_none:"" }}</h3>
+              <h5 class="widget-user-desc">{{ empleado.cargo|default_if_none:"" }}</h5>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <h4> Legajo: {{ empleado.legajo|default_if_none:"" }} </h4>
               </div>
-              <div class="card-body">
-                <div class="row">
-                    <h4> Legajo: {{ empleado.legajo|default_if_none:"" }} </h4>
-                </div>
-                <div class="row">                    
-                    <h4 >CUIL: {{ empleado.cuil|default_if_none:"" }}</h4>
-                </div> 
-                <div class="row">
-                    <h4> Documento N°: {{ empleado.documento|default_if_none:"" }} </h4>
-                </div>  
-                <hr>
-                <div class="form-group">
-                    <label>Agregar comentario</label>
-                    <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
-                  </div>
-              </div>
-              <div class="card-footer">
+              <div class="row">                    
+                <h4 >CUIL: {{ empleado.cuil|default_if_none:"" }}</h4>
+              </div> 
+              <div class="row">
+                <h4> Documento N°: {{ empleado.documento|default_if_none:"" }} </h4>
+              </div>  
+              <hr>
+              <div class="form-group">
                 <div class="row separada">
-                  <div class="margin">
-                    <div class="btn-group">
-                      <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-primary btn-lg float-right"><i class="fa fa-arrow-circle-left"></i> No, volver</a>
-                    </div>
-                    <div class="btn-group">
-                      <form method="post">{% csrf_token %}
-                        <button class="btn btn-danger btn-lg" type="submit">Si, estoy seguro <i class="fa fa-trash-o left"></i>
-                        </button>
-                      </form>
+                  <div class="col-md-6">
+                    <label for="exampleInputEmail1">Fecha de Baja *</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                      </div>
+                      <input type="text" name="fecha_baja" class="form-control" placeholder="dd/mm/yyyy" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="" required id="id_fecha_baja">
                     </div>
                   </div>
+                </div>
+                <div class="row separada">
+                  <label>Agregar motivo de la baja (Es recomendable explicar con detalle el motivo de la baja)</label>
+                  <textarea class="form-control" rows="3" name="motivo" placeholder="Motivo..."></textarea>
                 </div>
               </div>
             </div>
-            <!-- /.widget-user -->
+            <div class="card-footer">
+              <div class="row separada">
+                <div class="margin">
+                  <div class="btn-group">
+                    <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-primary btn-lg float-right"><i class="fa fa-arrow-circle-left"></i> No, volver</a>
+                  </div>
+                  <div class="btn-group">
+                    <form method="post">{% csrf_token %}
+                      <button class="btn btn-danger btn-lg" type="submit">Si, estoy seguro <i class="fa fa-trash-o left"></i>
+                      </button>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
           </div>
-          <!-- /.col -->
-          
+          <!-- /.widget-user -->
         </div>
+        <!-- /.col -->
 
-  </div><!-- /.container-fluid -->
-</section>
-<!-- /.content -->
-{% endblock %} 
+      </div>
+
+    </div><!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+  {% endblock %} 
+  {% block staticfiles_javascript %} 
+  <!-- InputMask -->
+  <script src="{% static 'plugins/input-mask/jquery.inputmask.js' %}"></script>
+  <script src="{% static 'plugins/input-mask/jquery.inputmask.date.extensions.js' %}"></script>
+  <script src="{% static 'plugins/input-mask/jquery.inputmask.extensions.js' %}"></script>
+  <script>
+    $(function () {
+
+          // Máscaras
+          //Datemask dd/mm/yyyy
+          $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' });
+          $('[data-mask]').inputmask()    
+        })
+      </script>
+      {% endblock %} 

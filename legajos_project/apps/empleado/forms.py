@@ -11,8 +11,6 @@ class ImagenEmpleadoForm(forms.ModelForm):
 
 
 class EmpleadoForm(forms.ModelForm):
-	CHOICES = (('Femenino', 'Femenino'), ('Masculino', 'Masculino'))
-
 
 	class Meta:
 		model = Empleado

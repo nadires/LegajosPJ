@@ -317,16 +317,37 @@
             <!-- /.nav-tabs-custom -->
           </div>
           <!-- /.col -->
-          <div class="container">
-        <div class="clearfix separada">
-          {% if not empleado.borrado %}            
-            <a href="{% url 'empleado_delete' empleado.pk %}" class="btn btn-danger float-right separa_boton"><i class="fa fa-trash-o"></i> Eliminar</a>
-            <a href="{% url 'empleado_update' empleado.pk %}" class="btn btn-primary float-right separa_boton"><i class="fa fa-pencil"></i> Modificar</a>
-          {% else %}
-            <a href="" class="btn btn-primary float-right separa_boton"><i class="fa fa-repeat"></i> Restaurar</a>
-          {% endif %}
-        </div>
-      </div>
+            {% if empleado.borrado %}
+              <div class="col-md-12">
+                <div class="card card-danger">
+                  <div class="card-header">
+                    <h3 class="card-title">Datos de Baja</h3>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-3">
+                          <p><strong>Fecha de baja: </strong><span>{{empleado.fecha_baja|date:"d/m/Y"|default_if_none:""}}</span></p>
+                        </div>
+                        <div class="col-md-9">
+                          <p><strong>Motivo: </strong><span>{{empleado.motivo_baja|default_if_none:""}}</span></p>
+                        </div>
+                    </div>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+              </div>
+            {% endif %}
+
+            <div class="container">
+              <div class="clearfix separada">
+                {% if not empleado.borrado %}            
+                  <a href="{% url 'empleado_delete' empleado.pk %}" class="btn btn-danger float-right separa_boton"><i class="fa fa-trash-o"></i> Eliminar</a>
+                  <a href="{% url 'empleado_update' empleado.pk %}" class="btn btn-primary float-right separa_boton"><i class="fa fa-pencil"></i> Modificar</a>
+                {% else %}
+                  <a href="{% url 'empleado_restore' empleado.pk %}" class="btn btn-primary float-right separa_boton"><i class="fa fa-repeat"></i> Restaurar</a>
+                {% endif %}
+              </div>
+            </div>
         </div>
         <!-- /.row -->
 

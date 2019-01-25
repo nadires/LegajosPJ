@@ -6,6 +6,7 @@ from django.http import JsonResponse, HttpResponseRedirect
 from django.core import serializers
 import json
 from django.conf import settings
+from datetime import datetime
 
 from .models import Empleado, ImagenEmpleado
 from apps.util.models import Seccion
@@ -130,9 +131,37 @@ class EmpleadoDelete(DeleteView):
 		self.object = self.get_object()
 		self.object.borrado = True
 		self.object.activo = False
+		self.object.fecha_baja = datetime.strptime(request.POST.get('fecha_baja'), "%d/%m/%Y")
+		self.object.motivo_baja = request.POST.get('motivo')
+		# print(self.object.fecha_baja)
+		# Debería poner fecha de fin al cargo
 		self.object.save()
 		return HttpResponseRedirect(self.get_success_url())
 
+
+class EmpleadoRestore(UpdateView):
+	model = Empleado
+	form_class = EmpleadoForm
+	template_name = 'empleado/empleado_form.html'
+
+	def get_success_url(self, **kwargs):
+		return reverse_lazy('empleado_detail', args=[self.object.id])
+
+	def get_context_data(self, **kwargs):
+		context = super(EmpleadoRestore, self).get_context_data(**kwargs)	
+		context['titulo'] = "Restaurar Empleado"
+		context['EmpleadoRestore'] = True
+		return context
+
+	def form_valid(self, form):
+		user = self.request.user
+		instance = form.save(commit=False)
+		instance.modified_by = user
+		instance.activo = True
+		instance.borrado = False
+		instance.save()
+		form.save_m2m()
+		return super().form_valid(form)
 
 
 # class ListadoSeccionesView(View):

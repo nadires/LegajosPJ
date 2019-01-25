@@ -19,7 +19,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from apps.empleado.views import EmpleadoList, EmpleadoListDeletes, EmpleadoDetail, EmpleadoCreate, \
-                                EmpleadoUpdate, EmpleadoDelete, ImagenesEmpleadoView, EmpleadoPDF
+                                EmpleadoUpdate, EmpleadoDelete, EmpleadoRestore, \
+                                ImagenesEmpleadoView, EmpleadoPDF
 from apps.empleado.api.views import EmpleadoModelViewSet, EmpleadoViewSet, EmpleadoViewSetReadOnly, EmpleadoApiView
 from rest_framework.routers import DefaultRouter
 
@@ -37,6 +38,7 @@ urlpatterns = [
     path('modificar/<int:pk>', EmpleadoUpdate.as_view(), name="empleado_update"),
     path('eliminar/<int:pk>', EmpleadoDelete.as_view(), name="empleado_delete"),
     path('empleados-eliminados', EmpleadoListDeletes.as_view(), name="empleado_list_deletes"),
+    path('restaurar/<int:pk>', EmpleadoRestore.as_view(), name="empleado_restore"),
 
     path('<int:id_empleado>/<int:id_seccion>/', ImagenesEmpleadoView.as_view(), name='imagenes_empleado'),
     path('pdf/<int:pk>', EmpleadoPDF.as_view(), name="empleado_pdf"),
