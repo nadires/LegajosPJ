@@ -33,7 +33,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Total de Empleados Eliminados: {{listado_empleados_eliminados|length}}</h3>
+                <h3 class="card-title">Total de Empleados de Baja: {{listado_empleados_eliminados|length}}</h3>
 
                 <div class="card-tools">
                   
@@ -52,7 +52,7 @@
                 </thead>
                   <tbody id="cuerpo_tabla">
                   <div>
-                    {% for empleado in listado_empleados_eliminados %}
+                    {% for empleado in listado_empleados_baja %}
                     <tr>
                       <td><a href="{% url 'empleado_detail' empleado.id %}">{{ empleado.apellido }}, {{ empleado.nombre }}</a></td>
                       <td>{{ empleado.legajo }}</td>

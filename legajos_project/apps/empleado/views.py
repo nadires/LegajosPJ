@@ -31,19 +31,19 @@ class EmpleadoList(ListView):
 		return context
 
 
-class EmpleadoListDeletes(ListView):
+class EmpleadoListDowns(ListView):
 	'''
 		Muestra el listado de empleados eliminados
 	'''
 	model = Empleado
-	template_name = 'empleado/listado_empleados_eliminados.html'
-	context_object_name = 'listado_empleados_eliminados'
+	template_name = 'empleado/listado_empleados_baja.html'
+	context_object_name = 'listado_empleados_baja'
 	queryset = Empleado.objects.filter(borrado=True)
 
 	def get_context_data(self, **kwargs):
-		context = super(EmpleadoListDeletes, self).get_context_data(**kwargs)	
-		context['titulo'] = "Listado de Empleados Eliminados"
-		context['EmpleadoListDeletes'] = True
+		context = super(EmpleadoListDowns, self).get_context_data(**kwargs)	
+		context['titulo'] = "Listado de Empleados de Baja"
+		context['EmpleadoListDowns'] = True
 		return context
 
 
@@ -117,12 +117,12 @@ class EmpleadoUpdate(UpdateView):
 		return super().form_valid(form)
 
 
-class EmpleadoDelete(DeleteView):
+class EmpleadoDown(DeleteView):
 	model = Empleado
-	template_name = 'empleado/eliminar_empleado.html'
+	template_name = 'empleado/baja_empleado.html'
 	success_url = reverse_lazy('empleado_list')
 	context_object_name = 'empleado'
-	extra_context = {'EmpleadoDelete': True, 'titulo': 'Eliminar Empleado'}
+	extra_context = {'EmpleadoDown': True, 'titulo': 'Baja Empleado'}
 
 	def delete(self, request, *args, **kwargs):
 		"""

@@ -19,7 +19,7 @@
           <p> Inicio </p>
         </a>
       </li>
-      <li class="nav-item has-treeview {% if EmpleadoList or EmpleadoDetail or EmpleadoCreate or EmpleadoUpdate or EmpleadoDelete or EmpleadoListDeletes or EmpleadoRestore %}menu-open{% endif %}">
+      <li class="nav-item has-treeview {% if EmpleadoList or EmpleadoDetail or EmpleadoCreate or EmpleadoUpdate or EmpleadoDown or EmpleadoListDowns or EmpleadoRestore %}menu-open{% endif %}">
         <a href="#" class="nav-link">
           <i class="nav-icon fa fa-users"></i>
           <p>
@@ -41,9 +41,9 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{% url 'empleado_list_deletes' %}" class="nav-link {% if EmpleadoListDeletes %}activo{% endif %}">
+            <a href="{% url 'empleado_list_downs' %}" class="nav-link {% if EmpleadoListDowns %}activo{% endif %}">
               <i class="fa fa-minus-square-o"></i>
-              <p>Empleados Eliminados</p>
+              <p>Empleados de Baja</p>
             </a>
           </li>
         </ul>

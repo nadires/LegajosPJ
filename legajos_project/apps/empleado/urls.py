@@ -18,8 +18,8 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from apps.empleado.views import EmpleadoList, EmpleadoListDeletes, EmpleadoDetail, EmpleadoCreate, \
-                                EmpleadoUpdate, EmpleadoDelete, EmpleadoRestore, \
+from apps.empleado.views import EmpleadoList, EmpleadoListDowns, EmpleadoDetail, EmpleadoCreate, \
+                                EmpleadoUpdate, EmpleadoDown, EmpleadoRestore, \
                                 ImagenesEmpleadoView, EmpleadoPDF
 from apps.empleado.api.views import EmpleadoModelViewSet, EmpleadoViewSet, EmpleadoViewSetReadOnly, EmpleadoApiView
 from rest_framework.routers import DefaultRouter
@@ -36,8 +36,8 @@ urlpatterns = [
     path('<int:pk>/', EmpleadoDetail.as_view(), name="empleado_detail"),
     path('nuevo/', EmpleadoCreate.as_view(), name="empleado_create"),
     path('modificar/<int:pk>', EmpleadoUpdate.as_view(), name="empleado_update"),
-    path('eliminar/<int:pk>', EmpleadoDelete.as_view(), name="empleado_delete"),
-    path('empleados-eliminados', EmpleadoListDeletes.as_view(), name="empleado_list_deletes"),
+    path('baja/<int:pk>', EmpleadoDown.as_view(), name="empleado_down"),
+    path('empleados-eliminados', EmpleadoListDowns.as_view(), name="empleado_list_downs"),
     path('restaurar/<int:pk>', EmpleadoRestore.as_view(), name="empleado_restore"),
 
     path('<int:id_empleado>/<int:id_seccion>/', ImagenesEmpleadoView.as_view(), name='imagenes_empleado'),
