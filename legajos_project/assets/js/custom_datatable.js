@@ -3,7 +3,7 @@ $(document).ready( function () {
         paging: false,      // Oculto la paginacion
         "bInfo" : false,     // Oculto el "Showing 1 of N entries"
         "language": {
-          "emptyTable": "No hay datos cargados",
+          "emptyTable": "No hay elementos en la tabla",
           "zeroRecords": "No hay resultados en la búsqueda"
         }
     });
