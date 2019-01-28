@@ -98,6 +98,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/

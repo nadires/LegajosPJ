@@ -14,6 +14,27 @@
     <section class="content content_principal">
       <div class="container-fluid">
 
+        {% if messages %}
+        <div class="row">
+          <div class="col-md-12">
+            {% for m in messages %}
+            <div class="card bg-success-gradient">
+              <div class="card-header">
+                <h3 class="card-title">{{ m }}</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-widget="remove"><i class="fa fa-times"></i>
+                  </button>
+                </div>
+                <!-- /.card-tools -->
+              </div>
+              <!-- /.card-header -->
+            </div>
+            {% endfor %}  
+          </div>
+        </div>
+        {% endif %}
+        
         <div class="row">
               <div class="col-md-9">
                   <div id="custom-search-input">

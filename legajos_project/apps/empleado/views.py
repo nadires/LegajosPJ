@@ -17,6 +17,9 @@ from easy_pdf.views import PDFTemplateResponseMixin
 from dal import autocomplete
 from django.utils.html import format_html
 
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
+
 
 class EmpleadoList(ListView):
 	model = Empleado
@@ -70,10 +73,11 @@ class EmpleadoDetail(DetailView):
 		return context
 
 
-class EmpleadoCreate(CreateView):
+class EmpleadoCreate(SuccessMessageMixin, CreateView):
 	model = Empleado
 	form_class = EmpleadoForm
 	template_name = 'empleado/empleado_form.html'
+	success_message = "¡%(calculated_field)s con éxito!"
 
 	def get_success_url(self, **kwargs):
 		return reverse_lazy('empleado_detail', args=[self.object.id])
@@ -93,11 +97,23 @@ class EmpleadoCreate(CreateView):
 		form.save_m2m()
 		return super().form_valid(form)
 
+	def get_success_message(self, cleaned_data):
+		mensaje = ''
+		if self.object.sexo == 'M':
+			mensaje = 'El empleado '+self.object.nombre+' '+self.object.apellido+' fue agregado'
+		else:
+			mensaje = 'La empleada '+self.object.nombre+' '+self.object.apellido+' fue agregada'
+		return self.success_message % dict(
+			cleaned_data,
+			calculated_field = mensaje,
+		)
 
-class EmpleadoUpdate(UpdateView):
+
+class EmpleadoUpdate(SuccessMessageMixin, UpdateView):
 	model = Empleado
 	form_class = EmpleadoForm
 	template_name = 'empleado/empleado_form.html'
+	success_message = "¡%(calculated_field)s con éxito!"
 
 	def get_success_url(self, **kwargs):
 		return reverse_lazy('empleado_detail', args=[self.object.id])
@@ -115,6 +131,17 @@ class EmpleadoUpdate(UpdateView):
 		instance.save()
 		form.save_m2m()
 		return super().form_valid(form)
+
+	def get_success_message(self, cleaned_data):
+		mensaje = ''
+		if self.object.sexo == 'M':
+			mensaje = 'El empleado '+self.object.nombre+' '+self.object.apellido+' fue actualizado'
+		else:
+			mensaje = 'La empleada '+self.object.nombre+' '+self.object.apellido+' fue actualizada'
+		return self.success_message % dict(
+			cleaned_data,
+			calculated_field = mensaje,
+		)
 
 
 class EmpleadoDown(DeleteView):
@@ -136,13 +163,20 @@ class EmpleadoDown(DeleteView):
 		# print(self.object.fecha_baja)
 		# Debería poner fecha de fin al cargo
 		self.object.save()
+		mensaje = ''
+		if self.object.sexo == 'M':
+			mensaje = '¡El empleado '+self.object.nombre+' '+self.object.apellido+' fue dado de baja con éxito!'
+		else:
+			mensaje = '¡La empleada '+self.object.nombre+' '+self.object.apellido+' fue dada de baja con éxito!'
+		messages.success(self.request, mensaje)
 		return HttpResponseRedirect(self.get_success_url())
 
 
-class EmpleadoRestore(UpdateView):
+class EmpleadoRestore(SuccessMessageMixin, UpdateView):
 	model = Empleado
 	form_class = EmpleadoForm
 	template_name = 'empleado/empleado_form.html'
+	success_message = "¡%(calculated_field)s con éxito!"
 
 	def get_success_url(self, **kwargs):
 		return reverse_lazy('empleado_detail', args=[self.object.id])
@@ -162,6 +196,17 @@ class EmpleadoRestore(UpdateView):
 		instance.save()
 		form.save_m2m()
 		return super().form_valid(form)
+
+	def get_success_message(self, cleaned_data):
+		mensaje = ''
+		if self.object.sexo == 'M':
+			mensaje = 'El empleado '+self.object.nombre+' '+self.object.apellido+' fue restaurado'
+		else:
+			mensaje = 'La empleada '+self.object.nombre+' '+self.object.apellido+' fue restaurada'
+		return self.success_message % dict(
+			cleaned_data,
+			calculated_field = mensaje,
+		)
 
 
 # class ListadoSeccionesView(View):
