@@ -1,7 +1,7 @@
 from django import forms
 from dal import autocomplete
 
-from .models import Empleado, ImagenEmpleado
+from .models import Empleado, Cargo, ImagenEmpleado
 
 
 class ImagenEmpleadoForm(forms.ModelForm):
@@ -45,5 +45,28 @@ class EmpleadoForm(forms.ModelForm):
 			'legajo' : forms.NumberInput(attrs={'class':'form-control', 'placeholder': 'Número de legajo'}),
 			'fecha_ingreso' : forms.DateInput(attrs={'class':'form-control', 'placeholder': 'dd/mm/yyyy', 'data-inputmask': "'alias': 'dd/mm/yyyy'", 'data-mask': ''}),
 			'horario': forms.Select(attrs={'class': 'form-control'}),
+			# 'familiares': autocomplete.ModelSelect2Multiple(url='familiar-autocomplete', attrs={'class':'form-control', 'data-html': True})
+		}
+
+
+class CargoForm(forms.ModelForm):
+
+	class Meta:
+		model = Cargo
+		exclude = ['actual']
+
+		widgets = {
+			'cargo' : forms.Select(attrs={'class': 'form-control'}),
+			'nivel' : forms.Select(attrs={'class': 'form-control'}),
+			'agrupamiento': forms.Select(attrs={'class': 'form-control'}),
+			'situacion' : forms.Select(attrs={'class': 'form-control'}),
+			'jurisdiccion' : forms.Select(attrs={'class': 'form-control'}),
+			'fecha_ingreso_cargo': forms.DateInput(attrs={'class':'form-control', 'placeholder': 'dd/mm/yyyy', 'data-inputmask': "'alias': 'dd/mm/yyyy'", 'data-mask': ''}),
+			'fecha_fin_cargo': forms.DateInput(attrs={'class':'form-control', 'placeholder': 'dd/mm/yyyy', 'data-inputmask': "'alias': 'dd/mm/yyyy'", 'data-mask': ''}),
+			'fecha_vencimiento_cargo' : forms.DateInput(attrs={'class':'form-control', 'placeholder': 'dd/mm/yyyy', 'data-inputmask': "'alias': 'dd/mm/yyyy'", 'data-mask': ''}),
+			'instrumento_legal' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Ej: 4400'}),
+			'tipo_instrumento_legal' : forms.Select(attrs={'class': 'form-control'}),
+			'fecha_instr_legal' : forms.DateInput(attrs={'class':'form-control', 'placeholder': 'dd/mm/yyyy', 'data-inputmask': "'alias': 'dd/mm/yyyy'", 'data-mask': ''}),
+			
 			# 'familiares': autocomplete.ModelSelect2Multiple(url='familiar-autocomplete', attrs={'class':'form-control', 'data-html': True})
 		}

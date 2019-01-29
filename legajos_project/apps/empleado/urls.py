@@ -19,7 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from apps.empleado.views import EmpleadoList, EmpleadoListDowns, EmpleadoDetail, EmpleadoCreate, \
-                                EmpleadoUpdate, EmpleadoDown, EmpleadoRestore, \
+                                EmpleadoUpdate, EmpleadoDown, EmpleadoRestore, CargoCreate,\
                                 ImagenesEmpleadoView, EmpleadoPDF
 from apps.empleado.api.views import EmpleadoModelViewSet, EmpleadoViewSet, EmpleadoViewSetReadOnly, EmpleadoApiView
 from rest_framework.routers import DefaultRouter
@@ -32,6 +32,7 @@ router.register('viewset/<int:pk>',EmpleadoViewSet, basename='empleadoviewset')
 router.register('viewset/<string:apellido>',EmpleadoViewSet, basename='empleadoviewset')
 
 urlpatterns = [
+#----------------------------------- EMPLEADO -----------------------------------------
     path('', EmpleadoList.as_view(), name="empleado_list"),
     path('<int:pk>/', EmpleadoDetail.as_view(), name="empleado_detail"),
     path('nuevo/', EmpleadoCreate.as_view(), name="empleado_create"),
@@ -40,6 +41,10 @@ urlpatterns = [
     path('empleados-eliminados', EmpleadoListDowns.as_view(), name="empleado_list_downs"),
     path('restaurar/<int:pk>', EmpleadoRestore.as_view(), name="empleado_restore"),
 
+#----------------------------------- CARGO -----------------------------------------
+    path('<int:pk>/nuevo-cargo/', CargoCreate.as_view(), name="cargo_create"),
+
+#----------------------------------- OTROS -----------------------------------------
     path('<int:id_empleado>/<int:id_seccion>/', ImagenesEmpleadoView.as_view(), name='imagenes_empleado'),
     path('pdf/<int:pk>', EmpleadoPDF.as_view(), name="empleado_pdf"),
 

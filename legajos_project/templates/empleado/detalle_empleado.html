@@ -27,7 +27,7 @@
             </div>
         </div>
       {% endif %}
-      
+
       <div class="row">
           <div class="col-md-3">
 
@@ -47,7 +47,7 @@
 
                 <h3 class="profile-username text-center">{{empleado.apellido|default_if_none:""}} {{empleado.nombre|default_if_none:""}}</h3>
 
-                <p class="text-muted text-center">{{ empleado.cargo|default_if_none:"" }}</p>
+                <p class="text-muted text-center">{{ cargo|default_if_none:"" }}</p>
 
                 <strong><i class="fa fa-folder"></i> N° Legajo</strong>
 
@@ -266,53 +266,69 @@
 
                     <hr>
 
+                    {% if not cargo %}
+                      <div class="alert alert-danger alert-dismissible">
+                        El empleado no posee Cargo, por favor agregue un nuevo cargo
+                      </div>
+                    {% endif %}
+
                     <div class="row">
                       <div class="col-md-12">
-                        <p><strong><i class="fa fa-briefcase"></i> Cargo: </strong><span class="texto_grande">{{empleado.cargo|default_if_none:""}}</span></p>
+                        <p><strong><i class="fa fa-briefcase"></i> Cargo: </strong><span class="texto_grande">{{cargo|default_if_none:""}}</span></p>
                       </div>
                     </div>
 
                     <div class="row">
                       <div class="col-md-6">
-                        <p><strong>Nivel: </strong><span class="texto_detalle">{{empleado.cargo.nivel|default_if_none:""}}</span></p>
+                        <p><strong>Nivel: </strong><span class="texto_detalle">{{cargo.nivel|default_if_none:""}}</span></p>
                       </div>
                       <div class="col-md-6">
-                        <p><strong>Agrupamiento: </strong><span class="texto_detalle">{{empleado.cargo.agrupamiento|default_if_none:""}}</span></p>
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-md-6">
-                        <p><strong>Situación laboral: </strong><span class="texto_detalle">{{empleado.cargo.get_situacion_display|default_if_none:""}}</span></p>
-                      </div>
-                      <div class="col-md-6">
-                        <p><strong>Jurisdicción: </strong><span class="texto_detalle">{{empleado.cargo.get_jurisdiccion_display|default_if_none:""}}</span></p>
+                        <p><strong>Agrupamiento: </strong><span class="texto_detalle">{{cargo.agrupamiento|default_if_none:""}}</span></p>
                       </div>
                     </div>
 
                     <div class="row">
                       <div class="col-md-6">
-                        <p><strong><i class="fa fa-calendar"></i> Fecha de ingreso al cargo: </strong><span class="texto_detalle">{{empleado.cargo.fecha_ingreso_cargo|date:"d/m/Y"|default_if_none:""}}</span></p>
+                        <p><strong>Situación laboral: </strong><span class="texto_detalle">{{cargo.get_situacion_display|default_if_none:""}}</span></p>
                       </div>
-                      {% if empleado.cargo.fecha_vencimiento_cargo %}
                       <div class="col-md-6">
-                        <p><strong><i class="fa fa-calendar"></i> Fecha de vencimiento del cargo: </strong><span class="texto_detalle">{{empleado.cargo.fecha_vencimiento_cargo|date:"d/m/Y"|default_if_none:""}}</span></p>
+                        <p><strong>Jurisdicción: </strong><span class="texto_detalle">{{cargo.get_jurisdiccion_display|default_if_none:""}}</span></p>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p><strong><i class="fa fa-calendar"></i> Fecha de ingreso al cargo: </strong><span class="texto_detalle">{{cargo.fecha_ingreso_cargo|date:"d/m/Y"|default_if_none:""}}</span></p>
+                      </div>
+                      {% if cargo.fecha_vencimiento_cargo %}
+                      <div class="col-md-6">
+                        <p><strong><i class="fa fa-calendar"></i> Fecha de vencimiento del cargo: </strong><span class="texto_detalle">{{cargo.fecha_vencimiento_cargo|date:"d/m/Y"|default_if_none:""}}</span></p>
                       </div>
                       {% endif %}
                     </div>
 
                     <div class="row">
                       <div class="col-md-4">
-                        <p><strong>Tipo Intr. legal: </strong><span>{{empleado.cargo.tipo_intrumento_legal|default_if_none:""}}</span></p>
+                        <p><strong>Tipo Intr. legal: </strong><span>{{cargo.tipo_instrumento_legal|default_if_none:""}}</span></p>
                       </div>
                       <div class="col-md-4">
-                        <p><strong>Instrumento legal: </strong><span>{{empleado.cargo.instrumento_legal|default_if_none:""}}</span></p>
+                        <p><strong>Instrumento legal: </strong><span>{{cargo.instrumento_legal|default_if_none:""}}</span></p>
                       </div>
                       <div class="col-md-4">
-                        <p><strong><i class="fa fa-calendar"></i> Fecha Instr. legal: </strong><span>{{empleado.cargo.fecha_instr_legal|date:"d/m/Y"|default_if_none:""}}</span></p>
+                        <p><strong><i class="fa fa-calendar"></i> Fecha Instr. legal: </strong><span>{{cargo.fecha_instr_legal|date:"d/m/Y"|default_if_none:""}}</span></p>
                       </div>
                     </div>
 
+                    <div class="container">
+                      <div class="clearfix separada">          
+                          <a href="{% url 'cargo_create' empleado.pk %}" class="btn btn-success  separa_boton"><i class="fa fa-plus"></i> Agregar nuevo cargo</a>
+                          {% if cargo %}
+                          <a href="{% url 'empleado_update' empleado.pk %}" class="btn btn-primary  separa_boton"><i class="fa fa-pencil"></i> Modificar cargo existente</a>
+                          {% endif %}
+                      </div>
+                    </div>
+
+                    <hr>
                     
                   </div>
                   <!-- /.tab-pane -->
@@ -368,7 +384,7 @@
               <div class="clearfix separada">
                 {% if not empleado.borrado %}            
                   <a href="{% url 'empleado_down' empleado.pk %}" class="btn btn-danger float-right separa_boton"><i class="fa fa-arrow-down"></i> Dar de baja</a>
-                  <a href="{% url 'empleado_update' empleado.pk %}" class="btn btn-primary float-right separa_boton"><i class="fa fa-pencil"></i> Modificar</a>
+                  <a href="{% url 'empleado_update' empleado.pk %}" class="btn btn-primary float-right separa_boton"><i class="fa fa-pencil"></i> Modificar datos personales</a>
                 {% else %}
                   <a href="{% url 'empleado_restore' empleado.pk %}" class="btn btn-primary float-right separa_boton"><i class="fa fa-repeat"></i> Restaurar</a>
                 {% endif %}

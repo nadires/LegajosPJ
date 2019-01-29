@@ -1,7 +1,15 @@
 from django.contrib import admin
 
 from .models import Empleado, ImagenEmpleado, HorarioLaboral, \
-                    Cargo, TipoCargo, NivelCargo, AgrupamientoCargo, TipoIntrumentoLegalCargo
+                    Cargo, TipoCargo, NivelCargo, AgrupamientoCargo, TipoInstrumentoLegalCargo
+
+from django.contrib.contenttypes.admin import GenericTabularInline
+
+
+class CargoInline(GenericTabularInline):
+    model = Cargo
+    extra = 1
+
 
 class EmpleadosAdmin(admin.ModelAdmin):
     list_display = ('get_nombre_completo', 'cuil', 'legajo', 'activo', 'borrado')
@@ -16,9 +24,13 @@ class EmpleadosAdmin(admin.ModelAdmin):
         ('Domicilio', {'fields': ('domicilio', 'barrio', 'piso', 'dpto', 
                                     'localidad', 'cod_postal', 'departamento', 'provincia')}),
         ('Datos Laborales', {'fields': ('legajo', 'fecha_ingreso', 
-                                'estado_laboral', 'fecha_cambio_estado_lab', 'horario', 'cargo')}),
+                                'estado_laboral', 'fecha_cambio_estado_lab', 'horario')}),
         ('Datos Extras', {'fields': ('fecha_baja', 'motivo_baja', 'created_on', 'created_by', 'modified_on', 'modified_by', 
                             'activo', 'borrado')}),
+    )
+
+    inlines = (
+        CargoInline,
     )
 
     search_fields = ('apellido', 'nombre', 'activo', 'borrado')
@@ -62,4 +74,4 @@ admin.site.register(Cargo)
 admin.site.register(TipoCargo)
 admin.site.register(NivelCargo)
 admin.site.register(AgrupamientoCargo)
-admin.site.register(TipoIntrumentoLegalCargo)
+admin.site.register(TipoInstrumentoLegalCargo)

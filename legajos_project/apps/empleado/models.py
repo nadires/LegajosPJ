@@ -5,6 +5,10 @@ from apps.core.models import Signature
 
 from apps.util.models import Seccion, AbstractDireccion
 
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericRelation
+
 class HorarioLaboral(models.Model):
 	ingreso = models.TimeField()
 	salida = models.TimeField()
@@ -56,7 +60,7 @@ class AgrupamientoCargo(models.Model):
 		verbose_name_plural = ('Agrupamientos Cargos')
 
 
-class TipoIntrumentoLegalCargo(models.Model):
+class TipoInstrumentoLegalCargo(models.Model):
 	#Resolucion, Pleno, Decreto, Acordada, etc.
 	tipo_instrumento = models.TextField()
 
@@ -91,8 +95,18 @@ class Cargo(models.Model):
 	fecha_fin_cargo = models.DateField('Fecha de fin del cargo', blank=True, null=True)
 	fecha_vencimiento_cargo = models.DateField('Fecha de vencimiento del cargo', blank=True, null=True)
 	instrumento_legal = models.CharField(max_length=20)
-	tipo_intrumento_legal = models.ForeignKey(TipoIntrumentoLegalCargo, on_delete=models.SET_NULL, related_name="cargos_instrumento", null=True)
+	tipo_instrumento_legal = models.ForeignKey(TipoInstrumentoLegalCargo, on_delete=models.SET_NULL, related_name="cargos_instrumento", null=True)
 	fecha_instr_legal = models.DateField('Fecha de instrumento legal', blank=True, null=True)
+	actual = models.BooleanField(default=True)
+
+	content_type = models.ForeignKey(
+		ContentType, 
+		limit_choices_to={'model__in': ('empleado')}, 
+		on_delete=models.CASCADE,
+		null=True, blank=True
+	)
+	object_id = models.PositiveIntegerField(null=True, blank=True)
+	content_object = GenericForeignKey('content_type', 'object_id')
 
 	def __str__(self):
 		return self.cargo.tipo_cargo
@@ -150,7 +164,8 @@ class Empleado(Signature, AbstractDireccion):
 	fecha_cambio_estado_lab = models.DateField('Fecha de cambio de Estado Laboral',  default=date.today, blank=True, null=True)
 	horario = models.ForeignKey(HorarioLaboral, on_delete=models.SET_NULL, related_name="empleados_horario", blank=True, null=True)
 
-	cargo = models.ForeignKey(Cargo, on_delete=models.SET_NULL, related_name="empleados_cargo", blank=True, null=True)
+	# cargo = models.ForeignKey(Cargo, on_delete=models.SET_NULL, related_name="empleados_cargo", blank=True, null=True)
+	cargo = GenericRelation(Cargo, related_query_name='empleados')
 
 	fecha_baja = models.DateField('Fecha de baja', blank=True, null=True)
 	motivo_baja = models.TextField('Motivo de baja', blank=True)
