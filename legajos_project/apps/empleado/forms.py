@@ -2,6 +2,7 @@ from django import forms
 from dal import autocomplete
 
 from .models import Empleado, Cargo, ImagenEmpleado
+from datetime import datetime, timedelta 
 
 
 class ImagenEmpleadoForm(forms.ModelForm):
@@ -50,7 +51,7 @@ class EmpleadoForm(forms.ModelForm):
 
 
 class CargoForm(forms.ModelForm):
-	fecha_fin_cargo_anterior = forms.DateField(widget=forms.DateInput(attrs={'class':'form-control', 'placeholder': 'dd/mm/yyyy', 'data-inputmask': "'alias': 'dd/mm/yyyy'", 'data-mask': ''}))
+	fecha_fin_cargo_anterior = forms.DateField(required=False, widget=forms.DateInput(attrs={'class':'form-control', 'placeholder': 'dd/mm/yyyy', 'data-inputmask': "'alias': 'dd/mm/yyyy'", 'data-mask': ''}))
 
 	class Meta:
 		model = Cargo
@@ -75,6 +76,9 @@ class CargoForm(forms.ModelForm):
 		# Valida que la fecha de fin de cargo anterior sea menor a la de ingreso al nuevo cargo
 		fecha_fin_cargo_anterior = self.cleaned_data.get("fecha_fin_cargo_anterior")
 		fecha_ingreso_cargo = self.cleaned_data.get("fecha_ingreso_cargo")
-		if fecha_fin_cargo_anterior and fecha_ingreso_cargo and fecha_fin_cargo_anterior >= fecha_ingreso_cargo:
-			raise forms.ValidationError("La fecha de fin del cargo anterior debe ser menor que la fecha de ingreso al nuevo cargo")
+		if fecha_fin_cargo_anterior:
+			if fecha_ingreso_cargo and fecha_fin_cargo_anterior >= fecha_ingreso_cargo:
+				raise forms.ValidationError("La fecha de fin del cargo anterior debe ser menor que la fecha de ingreso al nuevo cargo")
+		else:
+			fecha_fin_cargo_anterior = fecha_ingreso_cargo + timedelta(days=-1)
 		return fecha_fin_cargo_anterior

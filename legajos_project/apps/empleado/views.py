@@ -238,7 +238,6 @@ class CargoCreate(SuccessMessageMixin, CreateView):
 			cargo = Cargo.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
 		except Cargo.DoesNotExist:
 			cargo = None
-		print(cargo)
 		context['cargo'] = cargo
 		context['titulo'] = "Agregar Cargo"
 		context['CargoCreate'] = True
@@ -256,6 +255,8 @@ class CargoCreate(SuccessMessageMixin, CreateView):
 			# Busco el cargo anterior para ponerle actual = False, ya que el nuevo cargo será el actual
 			cargo_anterior = Cargo.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
 			cargo_anterior.actual = False
+			if self.request.POST.get('fecha_fin_cargo_anterior'):
+				cargo_anterior.fecha_fin_cargo = datetime.strptime(self.request.POST.get('fecha_fin_cargo_anterior'), "%d/%m/%Y")
 			cargo_anterior.save()
 		except Cargo.DoesNotExist:
 			cargo = None
