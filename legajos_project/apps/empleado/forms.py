@@ -20,24 +20,24 @@ class EmpleadoForm(forms.ModelForm):
 				'legajo', 'fecha_ingreso', 'horario')
 
 		widgets = {
-			'apellido' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Apellido completo'}),
-			'nombre' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Nombre completo'}),
+			'apellido' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Apellido completo', 'autocomplete':'off'}),
+			'nombre' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Nombre completo', 'autocomplete':'off'}),
 			'tipo_doc': forms.Select(attrs={'class': 'form-control'}),
 			'documento' : forms.NumberInput(attrs={'class':'form-control', 'placeholder': 'Número de documento'}),
-			'cuil' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Número de CUIL'}),
+			'cuil' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Número de CUIL', 'autocomplete':'off'}),
 			'sexo': forms.RadioSelect(attrs={'class': 'form-control flat-blue'}),
 			'estado_civil': forms.Select(attrs={'class': 'form-control'}),
-			'nacionalidad' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Nacionalidad', 'value': 'Argentino'}),
+			'nacionalidad' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Nacionalidad', 'value': 'Argentino', 'autocomplete':'off'}),
 			'fecha_nac' : forms.DateInput(attrs={'class':'form-control', 'placeholder': 'dd/mm/yyyy', 'data-inputmask': "'alias': 'dd/mm/yyyy'", 'data-mask': ''}),
-			'lugar_nac' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Lugar de nacimiento', 'value': 'Argentina'}),
+			'lugar_nac' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Lugar de nacimiento', 'value': 'Argentina', 'autocomplete':'off'}),
 			'tel_fijo' : forms.NumberInput(attrs={'class':'form-control', 'placeholder': 'Teléfono fijo'}),
 			'tel_cel' : forms.NumberInput(attrs={'class':'form-control', 'placeholder': 'Teléfono celular'}),
-			'email' : forms.EmailInput(attrs={'class':'form-control', 'placeholder': 'E-mail'}),
-			'domicilio' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Domicilio'}),
-			'barrio' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Barrio'}),
-			'piso' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Piso'}),
-			'dpto' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'N° Dpto'}),
-			'localidad' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Localidad'}),
+			'email' : forms.EmailInput(attrs={'class':'form-control', 'placeholder': 'E-mail', 'autocomplete':'off'}),
+			'domicilio' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Domicilio', 'autocomplete':'off'}),
+			'barrio' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Barrio', 'autocomplete':'off'}),
+			'piso' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Piso', 'autocomplete':'off'}),
+			'dpto' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'N° Dpto', 'autocomplete':'off'}),
+			'localidad' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Localidad', 'autocomplete':'off'}),
 			'cod_postal' : forms.NumberInput(attrs={'class':'form-control', 'placeholder': 'Código Postal'}),
 			'departamento': forms.Select(attrs={'class': 'form-control'}),
 			'provincia': forms.Select(attrs={'class': 'form-control'}),
@@ -50,6 +50,7 @@ class EmpleadoForm(forms.ModelForm):
 
 
 class CargoForm(forms.ModelForm):
+	fecha_fin_cargo_anterior = forms.DateField(widget=forms.DateInput(attrs={'class':'form-control', 'placeholder': 'dd/mm/yyyy', 'data-inputmask': "'alias': 'dd/mm/yyyy'", 'data-mask': ''}))
 
 	class Meta:
 		model = Cargo
@@ -62,11 +63,18 @@ class CargoForm(forms.ModelForm):
 			'situacion' : forms.Select(attrs={'class': 'form-control'}),
 			'jurisdiccion' : forms.Select(attrs={'class': 'form-control'}),
 			'fecha_ingreso_cargo': forms.DateInput(attrs={'class':'form-control', 'placeholder': 'dd/mm/yyyy', 'data-inputmask': "'alias': 'dd/mm/yyyy'", 'data-mask': ''}),
-			'fecha_fin_cargo': forms.DateInput(attrs={'class':'form-control', 'placeholder': 'dd/mm/yyyy', 'data-inputmask': "'alias': 'dd/mm/yyyy'", 'data-mask': ''}),
 			'fecha_vencimiento_cargo' : forms.DateInput(attrs={'class':'form-control', 'placeholder': 'dd/mm/yyyy', 'data-inputmask': "'alias': 'dd/mm/yyyy'", 'data-mask': ''}),
-			'instrumento_legal' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Ej: 4400'}),
+			'instrumento_legal' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Ej: 4400', 'autocomplete':'off'}),
 			'tipo_instrumento_legal' : forms.Select(attrs={'class': 'form-control'}),
 			'fecha_instr_legal' : forms.DateInput(attrs={'class':'form-control', 'placeholder': 'dd/mm/yyyy', 'data-inputmask': "'alias': 'dd/mm/yyyy'", 'data-mask': ''}),
 			
 			# 'familiares': autocomplete.ModelSelect2Multiple(url='familiar-autocomplete', attrs={'class':'form-control', 'data-html': True})
 		}
+
+	def clean_fecha_fin_cargo_anterior(self):
+		# Valida que la fecha de fin de cargo anterior sea menor a la de ingreso al nuevo cargo
+		fecha_fin_cargo_anterior = self.cleaned_data.get("fecha_fin_cargo_anterior")
+		fecha_ingreso_cargo = self.cleaned_data.get("fecha_ingreso_cargo")
+		if fecha_fin_cargo_anterior and fecha_ingreso_cargo and fecha_fin_cargo_anterior >= fecha_ingreso_cargo:
+			raise forms.ValidationError("La fecha de fin del cargo anterior debe ser menor que la fecha de ingreso al nuevo cargo")
+		return fecha_fin_cargo_anterior

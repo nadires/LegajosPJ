@@ -120,6 +120,39 @@
                               <p><strong><i class="fa fa-calendar"></i> Fecha Instr. legal: </strong><span>{{cargo.fecha_instr_legal|date:"d/m/Y"|default_if_none:""}}</span></p>
                             </div>
                           </div>
+
+                          <hr>
+
+                          <!-- <div class="row">
+                            <div class="col-md-6">
+                              <label for="exampleInputEmail1">Fecha de fin del cargo anterior</label>
+                              <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                </div>
+                                <input type="text" name="fecha_fin_cargo_anterior" class="form-control" placeholder="dd/mm/yyyy" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="" id="fecha_fin_cargo_anterior">
+                              </div>
+                            </div>
+                          </div>  -->
+                          <div class="row">
+                            <div class="col-md-6">
+                              <label for="exampleInputEmail1">Fecha de fin del cargo anterior 2</label>
+                              <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                </div>
+                                {{form.fecha_fin_cargo_anterior}}
+                              </div>
+                            </div>
+                          </div>
+                          {% if form.fecha_fin_cargo_anterior.errors%}
+                          <div class="row">
+                            <div class="col-md-6">
+                              <label class="text-danger">{{ form.fecha_fin_cargo_anterior.errors }}</label>
+                            </div>
+                          </div>
+                          {% endif %}
+                   
                         </div>
                         <!-- /.card-body -->
                       </div>
