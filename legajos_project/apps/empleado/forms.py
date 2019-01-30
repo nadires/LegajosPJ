@@ -38,7 +38,7 @@ class EmpleadoForm(forms.ModelForm):
 			'barrio' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Barrio', 'autocomplete':'off'}),
 			'piso' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Piso', 'autocomplete':'off'}),
 			'dpto' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'N° Dpto', 'autocomplete':'off'}),
-			'localidad' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Localidad', 'autocomplete':'off'}),
+			'localidad' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Localidad'}),
 			'cod_postal' : forms.NumberInput(attrs={'class':'form-control', 'placeholder': 'Código Postal'}),
 			'departamento': forms.Select(attrs={'class': 'form-control'}),
 			'provincia': forms.Select(attrs={'class': 'form-control'}),
