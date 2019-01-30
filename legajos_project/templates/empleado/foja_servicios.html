@@ -1,0 +1,140 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+<!-- Main content -->
+<section class="content content_principal">
+  <div class="container-fluid">
+
+      <div class="row">
+          <div class="col-md-3">
+            <!-- Profile Image -->
+            <div class="card card-primary card-outline">
+              <div class="card-body box-profile">
+                <div class="text-center">
+                  <img class="profile-user-img img-fluid img-circle"
+                       src="{% static 'images/perfil.png' %}"
+                       alt="User profile picture">
+                </div>
+
+                <h3 class="profile-username text-center">{{empleado.apellido|default_if_none:""}} {{empleado.nombre|default_if_none:""}}</h3>
+
+                <p class="text-muted text-center">{{ cargo|default_if_none:"" }}</p>
+
+                <strong><i class="fa fa-folder"></i> N° Legajo</strong>
+
+                <p class="text-muted">
+                  <h1>
+                  {{empleado.legajo|default_if_none:""}}
+                  </h1>
+                </p>
+
+                <hr>
+
+                <strong><i class="fa fa-map-marker mr-1"></i> Domicilio</strong>
+
+                <p class="text-muted">{{empleado.domicilio|default_if_none:""}}, {{empleado.localidad|default_if_none:""}}, {{empleado.get_departamento_display|default_if_none:""}}, {{empleado.get_provincia_display|default_if_none:""}}</p>
+
+                <hr>
+
+                <strong><i class="fa fa-phone"></i> Teléfono/s</strong>
+
+                <p class="text-muted">{{empleado.tel_fijo|default_if_none:""}} 
+                {% if empleado.tel_fijo and empleado.tel_cel %}-{% endif %} 
+                {{empleado.tel_cel|default_if_none:""}}</p>
+
+                <hr>
+
+                <strong><i class="fa fa-envelope"></i> Email</strong>
+
+                <p class="text-muted">{{empleado.email|default_if_none:""}}</p>
+
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+          <div class="col-md-9">
+            <div class="card card-info">
+              <div class="card-header">
+                <h3 class="card-title">Foja de Servicios</h3>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                    <!-- The timeline -->
+                    <ul class="timeline timeline-inverse">
+                      {% for cargo in cargos %}
+                      <!-- timeline time label -->
+                      <li class="time-label">
+                        <span class="{% if cargo.actual %}bg-success {% else %}bg-danger{% endif %}">
+                          {{cargo.fecha_ingreso_cargo|default_if_none:""}}
+                        </span>
+                      </li>
+                      <!-- /.timeline-label -->
+                      <!-- timeline item -->
+                      <li>
+                        <i class="fa fa-address-card-o bg-primary"></i>
+
+                        <div class="timeline-item">
+
+                          <h3 class="timeline-header text-bold">nombre del cargo</h3>
+
+                          <div class="timeline-body">
+                            <div class="row">
+                            <div class="col-md-6">
+                              <p><strong>Nivel: </strong><span class="texto_detalle">{{cargo.nivel|default_if_none:""}}</span></p>
+                            </div>
+                            <div class="col-md-6">
+                              <p><strong>Agrupamiento: </strong><span class="texto_detalle">{{cargo.agrupamiento|default_if_none:""}}</span></p>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-6">
+                              <p><strong>Situación laboral: </strong><span class="texto_detalle">{{cargo.get_situacion_display|default_if_none:""}}</span></p>
+                            </div>
+                            <div class="col-md-6">
+                              <p><strong>Jurisdicción: </strong><span class="texto_detalle">{{cargo.get_jurisdiccion_display|default_if_none:""}}</span></p>
+                            </div>
+                          </div>
+                          {% if cargo.fecha_vencimiento_cargo %}
+                          <div class="row"> 
+                            <div class="col-md-6">
+                              <p><strong><i class="fa fa-calendar"></i> Fecha de vencimiento del cargo: </strong><span class="texto_detalle">{{cargo.fecha_vencimiento_cargo|date:"d/m/Y"|default_if_none:""}}</span></p>
+                            </div>
+                          </div>
+                          {% endif %}
+
+                          <div class="row">
+                            <div class="col-md-4">
+                              <p><strong>Tipo Intr. legal: </strong><span>{{cargo.tipo_instrumento_legal|default_if_none:""}}</span></p>
+                            </div>
+                            <div class="col-md-4">
+                              <p><strong>Instrumento legal: </strong><span>{{cargo.instrumento_legal|default_if_none:""}}</span></p>
+                            </div>
+                            <div class="col-md-4">
+                              <p><strong><i class="fa fa-calendar"></i> Fecha Instr. legal: </strong><span>{{cargo.fecha_instr_legal|date:"d/m/Y"|default_if_none:""}}</span></p>
+                            </div>
+                          </div>
+                          </div>
+                        </div>
+                      </li>
+                      <!-- END timeline item -->
+                      {% endfor %}
+                    </ul>
+              </div><!-- /.card-body -->
+            </div>
+            <!-- /.nav-tabs-custom -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+
+
+  </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+{% endblock %} 
+

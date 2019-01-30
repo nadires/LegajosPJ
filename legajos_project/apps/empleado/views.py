@@ -267,6 +267,21 @@ class CargoCreate(SuccessMessageMixin, CreateView):
 		return super().form_valid(form)
 
 
+class FojaServicios(DetailView):
+	model = Empleado
+	template_name = 'empleado/foja_servicios.html'
+	context_object_name = 'empleado'
+
+	def get_context_data(self, **kwargs):
+		context = super(FojaServicios, self).get_context_data(**kwargs)
+
+		contenttype_obj = ContentType.objects.get_for_model(self.object)
+		cargos = Cargo.objects.filter(object_id=self.object.id, content_type=contenttype_obj).order_by('-fecha_ingreso_cargo')
+		context['cargos'] = cargos
+		context['FojaServicios'] = True
+		context['titulo'] = "Foja de Servicios"
+		return context
+
 # class ListadoSeccionesView(View):
 # 	def get(self, request, *args, **kwargs):
 # 		from apps.empleado.models import Seccion

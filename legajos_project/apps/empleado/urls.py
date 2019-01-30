@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 
 from apps.empleado.views import EmpleadoList, EmpleadoListDowns, EmpleadoDetail, EmpleadoCreate, \
                                 EmpleadoUpdate, EmpleadoDown, EmpleadoRestore, CargoCreate,\
+                                FojaServicios, \
                                 ImagenesEmpleadoView, EmpleadoPDF
 from apps.empleado.api.views import EmpleadoModelViewSet, EmpleadoViewSet, EmpleadoViewSetReadOnly, EmpleadoApiView
 from rest_framework.routers import DefaultRouter
@@ -43,6 +44,7 @@ urlpatterns = [
 
 #----------------------------------- CARGO -----------------------------------------
     path('<int:pk>/nuevo-cargo/', CargoCreate.as_view(), name="cargo_create"),
+    path('<int:pk>/foja-servicios/', FojaServicios.as_view(), name="foja_servicios"),
 
 #----------------------------------- OTROS -----------------------------------------
     path('<int:id_empleado>/<int:id_seccion>/', ImagenesEmpleadoView.as_view(), name='imagenes_empleado'),
