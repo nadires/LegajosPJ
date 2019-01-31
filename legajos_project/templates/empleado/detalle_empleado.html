@@ -386,6 +386,7 @@
                 {% if not empleado.borrado %}            
                   <a href="{% url 'empleado_down' empleado.pk %}" class="btn btn-danger float-right separa_boton"><i class="fa fa-arrow-down"></i> Dar de baja</a>
                   <a href="{% url 'empleado_update' empleado.pk %}" class="btn btn-primary float-right separa_boton"><i class="fa fa-pencil"></i> Modificar datos personales</a>
+                  <a href="{% url 'empleado_list' %}" class="btn btn-secondary"><i class="fa fa-arrow-circle-left"></i> Volver</a>
                 {% else %}
                   <a href="{% url 'empleado_restore' empleado.pk %}" class="btn btn-primary float-right separa_boton"><i class="fa fa-repeat"></i> Restaurar</a>
                 {% endif %}
