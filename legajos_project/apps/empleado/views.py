@@ -157,7 +157,6 @@ class EmpleadoDown(DeleteView):
 	template_name = 'empleado/baja_empleado.html'
 	success_url = reverse_lazy('empleado_list')
 	context_object_name = 'empleado'
-	extra_context = {'EmpleadoDown': True, 'titulo': 'Baja Empleado'}
 
 	def delete(self, request, *args, **kwargs):
 		"""
@@ -179,6 +178,18 @@ class EmpleadoDown(DeleteView):
 		messages.success(self.request, mensaje)
 		return HttpResponseRedirect(self.get_success_url())
 
+	def get_context_data(self, **kwargs):
+		context = super(EmpleadoDown, self).get_context_data(**kwargs)
+		contenttype_obj = ContentType.objects.get_for_model(self.object)
+		# Intenta consultar el cargo, si no tiene lanza la excepcion y pone cargo = None
+		try:
+			cargo = Cargo.objects.get(object_id=self.object.id, content_type=contenttype_obj, actual=True)
+		except Cargo.DoesNotExist:
+			cargo = None
+		context['cargo'] = cargo
+		context['EmpleadoDown'] = True
+		context['titulo'] = "Baja Empleado"
+		return context
 
 class EmpleadoRestore(SuccessMessageMixin, UpdateView):
 	model = Empleado
