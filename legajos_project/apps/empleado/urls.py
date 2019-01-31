@@ -19,7 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from apps.empleado.views import EmpleadoList, EmpleadoListDowns, EmpleadoDetail, EmpleadoCreate, \
-                                EmpleadoUpdate, EmpleadoDown, EmpleadoRestore, CargoCreate,\
+                                EmpleadoUpdate, EmpleadoDown, EmpleadoRestore, CargoCreate, CargoUpdate,\
                                 FojaServicios, \
                                 ImagenesEmpleadoView, EmpleadoPDF
 from apps.empleado.api.views import EmpleadoModelViewSet, EmpleadoViewSet, EmpleadoViewSetReadOnly, EmpleadoApiView
@@ -44,6 +44,7 @@ urlpatterns = [
 
 #----------------------------------- CARGO -----------------------------------------
     path('<int:pk>/nuevo-cargo/', CargoCreate.as_view(), name="cargo_create"),
+    path('<int:id_empleado>/modificar-cargo/<int:pk>', CargoUpdate.as_view(), name="cargo_update"),
     path('<int:pk>/foja-servicios/', FojaServicios.as_view(), name="foja_servicios"),
 
 #----------------------------------- OTROS -----------------------------------------

@@ -233,12 +233,12 @@ class CargoCreate(SuccessMessageMixin, CreateView):
 		empleado = Empleado.objects.get(pk=id_empleado)
 		context['empleado'] = empleado
 		contenttype_obj = ContentType.objects.get_for_model(Empleado)
-		# Intenta consultar el cargo, si no tiene lanza la excepcion y pone cargo = None
+		# Intenta consultar el cargo, si no tiene lanza la excepcion y pone cargo_anterior = None
 		try:
-			cargo = Cargo.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
+			cargo_anterior = Cargo.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
 		except Cargo.DoesNotExist:
-			cargo = None
-		context['cargo'] = cargo
+			cargo_anterior = None
+		context['cargo_anterior'] = cargo_anterior
 		context['titulo'] = "Agregar Cargo"
 		context['CargoCreate'] = True
 		return context
@@ -249,6 +249,48 @@ class CargoCreate(SuccessMessageMixin, CreateView):
 		instance.created_by = user
 		instance.modified_by = user
 		id_empleado = self.kwargs.get('pk', 0)
+		empleado = Empleado.objects.get(pk=id_empleado)
+		contenttype_obj = ContentType.objects.get_for_model(Empleado)
+		try:
+			# Busco el cargo anterior para ponerle actual = False, ya que el nuevo cargo será el actual
+			cargo_anterior = Cargo.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
+			cargo_anterior.actual = False
+			if self.request.POST.get('fecha_fin_cargo_anterior'):
+				cargo_anterior.fecha_fin_cargo = datetime.strptime(self.request.POST.get('fecha_fin_cargo_anterior'), "%d/%m/%Y")
+			cargo_anterior.save()
+		except Cargo.DoesNotExist:
+			cargo = None
+		instance.object_id = empleado.id
+		instance.content_type = contenttype_obj
+		instance.save()
+		form.save_m2m()
+		return super().form_valid(form)
+
+
+class CargoUpdate(SuccessMessageMixin, UpdateView):
+	model = Cargo
+	form_class = CargoForm
+	template_name = 'empleado/cargo_form.html'
+	success_message = "¡El cargo fue modificado con éxito!"
+
+	def get_success_url(self, **kwargs):
+		return reverse_lazy('empleado_detail', args=[self.object.object_id])
+
+	def get_context_data(self, **kwargs):
+		context = super(CargoUpdate, self).get_context_data(**kwargs)	
+		id_empleado = self.kwargs.get('id_empleado', 0)
+		empleado = Empleado.objects.get(pk=id_empleado)
+		context['empleado'] = empleado
+		context['titulo'] = "Modificar Cargo"
+		context['CargoUpdate'] = True
+		return context
+
+	def form_valid(self, form, **kwargs):
+		user = self.request.user
+		instance = form.save(commit=False)
+		instance.created_by = user
+		instance.modified_by = user
+		id_empleado = self.kwargs.get('id_empleado', 0)
 		empleado = Empleado.objects.get(pk=id_empleado)
 		contenttype_obj = ContentType.objects.get_for_model(Empleado)
 		try:

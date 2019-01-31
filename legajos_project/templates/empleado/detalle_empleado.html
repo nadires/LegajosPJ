@@ -323,7 +323,7 @@
                       <div class="clearfix separada">          
                           <a href="{% url 'cargo_create' empleado.pk %}" class="btn btn-success  separa_boton"><i class="fa fa-plus"></i> Agregar nuevo cargo</a>
                           {% if cargo %}
-                          <a href="{% url 'empleado_update' empleado.pk %}" class="btn btn-primary  separa_boton"><i class="fa fa-pencil"></i> Modificar cargo existente</a>
+                          <a href="{% url 'cargo_update' empleado.pk cargo.pk %}" class="btn btn-primary  separa_boton"><i class="fa fa-pencil"></i> Modificar cargo existente</a>
                           <a href="{% url 'foja_servicios' empleado.pk %}" class="btn btn-info  separa_boton"><i class="fa fa-file-text-o"></i> Ver Foja de Servicios</a>
                           {% endif %}
                       </div>

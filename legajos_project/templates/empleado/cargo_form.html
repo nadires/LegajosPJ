@@ -67,7 +67,7 @@
 
                 <div class="card-body">
 
-                  {% if cargo %}
+                  {% if cargo_anterior %}
                       
                       <div class="card card-primary">
                         <p class="text-center texto_grande">Cargo anterior</p>
@@ -76,35 +76,35 @@
                         <div class="card-body">
                           <div class="row">
                             <div class="col-md-12">
-                              <p><strong><i class="fa fa-briefcase"></i> Cargo: </strong><span class="texto_grande">{{cargo|default_if_none:""}}</span></p>
+                              <p><strong><i class="fa fa-briefcase"></i> Cargo: </strong><span class="texto_grande">{{cargo_anterior|default_if_none:""}}</span></p>
                             </div>
                           </div>
 
                           <div class="row">
                             <div class="col-md-6">
-                              <p><strong>Nivel: </strong><span class="texto_detalle">{{cargo.nivel|default_if_none:""}}</span></p>
+                              <p><strong>Nivel: </strong><span class="texto_detalle">{{cargo_anterior.nivel|default_if_none:""}}</span></p>
                             </div>
                             <div class="col-md-6">
-                              <p><strong>Agrupamiento: </strong><span class="texto_detalle">{{cargo.agrupamiento|default_if_none:""}}</span></p>
-                            </div>
-                          </div>
-
-                          <div class="row">
-                            <div class="col-md-6">
-                              <p><strong>Situación laboral: </strong><span class="texto_detalle">{{cargo.get_situacion_display|default_if_none:""}}</span></p>
-                            </div>
-                            <div class="col-md-6">
-                              <p><strong>Jurisdicción: </strong><span class="texto_detalle">{{cargo.get_jurisdiccion_display|default_if_none:""}}</span></p>
+                              <p><strong>Agrupamiento: </strong><span class="texto_detalle">{{cargo_anterior.agrupamiento|default_if_none:""}}</span></p>
                             </div>
                           </div>
 
                           <div class="row">
                             <div class="col-md-6">
-                              <p><strong><i class="fa fa-calendar"></i> Fecha de ingreso al cargo: </strong><span class="texto_detalle">{{cargo.fecha_ingreso_cargo|date:"d/m/Y"|default_if_none:""}}</span></p>
+                              <p><strong>Situación laboral: </strong><span class="texto_detalle">{{cargo_anterior.get_situacion_display|default_if_none:""}}</span></p>
                             </div>
-                            {% if cargo.fecha_vencimiento_cargo %}
                             <div class="col-md-6">
-                              <p><strong><i class="fa fa-calendar"></i> Fecha de vencimiento del cargo: </strong><span class="texto_detalle">{{cargo.fecha_vencimiento_cargo|date:"d/m/Y"|default_if_none:""}}</span></p>
+                              <p><strong>Jurisdicción: </strong><span class="texto_detalle">{{cargo_anterior.get_jurisdiccion_display|default_if_none:""}}</span></p>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-6">
+                              <p><strong><i class="fa fa-calendar"></i> Fecha de ingreso al cargo: </strong><span class="texto_detalle">{{cargo_anterior.fecha_ingreso_cargo|date:"d/m/Y"|default_if_none:""}}</span></p>
+                            </div>
+                            {% if cargo_anterior.fecha_vencimiento_cargo %}
+                            <div class="col-md-6">
+                              <p><strong><i class="fa fa-calendar"></i> Fecha de vencimiento del cargo: </strong><span class="texto_detalle">{{cargo_anterior.fecha_vencimiento_cargo|date:"d/m/Y"|default_if_none:""}}</span></p>
                             </div>
                             {% endif %}
                           </div>
@@ -114,7 +114,7 @@
                               <p><strong>Tipo Intr. legal: </strong><span>{{cargo.tipo_instrumento_legal|default_if_none:""}}</span></p>
                             </div>
                             <div class="col-md-4">
-                              <p><strong>Instrumento legal: </strong><span>{{cargo.instrumento_legal|default_if_none:""}}</span></p>
+                              <p><strong>Instrumento legal: </strong><span>{{cargo_anterior.instrumento_legal|default_if_none:""}}</span></p>
                             </div>
                             <div class="col-md-4">
                               <p><strong><i class="fa fa-calendar"></i> Fecha Instr. legal: </strong><span>{{cargo.fecha_instr_legal|date:"d/m/Y"|default_if_none:""}}</span></p>
@@ -124,7 +124,7 @@
                           <hr>
                           <div class="row">
                             <div class="col-md-6">
-                              <label for="exampleInputEmail1">Fecha de fin del cargo anterior</label>
+                              <label for="exampleInputEmail1">Fecha de fin del cargo_anterior anterior</label>
                               <div class="input-group">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text"><i class="fa fa-calendar"></i></span>

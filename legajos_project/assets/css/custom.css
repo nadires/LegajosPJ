@@ -24,12 +24,12 @@ section.content{
     background-color: #007bff;
 }
 .texto_detalle{
-	font-size: 1.25rem;	
+	font-size: 1.25rem !important;	
 	margin-left: 8px;
 }
 
 .texto_grande{
-	font-size: 1.75rem;	
+	font-size: 1.75rem !important;	
 	margin-left: 8px;
 }
 
