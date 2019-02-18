@@ -34,9 +34,21 @@
             <!-- Profile Image -->
             <div class="card card-primary card-outline">
               {% if empleado.borrado %}
-                <div class="card-header">
-                  <span class="badge texto_detalle badge-danger">Empleado Eliminado</span>
-                </div>
+                
+                  <div class="card-header">
+                    <div class="row">                    
+                      <div class="col-12">
+                        <!-- small box -->
+                        <div class="small-box bg-danger">
+
+                            <p class="texto_detalle" >Empleado Eliminado</p>
+
+                        
+                        </div>
+                      </div>
+
+                      </div>
+                  </div>
               {% endif %}
               <div class="card-body box-profile">
                 <div class="text-center">
