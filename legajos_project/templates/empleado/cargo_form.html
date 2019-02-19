@@ -111,7 +111,7 @@
 
                           <div class="row">
                             <div class="col-md-4">
-                              <p><strong>Tipo Intr. legal: </strong><span>{{cargo.tipo_instrumento_legal|default_if_none:""}}</span></p>
+                              <p><strong>Tipo Intr. legal: </strong><span>{{cargo_anterior.tipo_instrumento_legal|default_if_none:""}}</span></p>
                             </div>
                             <div class="col-md-4">
                               <p><strong>Instrumento legal: </strong><span>{{cargo_anterior.instrumento_legal|default_if_none:""}}</span></p>
@@ -124,7 +124,7 @@
                           <hr>
                           <div class="row">
                             <div class="col-md-6">
-                              <label for="exampleInputEmail1">Fecha de fin del cargo_anterior anterior</label>
+                              <label for="exampleInputEmail1">Fecha de fin del cargo anterior</label>
                               <div class="input-group">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -204,7 +204,7 @@
                       </div>
                     </div>
                     <div class="col-md-6">
-                      <label for="exampleInputEmail1">Fecha de ingreso al cargo</label>
+                      <label for="exampleInputEmail1">Fecha de ingreso al cargo *</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
                           <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -238,7 +238,7 @@
                       </div>
                     </div>
                     <div class="col-md-4">
-                      <label for="exampleInputEmail1">Fecha de Inst. Legal</label>
+                      <label for="exampleInputEmail1">Fecha de Inst. Legal *</label>
                       <div class="input-group">
                         <div class="input-group-prepend">
                           <span class="input-group-text"><i class="fa fa-calendar"></i></span>

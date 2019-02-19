@@ -65,6 +65,7 @@ class AbstractDireccion(models.Model):
 		('SRO', 'Santa Rosa'),
 		('TIN', 'Tinogasta'),
 		('VVI', 'Valle Viejo'),
+		('OTR', 'Otro'),
 	)
 
 	class Meta:
