@@ -23,13 +23,13 @@
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Apellido/s *</label>
+                    <label >Apellido/s *</label>
                     {{form.apellido}}
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="exampleInputPassword1">Nombre/s *</label>
+                    <label>Nombre/s *</label>
                     {{form.nombre}}
                   </div>
                 </div>
@@ -54,56 +54,64 @@
                 </div>
                 <div class="col-md-3">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Documento N° *</label>
+                    <label >Documento N° *</label>
                     {{form.documento}}
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="exampleInputPassword1">CUIL N° *</label>
+                    <label>CUIL N° *</label>
                     {{form.cuil}}
                   </div>
+
+                  <!--<div class="input-group">-->
+                    <!--<div class="input-group-prepend">-->
+                      <!--<span class="input-group-text"><i class="fa fa-laptop"></i></span>-->
+                    <!--</div>-->
+                    <!--<input name="nro_cuil" type="text" class="form-control" data-inputmask="'mask': '99-99999999-9'" data-mask="">-->
+                  <!--</div>-->
+
                 </div>
               </div>
               {% if form.tipo_doc.errors or form.documento.errors or form.cuil.errors %}
-                  <div class="row">
-                    <div class="col-md-3">
-                      <label class="text-danger">{{ form.tipo_doc.errors }}</label>
-                    </div>
-                    <div class="col-md-3">
-                      <label class="text-danger">{{ form.documento.errors }}</label>
-                    </div>
-                    <div class="col-md-6">
-                      <label class="text-danger">{{ form.cuil.errors }}</label>
-                    </div>
-                  </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <label class="text-danger">{{ form.tipo_doc.errors }}</label>
+                </div>
+                <div class="col-md-3">
+                  <label class="text-danger">{{ form.documento.errors }}</label>
+                </div>
+                <div class="col-md-6">
+                  <label class="text-danger">{{ form.cuil.errors }}</label>
+                </div>
+              </div>
               {% endif %}
 
               <div class="row">
                 <div class="col-md-3">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Sexo *</label>
+                    <label >Sexo *</label>
                     <div class="form-group">
-                    {% for radio in form.sexo %}
-                    
+                      {% for radio in form.sexo %}
+
                       <label>
                         {{ radio }}
                       </label>
-                    
-                    {% endfor %}
+
+                      {% endfor %}
                     </div>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Estado Civil *</label>
+                    <label >Estado Civil *</label>
                     <div class="form-group">
-                    {{form.estado_civil}}
+                      {{form.estado_civil}}
                     </div>
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <label for="exampleInputEmail1">Nacionalidad *</label>
+                  <label >Nacionalidad *</label>
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fa fa-flag"></i></span>
@@ -113,22 +121,22 @@
                 </div>
               </div>
               {% if form.sexo.errors or form.estado_civil.errors or form.nacionalidad.errors %}
-                  <div class="row">
-                    <div class="col-md-3">
-                      <label class="text-danger">{{ form.sexo.errors }}</label>
-                    </div>
-                    <div class="col-md-3">
-                      <label class="text-danger">{{ form.estado_civil.errors }}</label>
-                    </div>
-                    <div class="col-md-6">
-                      <label class="text-danger">{{ form.nacionalidad.errors }}</label>
-                    </div>
-                  </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <label class="text-danger">{{ form.sexo.errors }}</label>
+                </div>
+                <div class="col-md-3">
+                  <label class="text-danger">{{ form.estado_civil.errors }}</label>
+                </div>
+                <div class="col-md-6">
+                  <label class="text-danger">{{ form.nacionalidad.errors }}</label>
+                </div>
+              </div>
               {% endif %}
 
-              <div class="row">  
+              <div class="row">
                 <div class="col-md-6">
-                  <label for="exampleInputEmail1">Fecha de Nacimiento</label>
+                  <label >Fecha de Nacimiento</label>
                   <div class="input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -137,7 +145,7 @@
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <label for="exampleInputEmail1">Lugar de Nacimiento</label>
+                  <label >Lugar de Nacimiento</label>
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
@@ -147,21 +155,21 @@
                 </div>
               </div>
               {% if form.fecha_nac.errors or form.lugar_nac.errors %}
-                  <div class="row">
-                    <div class="col-md-6">
-                      <label class="text-danger">{{ form.fecha_nac.errors }}</label>
-                    </div>
-                    <div class="col-md-6">
-                      <label class="text-danger">{{ form.lugar_nac.errors }}</label>
-                    </div>
-                  </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label class="text-danger">{{ form.fecha_nac.errors }}</label>
+                </div>
+                <div class="col-md-6">
+                  <label class="text-danger">{{ form.lugar_nac.errors }}</label>
+                </div>
+              </div>
               {% endif %}
 
               <hr>
 
               <div class="row">
                 <div class="col-md-6">
-                  <label for="exampleInputEmail1">Teléfono fijo</label>
+                  <label >Teléfono fijo</label>
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fa fa-phone"></i></span>
@@ -170,7 +178,7 @@
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <label for="exampleInputEmail1">Teléfono celular</label>
+                  <label >Teléfono celular</label>
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fa fa-mobile"></i></span>
@@ -180,40 +188,40 @@
                 </div>
               </div>
               {% if form.tel_fijo.errors or form.tel_cel.errors %}
-                  <div class="row">
-                    <div class="col-md-6">
-                      <label class="text-danger">{{ form.tel_fijo.errors }}</label>
-                    </div>
-                    <div class="col-md-6">
-                      <label class="text-danger">{{ form.tel_cel.errors }}</label>
-                    </div>
-                  </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label class="text-danger">{{ form.tel_fijo.errors }}</label>
+                </div>
+                <div class="col-md-6">
+                  <label class="text-danger">{{ form.tel_cel.errors }}</label>
+                </div>
+              </div>
               {% endif %}
 
               <div class="row">
                 <div class="col-md-6">
-                  <label for="exampleInputEmail1">E-mail</label>
+                  <label >E-mail</label>
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fa fa-envelope"></i></span>
                     </div>
                     {{form.email}}
                   </div>
-                </div> 
+                </div>
               </div>
               {% if form.email.errors %}
-                  <div class="row">
-                    <div class="col-md-6">
-                      <label class="text-danger">{{ form.email.errors }}</label>
-                    </div>
-                  </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label class="text-danger">{{ form.email.errors }}</label>
+                </div>
+              </div>
               {% endif %}
 
               <hr>
 
               <div class="row">
                 <div class="col-md-12">
-                  <label for="exampleInputEmail1">Domicilio *</label>
+                  <label >Domicilio *</label>
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
@@ -223,22 +231,22 @@
                 </div>
               </div>
               {% if form.domicilio.errors %}
-                  <div class="row">
-                    <div class="col-md-12">
-                      <label class="text-danger">{{ form.domicilio.errors }}</label>
-                    </div>
-                  </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <label class="text-danger">{{ form.domicilio.errors }}</label>
+                </div>
+              </div>
               {% endif %}
 
               <div class="row">
                 <div class="col-md-6">
-                  <label for="exampleInputEmail1">Barrio</label>
+                  <label >Barrio</label>
                   <div class="input-group mb-3">
                     {{form.barrio}}
                   </div>
                 </div>
                 <div class="col-md-3">
-                  <label for="exampleInputEmail1">Piso</label>
+                  <label >Piso</label>
                   <div class="input-group mb-3">
                     {{form.piso}}
                   </div>
@@ -251,22 +259,22 @@
                 </div>
               </div>
               {% if form.barrio.errors or form.piso.errors or form.dpto.errors %}
-                  <div class="row">
-                    <div class="col-md-6">
-                      <label class="text-danger">{{ form.barrio.errors }}</label>
-                    </div>
-                    <div class="col-md-3">
-                      <label class="text-danger">{{ form.piso.errors }}</label>
-                    </div>
-                    <div class="col-md-3">
-                      <label class="text-danger">{{ form.dpto.errors }}</label>
-                    </div>
-                  </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label class="text-danger">{{ form.barrio.errors }}</label>
+                </div>
+                <div class="col-md-3">
+                  <label class="text-danger">{{ form.piso.errors }}</label>
+                </div>
+                <div class="col-md-3">
+                  <label class="text-danger">{{ form.dpto.errors }}</label>
+                </div>
+              </div>
               {% endif %}
 
               <div class="row">
                 <div class="col-md-8">
-                  <label for="exampleInputEmail1">Localidad *</label>
+                  <label >Localidad *</label>
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fa fa-location-arrow"></i></span>
@@ -276,51 +284,51 @@
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Código Postal *</label>
+                    <label >Código Postal *</label>
                     <div class="form-group">
-                    {{form.cod_postal}}
+                      {{form.cod_postal}}
                     </div>
                   </div>
                 </div>
               </div>
               {% if form.localidad.errors or form.cod_postal.errors %}
-                  <div class="row">
-                    <div class="col-md-8">
-                      <label class="text-danger">{{ form.localidad.errors }}</label>
-                    </div>
-                    <div class="col-md-4">
-                      <label class="text-danger">{{ form.cod_postal.errors }}</label>
-                    </div>
-                  </div>
+              <div class="row">
+                <div class="col-md-8">
+                  <label class="text-danger">{{ form.localidad.errors }}</label>
+                </div>
+                <div class="col-md-4">
+                  <label class="text-danger">{{ form.cod_postal.errors }}</label>
+                </div>
+              </div>
               {% endif %}
 
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Departamento *</label>
+                    <label >Departamento *</label>
                     <div class="form-group">
-                    {{form.departamento}}
+                      {{form.departamento}}
                     </div>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Provincia *</label>
+                    <label >Provincia *</label>
                     <div class="form-group">
-                    {{form.provincia}}
+                      {{form.provincia}}
                     </div>
                   </div>
                 </div>
               </div>
               {% if form.departamento.errors or form.provincia.errors %}
-                  <div class="row">
-                    <div class="col-md-6">
-                      <label class="text-danger">{{ form.departamento.errors }}</label>
-                    </div>
-                    <div class="col-md-6">
-                      <label class="text-danger">{{ form.provincia.errors }}</label>
-                    </div>
-                  </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label class="text-danger">{{ form.departamento.errors }}</label>
+                </div>
+                <div class="col-md-6">
+                  <label class="text-danger">{{ form.provincia.errors }}</label>
+                </div>
+              </div>
               {% endif %}
 
               <!-- /.card-body -->
@@ -339,7 +347,7 @@
 
               <div class="row">
                 <div class="col-md-6">
-                  <label for="exampleInputEmail1">N° Legajo *</label>
+                  <label >N° Legajo *</label>
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fa fa-folder"></i></span>
@@ -348,7 +356,7 @@
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <label for="exampleInputEmail1">Fecha de Ingreso *</label>
+                  <label >Fecha de Ingreso *</label>
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -358,42 +366,42 @@
                 </div>
               </div>
               {% if form.legajo.errors or form.fecha_ingreso.errors %}
-                  <div class="row">
-                    <div class="col-md-6">
-                      <label class="text-danger">{{ form.legajo.errors }}</label>
-                    </div>
-                    <div class="col-md-6">
-                      <label class="text-danger">{{ form.fecha_ingreso.errors }}</label>
-                    </div>
-                  </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label class="text-danger">{{ form.legajo.errors }}</label>
+                </div>
+                <div class="col-md-6">
+                  <label class="text-danger">{{ form.fecha_ingreso.errors }}</label>
+                </div>
+              </div>
               {% endif %}
 
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Horario laboral</label>
+                    <label >Horario laboral</label>
                     <div class="form-group">
-                    {{form.horario}}
+                      {{form.horario}}
                     </div>
                   </div>
                 </div>
               </div>
               {% if form.horario.errors %}
-                  <div class="row">
-                    <div class="col-md-6">
-                      <label class="text-danger">{{ form.horario.errors }}</label>
-                    </div>
-                  </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label class="text-danger">{{ form.horario.errors }}</label>
+                </div>
+              </div>
               {% endif %}
 
 
 
               {% if form.non_field_errors %}
-                  {% for error in form.non_field_errors %}
-                      <div class="row">
-                          <label class="text-danger">{{ error|escape }}</label>
-                      </div>
-                  {% endfor %}
+              {% for error in form.non_field_errors %}
+              <div class="row">
+                <label class="text-danger">{{ error|escape }}</label>
+              </div>
+              {% endfor %}
               {% endif %}
               <!-- /.card-body -->
             </div>
@@ -412,21 +420,22 @@
             </div>
           </div>
         </form>
+      </div>
+    </div>
+  </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
 
-      </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
 
-
-    {% endblock %} 
-    {% block staticfiles_javascript %} 
-      <!-- InputMask -->
-      <script src="{% static 'plugins/input-mask/jquery.inputmask.js' %}"></script>
-      <script src="{% static 'plugins/input-mask/jquery.inputmask.date.extensions.js' %}"></script>
-      <script src="{% static 'plugins/input-mask/jquery.inputmask.extensions.js' %}"></script>
-      <!-- iCheck 1.0.1 -->
-      <script src="{% static 'plugins/iCheck/icheck.min.js' %}"></script>
-      <script>
+{% endblock %}
+{% block staticfiles_javascript %}
+<!-- InputMask -->
+<script src="{% static 'plugins/input-mask/jquery.inputmask.js' %}"></script>
+<script src="{% static 'plugins/input-mask/jquery.inputmask.date.extensions.js' %}"></script>
+<script src="{% static 'plugins/input-mask/jquery.inputmask.extensions.js' %}"></script>
+<!-- iCheck 1.0.1 -->
+<script src="{% static 'plugins/iCheck/icheck.min.js' %}"></script>
+<script>
         $(function () {
           
           // Máscaras
@@ -443,4 +452,4 @@
           
         })
       </script>
-    {% endblock %} 
+{% endblock %}

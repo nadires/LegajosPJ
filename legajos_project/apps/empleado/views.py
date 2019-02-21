@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views import View
@@ -58,8 +59,7 @@ class EmpleadoDetail(DetailView):
 
 	def get_context_data(self, **kwargs):
 		context = super(EmpleadoDetail, self).get_context_data(**kwargs)
-		from apps.util.models import Seccion
-		secciones = Seccion.objects.all() # Busco todas las secciones 
+		secciones = Seccion.objects.all() # Busco todas las secciones
 		listado = [] # Listado que contendrá los diccionarios
 		for seccion in secciones: # Recorro el listado de secciones
 			elemento = {} # Creo un diccionario por cada seccion guardando el nombre y la cantidad de imagenes que tiene
@@ -101,8 +101,9 @@ class EmpleadoCreate(SuccessMessageMixin, CreateView):
 		instance = form.save(commit=False)
 		instance.created_by = user
 		instance.modified_by = user
-		instance.save()
-		form.save_m2m()
+		print(self.request.POST.get('nro_cuil'))
+		# instance.save()
+		# form.save_m2m()
 		return super().form_valid(form)
 
 	def get_success_message(self, cleaned_data):
