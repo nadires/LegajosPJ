@@ -1,9 +1,10 @@
+from dateutil.relativedelta import relativedelta
 from django import forms
 from dal import autocomplete
 from django.core.exceptions import ValidationError
 
 from .models import Empleado, Cargo, ImagenEmpleado
-from datetime import datetime, timedelta
+import datetime
 
 
 class ImagenEmpleadoForm(forms.ModelForm):
@@ -80,7 +81,6 @@ class EmpleadoForm(forms.ModelForm):
             raise forms.ValidationError('El CUIL debe tener el formato 00-00000000-0 con 1 dígito central')
         nro_dni = str(int(b)).strip()  # Limpio los espacios en blanco del dni
         documento = str(self.cleaned_data['documento']).strip()
-        print(documento, '-', nro_dni, '-')
         if documento != nro_dni:
             raise forms.ValidationError('N° de documento y CUIL no coinciden')
 
@@ -108,6 +108,27 @@ class EmpleadoForm(forms.ModelForm):
             raise forms.ValidationError('El N° de CUIL no es válido')
 
         return cuil
+
+    # def clean(self):
+    #     cleaned_data = super(EmpleadoForm, self).clean()
+    #     fecha_ingreso = cleaned_data['fecha_ingreso']
+    #     fecha_nac = cleaned_data['fecha_nac']
+    #     if fecha_ingreso < fecha_nac:
+    #         raise forms.ValidationError('Fecha de ingreso incorrecta, no puede ser menor a la fecha de nacimiento')
+    #     return cleaned_data
+
+    def clean_fecha_nac(self):
+        fecha_nac = self.cleaned_data['fecha_nac']
+        if fecha_nac > datetime.date.today():
+            raise forms.ValidationError('Fecha de nacimiento incorrecta')
+        return fecha_nac
+
+    def clean_fecha_ingreso(self):
+        fecha_ingreso = self.cleaned_data['fecha_ingreso']
+        if 'fecha_nac' in self.cleaned_data:
+            if fecha_ingreso < self.cleaned_data['fecha_nac']:
+                raise forms.ValidationError('Fecha de ingreso incorrecta, no puede ser menor a la fecha de nacimiento')
+        return fecha_ingreso
 
 
 class CargoForm(forms.ModelForm):
