@@ -101,7 +101,6 @@ class EmpleadoCreate(SuccessMessageMixin, CreateView):
 		instance = form.save(commit=False)
 		instance.created_by = user
 		instance.modified_by = user
-		print(self.request.POST.get('nro_cuil'))
 		# instance.save()
 		# form.save_m2m()
 		return super().form_valid(form)
