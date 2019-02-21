@@ -101,8 +101,8 @@ class EmpleadoCreate(SuccessMessageMixin, CreateView):
 		instance = form.save(commit=False)
 		instance.created_by = user
 		instance.modified_by = user
-		# instance.save()
-		# form.save_m2m()
+		instance.save()
+		form.save_m2m()
 		return super().form_valid(form)
 
 	def get_success_message(self, cleaned_data):
