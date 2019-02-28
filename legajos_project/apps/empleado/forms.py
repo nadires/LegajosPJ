@@ -171,5 +171,5 @@ class CargoForm(forms.ModelForm):
                 raise forms.ValidationError(
                     "La fecha de fin del cargo anterior debe ser menor que la fecha de ingreso al nuevo cargo")
         else:
-            fecha_fin_cargo_anterior = fecha_ingreso_cargo + timedelta(days=-1)
+            fecha_fin_cargo_anterior = fecha_ingreso_cargo + datetime.timedelta(days=-1)
         return fecha_fin_cargo_anterior
