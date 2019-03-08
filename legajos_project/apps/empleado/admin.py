@@ -1,13 +1,20 @@
 from django.contrib import admin
 
 from .models import Empleado, ImagenEmpleado, HorarioLaboral, \
-                    Cargo, TipoCargo, NivelCargo, AgrupamientoCargo, TipoInstrumentoLegalCargo
+                    Cargo, TipoCargo, NivelCargo, AgrupamientoCargo, TipoInstrumentoLegalCargo, \
+                    DependenciaLaboral, Circunscripcion, Unidad, Organismo, Dependencia, Direccion, \
+                    Departamento, Division, TipoInstrumentoLegalDependencia
 
 from django.contrib.contenttypes.admin import GenericTabularInline
 
 
 class CargoInline(GenericTabularInline):
     model = Cargo
+    extra = 1
+
+
+class DependenciaLaboralInline(GenericTabularInline):
+    model = DependenciaLaboral
     extra = 1
 
 
@@ -31,6 +38,7 @@ class EmpleadosAdmin(admin.ModelAdmin):
 
     inlines = (
         CargoInline,
+        DependenciaLaboralInline,
     )
 
     search_fields = ('apellido', 'nombre', 'activo', 'borrado')
@@ -69,9 +77,20 @@ class ImagenesEmpleadosAdmin(admin.ModelAdmin):
 
 admin.site.register(Empleado, EmpleadosAdmin)
 admin.site.register(ImagenEmpleado, ImagenesEmpleadosAdmin)
+
 admin.site.register(HorarioLaboral)
 admin.site.register(Cargo)
 admin.site.register(TipoCargo)
 admin.site.register(NivelCargo)
 admin.site.register(AgrupamientoCargo)
 admin.site.register(TipoInstrumentoLegalCargo)
+
+admin.site.register(DependenciaLaboral)
+admin.site.register(Circunscripcion)
+admin.site.register(Unidad)
+admin.site.register(Organismo)
+admin.site.register(Dependencia)
+admin.site.register(Direccion)
+admin.site.register(Departamento)
+admin.site.register(Division)
+admin.site.register(TipoInstrumentoLegalDependencia)
