@@ -37,9 +37,9 @@ class EmpleadoList(ListView):
 
 
 class EmpleadoListDowns(ListView):
-	'''
+	"""
 		Muestra el listado de empleados eliminados
-	'''
+	"""
 	model = Empleado
 	template_name = 'empleado/listado_empleados_baja.html'
 	context_object_name = 'listado_empleados_baja'
@@ -60,13 +60,13 @@ class EmpleadoDetail(DetailView):
 	def get_context_data(self, **kwargs):
 		context = super(EmpleadoDetail, self).get_context_data(**kwargs)
 		secciones = Seccion.objects.all() # Busco todas las secciones
-		listado = [] # Listado que contendrá los diccionarios
-		for seccion in secciones: # Recorro el listado de secciones
-			elemento = {} # Creo un diccionario por cada seccion guardando el nombre y la cantidad de imagenes que tiene
-			elemento['seccion'] = seccion
+		listado = []  # Listado que contendrá los diccionarios
+		for seccion in secciones:  # Recorro el listado de secciones
+			elemento = {
+				'seccion': seccion}  # Creo un diccionario por cada seccion guardando el nombre y la cantidad de imagenes que tiene
 			id_empleado = self.kwargs.get('pk', 0) # Obtengo el id de la empleado
 			elemento['cantidad_imagenes'] = seccion.cantidad_imagenes_por_seccion(id_empleado)
-			listado.append(elemento) # Agrego el diccionario a la lista a retornar
+			listado.append(elemento)  # Agrego el diccionario a la lista a retornar
 	
 		context['seccion_list'] = listado
 		contenttype_obj = ContentType.objects.get_for_model(self.object)
@@ -113,7 +113,7 @@ class EmpleadoCreate(SuccessMessageMixin, CreateView):
 			mensaje = 'La empleada '+self.object.nombre+' '+self.object.apellido+' fue agregada'
 		return self.success_message % dict(
 			cleaned_data,
-			calculated_field = mensaje,
+			calculated_field=mensaje,
 		)
 
 
@@ -141,7 +141,6 @@ class EmpleadoUpdate(SuccessMessageMixin, UpdateView):
 		return super().form_valid(form)
 
 	def get_success_message(self, cleaned_data):
-		mensaje = ''
 		if self.object.sexo == 'M':
 			mensaje = 'El empleado '+self.object.nombre+' '+self.object.apellido+' fue actualizado'
 		else:
@@ -170,7 +169,6 @@ class EmpleadoDown(DeleteView):
 		# print(self.object.fecha_baja)
 		# Debería poner fecha de fin al cargo
 		self.object.save()
-		mensaje = ''
 		if self.object.sexo == 'M':
 			mensaje = '¡El empleado '+self.object.nombre+' '+self.object.apellido+' fue dado de baja con éxito!'
 		else:
@@ -190,6 +188,7 @@ class EmpleadoDown(DeleteView):
 		context['EmpleadoDown'] = True
 		context['titulo'] = "Baja Empleado"
 		return context
+
 
 class EmpleadoRestore(SuccessMessageMixin, UpdateView):
 	model = Empleado
@@ -217,7 +216,6 @@ class EmpleadoRestore(SuccessMessageMixin, UpdateView):
 		return super().form_valid(form)
 
 	def get_success_message(self, cleaned_data):
-		mensaje = ''
 		if self.object.sexo == 'M':
 			mensaje = 'El empleado '+self.object.nombre+' '+self.object.apellido+' fue restaurado'
 		else:
@@ -228,7 +226,7 @@ class EmpleadoRestore(SuccessMessageMixin, UpdateView):
 		)
 
 
-#--------------------------------- CARGOS ------------------------------------------------------
+# --------------------------------- CARGOS ------------------------------------------------------
 class CargoCreate(SuccessMessageMixin, CreateView):
 	model = Cargo
 	form_class = CargoForm
@@ -361,9 +359,8 @@ class ImagenesEmpleadoView(View):
 		secciones = Seccion.objects.all()
 		listado = [] # Listado que contendrá los diccionarios
 		for elem_seccion in secciones: # Recorro el listado de secciones
-			elemento = {} # Creo un diccionario por cada seccion guardando el nombre y la cantidad de imagenes que tiene
-			elemento['seccion'] = elem_seccion
-			elemento['cantidad_imagenes'] = elem_seccion.cantidad_imagenes_por_seccion(id_empleado)
+			elemento = {'seccion': elem_seccion, 'cantidad_imagenes': elem_seccion.cantidad_imagenes_por_seccion(
+				id_empleado)}  # Creo un diccionario por cada seccion guardando el nombre y la cantidad de imagenes que tiene
 			listado.append(elemento) # Agrego el diccionario a la lista a retornar
 		context = {
 					'imagenes_list': imagenes_list,
@@ -372,7 +369,6 @@ class ImagenesEmpleadoView(View):
 					'seccion_list' : listado,
 					}
 		return render(self.request, 'empleado/imagenes_empleado.html', context)
-
 
 	def post(self, request, *args, **kwargs):
 		form = ImagenForm(self.request.POST, self.request.FILES)
