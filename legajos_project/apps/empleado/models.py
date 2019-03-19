@@ -223,7 +223,7 @@ class DependenciaLaboral(models.Model):
 	direccion = models.ForeignKey(Direccion, on_delete=models.SET_NULL, related_name="dependencias_direccion", null=True, blank=True)
 	departamento = models.ForeignKey(Departamento, on_delete=models.SET_NULL, related_name="dependencias_departamento", null=True, blank=True)
 	division = models.ForeignKey(Division, on_delete=models.SET_NULL, related_name="dependencias_division", null=True, blank=True)
-	fecha_ingreso = models.DateField('Fecha de ingreso al cargo', blank=True, null=True)
+	fecha_ingreso_dependencia = models.DateField('Fecha de ingreso a la Dependencia Laboral', blank=True, null=True)
 	instrumento_legal = models.CharField(max_length=20, blank=True)
 	tipo_instrumento_legal = models.ForeignKey(TipoInstrumentoLegalDependencia, on_delete=models.SET_NULL, related_name="dependencias_instrumento", null=True)
 	fecha_instr_legal = models.DateField('Fecha de instrumento legal', blank=True, null=True)
