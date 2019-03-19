@@ -1,17 +1,22 @@
+from itertools import chain
+
 from django.core.exceptions import ValidationError
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
 from django.core import serializers
 import json
 from django.conf import settings
 from datetime import datetime
+from django.core.cache import cache
 
-from .models import Empleado, Cargo, ImagenEmpleado
+from .models import Empleado, Cargo, ImagenEmpleado, DependenciaLaboral, \
+					Circunscripcion, Unidad, Organismo, Dependencia, Direccion, Departamento, Division
 from apps.util.models import Seccion
-from .forms import EmpleadoForm, CargoForm
+from .forms import EmpleadoForm, CargoForm, DependenciaLaboralForm
 
 from easy_pdf.views import PDFTemplateResponseMixin
 
@@ -76,6 +81,14 @@ class EmpleadoDetail(DetailView):
 		except Cargo.DoesNotExist:
 			cargo = None
 		context['cargo'] = cargo
+
+		# Intenta consultar la dependencia, si no tiene lanza la excepcion y pone cargo = None
+		try:
+			dependencia = DependenciaLaboral.objects.get(object_id=self.object.id, content_type=contenttype_obj, actual=True)
+		except DependenciaLaboral.DoesNotExist:
+			dependencia = None
+		context['dependencia'] = dependencia
+
 		context['EmpleadoDetail'] = True
 		context['titulo'] = "Detalle del Empleado"
 		return context
@@ -333,6 +346,123 @@ class FojaServicios(DetailView):
 		context['titulo'] = "Foja de Servicios"
 		return context
 
+
+# --------------------------------- DEPENDENCIAS ------------------------------------------------------
+class DependenciaLaboralCreate(SuccessMessageMixin, CreateView):
+	model = DependenciaLaboral
+	form_class = DependenciaLaboralForm
+	template_name = 'empleado/dependencia_form.html'
+	success_message = "¡La dependencia laboral fue agregada con éxito!"
+
+	def get_success_url(self, **kwargs):
+		return reverse_lazy('empleado_detail', args=[self.object.object_id])
+
+	def get_context_data(self, **kwargs):
+		context = super(DependenciaLaboralCreate, self).get_context_data(**kwargs)
+		id_empleado = self.kwargs.get('pk', 0)
+		empleado = Empleado.objects.get(pk=id_empleado)
+		context['empleado'] = empleado
+		contenttype_obj = ContentType.objects.get_for_model(Empleado)
+		# Intenta consultar la dependencia, si no tiene lanza la excepcion y pone dependencia_anterior = None
+		try:
+			dependencia_anterior = DependenciaLaboral.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
+		except DependenciaLaboral.DoesNotExist:
+			dependencia_anterior = None
+		context['dependencia_anterior'] = dependencia_anterior
+		context['titulo'] = "Agregar Dependencia Laboral"
+		context['DependenciaCreate'] = True
+		return context
+
+	def form_valid(self, form, **kwargs):
+		user = self.request.user
+		instance = form.save(commit=False)
+		instance.created_by = user
+		instance.modified_by = user
+		id_empleado = self.kwargs.get('pk', 0)
+		empleado = Empleado.objects.get(pk=id_empleado)
+		contenttype_obj = ContentType.objects.get_for_model(Empleado)
+		try:
+			# Busco la dependencia anterior para ponerle actual = False, ya que la nueva dependencia será el actual
+			dependencia_anterior = DependenciaLaboral.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
+			dependencia_anterior.actual = False
+			dependencia_anterior.save()
+		except DependenciaLaboral.DoesNotExist:
+			dependencia = None
+		instance.object_id = empleado.id
+		instance.content_type = contenttype_obj
+		instance.save()
+		form.save_m2m()
+		return super().form_valid(form)
+
+
+class DependenciaLaboralUpdate(SuccessMessageMixin, UpdateView):
+	model = DependenciaLaboral
+	form_class = DependenciaLaboralForm
+	template_name = 'empleado/dependencia_form.html'
+	success_message = "¡La dependencia fue modificada con éxito!"
+
+	def get_success_url(self, **kwargs):
+		return reverse_lazy('empleado_detail', args=[self.object.object_id])
+
+	def get_context_data(self, **kwargs):
+		context = super(DependenciaLaboralUpdate, self).get_context_data(**kwargs)
+		id_empleado = self.kwargs.get('id_empleado', 0)
+		empleado = Empleado.objects.get(pk=id_empleado)
+		context['empleado'] = empleado
+		context['titulo'] = "Modificar Dependencia Laboral"
+		context['DependenciaUpdate'] = True
+		return context
+
+	def form_valid(self, form, **kwargs):
+		user = self.request.user
+		instance = form.save(commit=False)
+		instance.created_by = user
+		instance.modified_by = user
+		id_empleado = self.kwargs.get('id_empleado', 0)
+		empleado = Empleado.objects.get(pk=id_empleado)
+		contenttype_obj = ContentType.objects.get_for_model(Empleado)
+		try:
+			# Busco la dependencia anterior para ponerle actual = False, ya que la nueva dependencia será la actual
+			dependencia_anterior = DependenciaLaboral.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
+			dependencia_anterior.actual = False
+			dependencia_anterior.save()
+		except DependenciaLaboral.DoesNotExist:
+			dependencia = None
+		instance.object_id = empleado.id
+		instance.content_type = contenttype_obj
+		instance.save()
+		form.save_m2m()
+		return super().form_valid(form)
+
+
+class FojaServicios(DetailView):
+	model = Empleado
+	template_name = 'empleado/foja_servicios.html'
+	context_object_name = 'empleado'
+
+	def get_context_data(self, **kwargs):
+		context = super(FojaServicios, self).get_context_data(**kwargs)
+
+		contenttype_obj = ContentType.objects.get_for_model(self.object)
+		cargos = Cargo.objects.filter(object_id=self.object.id, content_type=contenttype_obj).order_by('-fecha_ingreso_cargo')
+		context['cargos'] = cargos
+
+		# key_cache = "empleado_{}".format(self.object.id)
+		# cache.set(key_cache, list(cargos.values_list('id', flat=True)))
+		#
+		# context['key_cache'] = key_cache
+		context['FojaServicios'] = True
+		context['titulo'] = "Foja de Servicios"
+		return context
+
+
+def exportar_excel(request):
+	# key_cache = request.GET.get('key_cache')
+	response = HttpResponse(content_type='application/vnd.ms-excel')
+	response['Content-Disposition'] = 'attachment; filename=Report.xlsx'
+	return response
+
+
 # class ListadoSeccionesView(View):
 # 	def get(self, request, *args, **kwargs):
 # 		from apps.empleado.models import Seccion
@@ -400,7 +530,38 @@ class EmpleadoPDF(PDFTemplateResponseMixin, DetailView):
 		return context
 
 
-# class FamiliarAutocomplete(autocomplete.Select2QuerySetView):
+class DependenciasAutocomplete(autocomplete.Select2QuerySetView):
+	def get_queryset(self):
+		circunscripciones = Circunscripcion.objects.all()
+		unidades = Unidad.objects.all()
+		organismos = Organismo.objects.all()
+		dependencias = Dependencia.objects.all()
+		direcciones = Direccion.objects.all()
+		departamentos = Departamento.objects.all()
+		divisiones = Division.objects.all()
+
+		if self.q:
+			circunscripciones = circunscripciones.filter(circunscripcion__icontains=self.q)
+			unidades = unidades.filter(unidad__icontains=self.q)
+			organismos = organismos.filter(organismo__icontains=self.q)
+			dependencias = dependencias.filter(dependencia__icontains=self.q)
+			direcciones = direcciones.filter(direccion__icontains=self.q)
+			departamentos = departamentos.filter(departamento__icontains=self.q)
+			divisiones = divisiones.filter(division__icontains=self.q)
+
+		# Aggregate querysets
+		# qs = autocomplete.QuerySetSequence(circunscripciones, dependencias)
+		result_list = list(chain(circunscripciones, unidades, organismos, dependencias, direcciones, departamentos, divisiones))
+
+		# This will limit each queryset so that they show an equal number
+		# of results.
+		# qs = self.mixup_querysets(qs)
+		# qs = circunscripciones
+		# if self.q:
+		# 	qs = qs.filter(circunscripcion__icontains=self.q)
+		# print(qs)
+		return result_list
+	# class FamiliarAutocomplete(autocomplete.Select2QuerySetView):
 # 	def get_queryset(self):
 # 		# Don't forget to filter out results depending on the visitor !
 # 		# if not self.request.user.is_authenticated():

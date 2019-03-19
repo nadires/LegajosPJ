@@ -1,6 +1,9 @@
 {% extends 'base/base.html' %}
 {% load staticfiles %}
+{% block extrastatic %}
+<link rel="stylesheet" href="{% static 'css/barra_busqueda.css' %}">
 
+{% endblock %}
 {% block content %}
 
 <!-- Main content -->
@@ -28,7 +31,6 @@
             <h1>
               {{empleado.legajo|default_if_none:""}}
             </h1>
-            </p>
 
             <hr>
 
@@ -60,169 +62,230 @@
 
         <div class="card card-info">
           <div class="card-header">
-            <h3 class="card-title">Datos del Cargo</h3>
+            <h3 class="card-title">Datos de la Dependencia Laboral</h3>
           </div>
           <!-- /.card-header -->
 
           <div class="card-body">
 
-            {% if cargo_anterior %}
+            {% if dependencia_anterior %}
 
             <div class="card card-primary">
-              <p class="text-center texto_grande">Cargo anterior</p>
+              <p class="text-center texto_grande">Dependencia Laboral anterior</p>
 
               <!-- /.card-header -->
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-12">
-                    <p><strong><i class="fa fa-briefcase"></i> Cargo: </strong><span class="texto_grande">{{cargo_anterior|default_if_none:""}}</span></p>
+                    <p><strong>Circunscripción: </strong><span class="texto_detalle">{{dependencia_anterior.circunscripcion|default_if_none:""}}</span></p>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <p><strong>Unidad: </strong><span class="texto_detalle">{{dependencia_anterior.unidad|default_if_none:""}}</span></p>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <p><strong>Organismo: </strong><span class="texto_detalle">{{dependencia_anterior.organismo|default_if_none:""}}</span></p>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <p><strong>Dependencia: </strong><span class="texto_detalle">{{dependencia_anterior.dependencia|default_if_none:""}}</span></p>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <p><strong>Dirección: </strong><span class="texto_detalle">{{dependencia_anterior.direccion|default_if_none:""}}</span></p>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <p><strong>Departamento: </strong><span class="texto_detalle">{{dependencia_anterior.departamento|default_if_none:""}}</span></p>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <p><strong>División: </strong><span class="texto_detalle">{{dependencia_anterior.division|default_if_none:""}}</span></p>
                   </div>
                 </div>
 
                 <div class="row">
                   <div class="col-md-6">
-                    <p><strong>Nivel: </strong><span class="texto_detalle">{{cargo_anterior.nivel|default_if_none:""}}</span></p>
+                    <p><strong><i class="fa fa-calendar"></i> Fecha de ingreso a la dependencia laboral: </strong><span class="texto_detalle">{{dependencia_anterior.fecha_ingreso_dependencia|date:"d/m/Y"|default_if_none:""}}</span></p>
                   </div>
-                  <div class="col-md-6">
-                    <p><strong>Agrupamiento: </strong><span class="texto_detalle">{{cargo_anterior.agrupamiento|default_if_none:""}}</span></p>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-md-6">
-                    <p><strong>Situación laboral: </strong><span class="texto_detalle">{{cargo_anterior.get_situacion_display|default_if_none:""}}</span></p>
-                  </div>
-                  <div class="col-md-6">
-                    <p><strong>Jurisdicción: </strong><span class="texto_detalle">{{cargo_anterior.get_jurisdiccion_display|default_if_none:""}}</span></p>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-md-6">
-                    <p><strong><i class="fa fa-calendar"></i> Fecha de ingreso al cargo: </strong><span class="texto_detalle">{{cargo_anterior.fecha_ingreso_cargo|date:"d/m/Y"|default_if_none:""}}</span></p>
-                  </div>
-                  {% if cargo_anterior.fecha_vencimiento_cargo %}
-                  <div class="col-md-6">
-                    <p><strong><i class="fa fa-calendar"></i> Fecha de vencimiento del cargo: </strong><span class="texto_detalle">{{cargo_anterior.fecha_vencimiento_cargo|date:"d/m/Y"|default_if_none:""}}</span></p>
-                  </div>
-                  {% endif %}
                 </div>
 
                 <div class="row">
                   <div class="col-md-4">
-                    <p><strong>Tipo Intr. legal: </strong><span>{{cargo_anterior.tipo_instrumento_legal|default_if_none:""}}</span></p>
+                    <p><strong>Tipo Intr. legal: </strong><span>{{dependencia_anterior.tipo_instrumento_legal|default_if_none:""}}</span></p>
                   </div>
                   <div class="col-md-4">
-                    <p><strong>Instrumento legal: </strong><span>{{cargo_anterior.instrumento_legal|default_if_none:""}}</span></p>
+                    <p><strong>Instrumento legal: </strong><span>{{dependencia_anterior.instrumento_legal|default_if_none:""}}</span></p>
                   </div>
                   <div class="col-md-4">
-                    <p><strong><i class="fa fa-calendar"></i> Fecha Instr. legal: </strong><span>{{cargo_anterior.fecha_instr_legal|date:"d/m/Y"|default_if_none:""}}</span></p>
+                    <p><strong><i class="fa fa-calendar"></i> Fecha Instr. legal: </strong><span>{{dependencia_anterior.fecha_instr_legal|date:"d/m/Y"|default_if_none:""}}</span></p>
                   </div>
                 </div>
-
-                <hr>
-                <div class="row">
-                  <div class="col-md-6">
-                    <label >Fecha de fin del cargo anterior</label>
-                    <div class="input-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                      </div>
-                      {{form.fecha_fin_cargo_anterior}}
-                    </div>
-                  </div>
-                </div>
-                {% if form.fecha_fin_cargo_anterior.errors%}
-                <div class="row">
-                  <div class="col-md-6">
-                    <label class="text-danger">{{ form.fecha_fin_cargo_anterior.errors }}</label>
-                  </div>
-                </div>
-                {% endif %}
 
               </div>
               <!-- /.card-body -->
             </div>
             {% endif %}
-
-            <p class="text-center texto_grande">Nuevo Cargo</p>
-
             <form method="post">
               {% csrf_token %}
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label >Cargo *</label>
-                    {{form.cargo}}
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label >Nivel *</label>
-                    {{form.nivel}}
+            <p class="text-center texto_grande">Nueva Dependencia Laboral</p>
+            <div class="row">
+              <div class="col-md-12">
+                <div id="custom-search-input">
+                  <div class="input-group col-md-12">
+                    <!--<input type="text" id="input_search" class="form-control input-lg" placeholder="Buscar por lugar de trabajo" />-->
+                    {{form.dependencias_list}}
+
+                                        <label class="">
+                                            <i class="fa fa-search"></i>
+                                        </label>
+
                   </div>
                 </div>
               </div>
-              {% if form.cargo.errors or form.nivel.errors %}
+            </div>
+
+
               <div class="row">
-                <div class="col-md-6">
-                  <label class="text-danger">{{ form.cargo.errors }}</label>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label >Circunscripción *</label>
+                    {{form.circunscripcion}}
+                  </div>
                 </div>
-                <div class="col-md-6">
-                  <label class="text-danger">{{ form.nivel.errors }}</label>
+              </div>
+              {% if form.circunscripcion.errors %}
+              <div class="row">
+                <div class="col-md-12">
+                  <label class="text-danger">{{ form.circunscripcion.errors }}</label>
+                </div>
+              </div>
+              {% endif %}
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Unidad *</label>
+                    {{form.unidad}}
+                  </div>
+                </div>
+              </div>
+              {% if form.unidad.errors %}
+              <div class="row">
+                <div class="col-md-12">
+                  <label class="text-danger">{{ form.unidad.errors }}</label>
+                </div>
+              </div>
+              {% endif %}
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Organismo *</label>
+                    {{form.organismo}}
+                  </div>
+                </div>
+              </div>
+              {% if form.organismo.errors %}
+              <div class="row">
+                <div class="col-md-12">
+                  <label class="text-danger">{{ form.organismo.errors }}</label>
+                </div>
+              </div>
+              {% endif %}
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Dependencia *</label>
+                    {{form.dependencia}}
+                  </div>
+                </div>
+              </div>
+              {% if form.dependencia.errors %}
+              <div class="row">
+                <div class="col-md-12">
+                  <label class="text-danger">{{ form.dependencia.errors }}</label>
+                </div>
+              </div>
+              {% endif %}
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Dirección *</label>
+                    {{form.direccion}}
+                  </div>
+                </div>
+              </div>
+              {% if form.direccion.errors %}
+              <div class="row">
+                <div class="col-md-12">
+                  <label class="text-danger">{{ form.direccion.errors }}</label>
+                </div>
+              </div>
+              {% endif %}
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Departamento *</label>
+                    {{form.departamento}}
+                  </div>
+                </div>
+              </div>
+              {% if form.departamento.errors %}
+              <div class="row">
+                <div class="col-md-12">
+                  <label class="text-danger">{{ form.departamento.errors }}</label>
+                </div>
+              </div>
+              {% endif %}
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>División *</label>
+                    {{form.division}}
+                  </div>
+                </div>
+              </div>
+              {% if form.division.errors %}
+              <div class="row">
+                <div class="col-md-12">
+                  <label class="text-danger">{{ form.division.errors }}</label>
                 </div>
               </div>
               {% endif %}
 
               <div class="row">
                 <div class="col-md-6">
-                  <div class="form-group">
-                    <label >Agrupamiento *</label>
-                    {{form.agrupamiento}}
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label >Jurisdicción *</label>
-                    {{form.jurisdiccion}}
-                  </div>
-                </div>
-              </div>
-              {% if form.agrupamiento.errors or form.jurisdiccion.errors %}
-              <div class="row">
-                <div class="col-md-6">
-                  <label class="text-danger">{{ form.agrupamiento.errors }}</label>
-                </div>
-                <div class="col-md-6">
-                  <label class="text-danger">{{ form.jurisdiccion.errors }}</label>
-                </div>
-              </div>
-              {% endif %}
-
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label >Situación laboral *</label>
-                    {{form.situacion}}
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <label >Fecha de ingreso al cargo *</label>
+                  <label >Fecha de ingreso a la Dependencia Laboral *</label>
                   <div class="input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                     </div>
-                    {{form.fecha_ingreso_cargo}}
+                    {{form.fecha_ingreso_dependencia}}
                   </div>
                 </div>
               </div>
-              {% if form.situacion.errors or form.fecha_ingreso_cargo.errors %}
+              {% if form.fecha_ingreso_dependencia.errors %}
               <div class="row">
-                <div class="col-md-6">
-                  <label class="text-danger">{{ form.situacion.errors }}</label>
-                </div>
-                <div class="col-md-6">
-                  <label class="text-danger">{{ form.fecha_ingreso_cargo.errors }}</label>
+                <div class="col-md-12">
+                  <label class="text-danger">{{ form.fecha_ingreso_dependencia.errors }}</label>
                 </div>
               </div>
               {% endif %}
@@ -272,6 +335,8 @@
               {% endfor %}
               {% endif %}
 
+
+              <!-- /.card-body -->
               <div class="row separada">
                 <div class="margin">
                   <div class="btn-group">
@@ -284,10 +349,11 @@
                 </div>
               </div>
             </form>
-            <!-- /.card-body -->
           </div>
         </div>
         <!-- /.card -->
+
+
 
         <!-- /.nav-tabs-custom -->
       </div>
@@ -302,6 +368,7 @@
 <!-- /.content -->
 {% endblock %}
 {% block staticfiles_javascript %}
+{{ form.media }}
 <!-- InputMask -->
 <script src="{% static 'plugins/input-mask/jquery.inputmask.js' %}"></script>
 <script src="{% static 'plugins/input-mask/jquery.inputmask.date.extensions.js' %}"></script>
@@ -318,5 +385,7 @@
           
         })
       </script>
+
 {% endblock %}
+
 

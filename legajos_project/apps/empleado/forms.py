@@ -1,9 +1,8 @@
-from dateutil.relativedelta import relativedelta
+
 from django import forms
 from dal import autocomplete
-from django.core.exceptions import ValidationError
 
-from .models import Empleado, Cargo, ImagenEmpleado
+from .models import Empleado, Cargo, ImagenEmpleado, DependenciaLaboral, Circunscripcion
 import datetime
 
 
@@ -173,3 +172,40 @@ class CargoForm(forms.ModelForm):
         else:
             fecha_fin_cargo_anterior = fecha_ingreso_cargo + datetime.timedelta(days=-1)
         return fecha_fin_cargo_anterior
+
+
+class DependenciaLaboralForm(forms.ModelForm):
+    # dependencias_list = forms.TypedChoiceField(required=False, widget=autocomplete.ModelSelect2(url='dependencias-autocomplete-list'))
+    dependencias_list = forms.ModelChoiceField(required=False, queryset=Circunscripcion.objects.values_list('circunscripcion'), widget=autocomplete.ModelSelect2(url='dependencias-autocomplete', attrs={'class': 'form-control', 'data-html': True}))
+
+    class Meta:
+        model = DependenciaLaboral
+        exclude = ['actual']
+
+        widgets = {
+            'circunscripcion': autocomplete.ModelSelect2(url='dependencias-autocomplete', attrs={'class': 'form-control', 'data-html': True}),
+            'unidad': forms.Select(attrs={'class': 'form-control'}),
+            'organismo': forms.Select(attrs={'class': 'form-control'}),
+            'dependencia': forms.Select(attrs={'class': 'form-control'}),
+            'direccion': forms.Select(attrs={'class': 'form-control'}),
+            'departamento': forms.Select(attrs={'class': 'form-control'}),
+            'division': forms.Select(attrs={'class': 'form-control'}),
+            'fecha_ingreso_dependencia': forms.DateInput(
+                attrs={'class': 'form-control', 'placeholder': 'dd/mm/yyyy', 'data-inputmask': "'alias': 'dd/mm/yyyy'",
+                       'data-mask': ''}),
+            'instrumento_legal': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': 'Ej: 4400', 'autocomplete': 'off'}),
+            'tipo_instrumento_legal': forms.Select(attrs={'class': 'form-control'}),
+            'fecha_instr_legal': forms.DateInput(
+                attrs={'class': 'form-control', 'placeholder': 'dd/mm/yyyy', 'data-inputmask': "'alias': 'dd/mm/yyyy'",
+                       'data-mask': ''}),
+
+        }
+
+
+# class ListadoDependenciasForm(forms.Form):
+#     dependencias_list = forms.CharField(required=False,
+#                                         widget=autocomplete.Select2(
+#                                             url='dependencias-autocomplete',
+#                                             attrs={'class': 'form-control', 'data-html': True})
+#                                         )

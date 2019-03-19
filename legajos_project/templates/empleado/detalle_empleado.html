@@ -335,10 +335,94 @@
                     {% if not empleado.borrado %}
                       <div class="container">
                         <div class="clearfix separada">
-                            <a href="{% url 'cargo_create' empleado.pk %}" class="btn btn-success  separa_boton"><i class="fa fa-plus"></i> Agregar nuevo cargo</a>
+
                             {% if cargo %}
+                            <a href="{% url 'cargo_create' empleado.pk %}" class="btn btn-success  separa_boton"><i class="fa fa-plus"></i> Cambio de cargo</a>
                             <a href="{% url 'cargo_update' empleado.pk cargo.pk %}" class="btn btn-primary  separa_boton"><i class="fa fa-pencil"></i> Modificar cargo existente</a>
                             <a href="{% url 'foja_servicios' empleado.pk %}" class="btn btn-info  separa_boton"><i class="fa fa-file-text-o"></i> Ver Foja de Servicios</a>
+                            {% else %}
+                            <a href="{% url 'cargo_create' empleado.pk %}" class="btn btn-success  separa_boton"><i class="fa fa-plus"></i> Agregar cargo</a>
+                            {% endif %}
+                        </div>
+                      </div>
+                      <hr>
+                    {% endif %}
+
+                    {% if not dependencia %}
+                      <div class="alert alert-danger alert-dismissible">
+                        El empleado no posee Dependencia, por favor agregue una nueva dependencia
+                      </div>
+                    {% endif %}
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <p><strong></i> Circunscripción: </strong><span class="texto_detalle">{{dependencia.circunscripcion|default_if_none:""}}</span></p>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                            <div class="col-md-12">
+                              <p><strong>Unidad: </strong><span class="texto_detalle">{{dependencia.unidad|default_if_none:""}}</span></p>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-12">
+                              <p><strong>Organismo: </strong><span class="texto_detalle">{{dependencia.organismo|default_if_none:""}}</span></p>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-12">
+                              <p><strong>Dependencia: </strong><span class="texto_detalle">{{dependencia.dependencia|default_if_none:""}}</span></p>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-12">
+                              <p><strong>Dirección: </strong><span class="texto_detalle">{{dependencia.direccion|default_if_none:""}}</span></p>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-12">
+                              <p><strong>Departamento: </strong><span class="texto_detalle">{{dependencia.departamento|default_if_none:""}}</span></p>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-12">
+                              <p><strong>División: </strong><span class="texto_detalle">{{dependencia.division|default_if_none:""}}</span></p>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-12">
+                              <p><strong><i class="fa fa-calendar"></i> Fecha de ingreso a la dependencia laboral: </strong><span class="texto_detalle">{{dependencia.fecha_ingreso_dependencia|date:"d/m/Y"|default_if_none:""}}</span></p>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-4">
+                              <p><strong>Tipo Intr. legal: </strong><span>{{dependencia.tipo_instrumento_legal|default_if_none:""}}</span></p>
+                            </div>
+                            <div class="col-md-4">
+                              <p><strong>Instrumento legal: </strong><span>{{dependencia.instrumento_legal|default_if_none:""}}</span></p>
+                            </div>
+                            <div class="col-md-4">
+                              <p><strong><i class="fa fa-calendar"></i> Fecha Instr. legal: </strong><span>{{dependencia.fecha_instr_legal|date:"d/m/Y"|default_if_none:""}}</span></p>
+                            </div>
+                          </div>
+
+                    {% if not empleado.borrado %}
+                      <div class="container">
+                        <div class="clearfix separada">
+                            {% if dependencia %}
+                            <a href="{% url 'dependencia_create' empleado.pk %}" class="btn btn-success  separa_boton"><i class="fa fa-plus"></i> Agregar traslado</a>
+                            <a href="{% url 'dependencia_update' empleado.pk dependencia.pk %}" class="btn btn-primary  separa_boton"><i class="fa fa-pencil"></i> Modificar dependencia existente</a>
+                            <a href="{% url 'foja_servicios' empleado.pk %}" class="btn btn-info  separa_boton"><i class="fa fa-file-text-o"></i> Ver Historial de Traslados</a>
+                            {% else %}
+                            <a href="{% url 'dependencia_create' empleado.pk %}" class="btn btn-success  separa_boton"><i class="fa fa-plus"></i> Agregar dependencia</a>
                             {% endif %}
                         </div>
                       </div>
@@ -347,6 +431,7 @@
                     
                   </div>
                   <!-- /.tab-pane -->
+
 
                   <div class="tab-pane" id="licencias">
                     

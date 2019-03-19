@@ -19,9 +19,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from apps.empleado.views import EmpleadoList, EmpleadoListDowns, EmpleadoDetail, EmpleadoCreate, \
-                                EmpleadoUpdate, EmpleadoDown, EmpleadoRestore, CargoCreate, CargoUpdate,\
-                                FojaServicios, \
-                                ImagenesEmpleadoView, EmpleadoPDF
+    EmpleadoUpdate, EmpleadoDown, EmpleadoRestore, CargoCreate, CargoUpdate, FojaServicios, \
+    DependenciaLaboralCreate, DependenciaLaboralUpdate, \
+    ImagenesEmpleadoView, EmpleadoPDF, exportar_excel, DependenciasAutocomplete
 from apps.empleado.api.views import EmpleadoModelViewSet, EmpleadoViewSet, EmpleadoViewSetReadOnly, EmpleadoApiView
 from rest_framework.routers import DefaultRouter
 
@@ -33,7 +33,7 @@ router.register('viewset/<int:pk>',EmpleadoViewSet, basename='empleadoviewset')
 router.register('viewset/<string:apellido>',EmpleadoViewSet, basename='empleadoviewset')
 
 urlpatterns = [
-#----------------------------------- EMPLEADO -----------------------------------------
+# ----------------------------------- EMPLEADO -----------------------------------------
     path('', EmpleadoList.as_view(), name="empleado_list"),
     path('<int:pk>/', EmpleadoDetail.as_view(), name="empleado_detail"),
     path('nuevo/', EmpleadoCreate.as_view(), name="empleado_create"),
@@ -42,17 +42,25 @@ urlpatterns = [
     path('empleados-eliminados', EmpleadoListDowns.as_view(), name="empleado_list_downs"),
     path('restaurar/<int:pk>', EmpleadoRestore.as_view(), name="empleado_restore"),
 
-#----------------------------------- CARGO -----------------------------------------
+# ----------------------------------- CARGO -----------------------------------------
     path('<int:pk>/nuevo-cargo/', CargoCreate.as_view(), name="cargo_create"),
     path('<int:id_empleado>/modificar-cargo/<int:pk>', CargoUpdate.as_view(), name="cargo_update"),
     path('<int:pk>/foja-servicios/', FojaServicios.as_view(), name="foja_servicios"),
 
-#----------------------------------- OTROS -----------------------------------------
+# ----------------------------------- DEPENDENCIA -----------------------------------------
+    path('<int:pk>/nueva-dependencia/', DependenciaLaboralCreate.as_view(), name="dependencia_create"),
+    path('<int:id_empleado>/modificar-dependencia/<int:pk>', DependenciaLaboralUpdate.as_view(), name="dependencia_update"),
+
+# ----------------------------------- OTROS -----------------------------------------
     path('<int:id_empleado>/<int:id_seccion>/', ImagenesEmpleadoView.as_view(), name='imagenes_empleado'),
     path('pdf/<int:pk>', EmpleadoPDF.as_view(), name="empleado_pdf"),
 
     path('api/v1/', include(router.urls)),
     path('api/v1/apiview', EmpleadoApiView.as_view(), name="empleadoapiview"),
+
+    path('exportar/', exportar_excel, name="exportar"),
+
+    path('dependencias-autocomplete/', DependenciasAutocomplete.as_view(), name='dependencias-autocomplete'),
 
     # path('familiar-autocomplete/', FamiliarAutocomplete.as_view(), name='familiar-autocomplete',),
 
