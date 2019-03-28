@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'easy_pdf',
     'dal',
     'dal_select2',
+    'dbbackup',
 ]
 
 MIDDLEWARE = [
@@ -130,3 +131,45 @@ LOGOUT_REDIRECT_URL = reverse_lazy('login')
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
 }
+
+if 'dbbackup' in INSTALLED_APPS:
+    DBBACKUP_DIR = os.path.join(
+        os.path.dirname(BASE_DIR),
+        'deploy/backup'
+    )
+    DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+    DBBACKUP_STORAGE_OPTIONS = {'location': DBBACKUP_DIR}
+
+if DEBUG:
+    INSTALLED_APPS += [
+        'debug_toolbar',
+    ]
+
+if 'debug_toolbar' in INSTALLED_APPS:
+    MIDDLEWARE += [
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+    ]
+    # to debug_toolbar app
+    # DEBUG_TOOLBAR_PANELS = [
+    #     'debug_toolbar.panels.versions.VersionsPanel',
+    #     'debug_toolbar.panels.timer.TimerPanel',
+    #     'debug_toolbar.panels.settings.SettingsPanel',
+    #     'debug_toolbar.panels.headers.HeadersPanel',
+    #     'debug_toolbar.panels.request.RequestPanel',
+    #     'debug_toolbar.panels.sql.SQLPanel',
+    #     'debug_toolbar.panels.staticfiles.StaticFilesPanel',
+    #     'debug_toolbar.panels.templates.TemplatesPanel',
+    #     'debug_toolbar.panels.cache.CachePanel',
+    #     'debug_toolbar.panels.signals.SignalsPanel',
+    #     'debug_toolbar.panels.logging.LoggingPanel',
+    #     'debug_toolbar.panels.redirects.RedirectsPanel',
+    # ]
+    # This example is unlikely to be appropriate for your project.
+    # CONFIG_DEFAULTS = {
+    #     # Toolbar options
+    #     'RESULTS_CACHE_SIZE': 3,
+    #     'SHOW_COLLAPSED': True,
+    #     # Panel options
+    #     'SQL_WARNING_THRESHOLD': 100,  # milliseconds
+    # }
+    INTERNAL_IPS = ('127.0.0.1',)
