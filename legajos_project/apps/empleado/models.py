@@ -125,6 +125,9 @@ class Circunscripcion(models.Model):
 	def __str__(self):
 		return self.circunscripcion
 
+	def get_class(self):
+		return 'Circunscripción'
+
 	class Meta:
 		ordering = ('circunscripcion',)
 		verbose_name = 'Circunscripción'
@@ -137,6 +140,9 @@ class Unidad(models.Model):
 
 	def __str__(self):
 		return self.unidad
+
+	def get_class(self):
+		return 'Unidad'
 
 	class Meta:
 		ordering = ('unidad',)
@@ -151,6 +157,9 @@ class Organismo(models.Model):
 	def __str__(self):
 		return self.organismo
 
+	def get_class(self):
+		return 'Organismo'
+
 	class Meta:
 		ordering = ('organismo',)
 
@@ -162,6 +171,9 @@ class Dependencia(models.Model):
 	def __str__(self):
 		return self.dependencia
 
+	def get_class(self):
+		return 'Dependencia'
+
 	class Meta:
 		ordering = ('dependencia',)
 
@@ -172,6 +184,9 @@ class Direccion(models.Model):
 
 	def __str__(self):
 		return self.direccion
+
+	def get_class(self):
+		return 'Dirección'
 
 	class Meta:
 		ordering = ('direccion',)
@@ -186,6 +201,9 @@ class Departamento(models.Model):
 	def __str__(self):
 		return self.departamento
 
+	def get_class(self):
+		return 'Departamento'
+
 	class Meta:
 		ordering = ('departamento',)
 
@@ -196,6 +214,9 @@ class Division(models.Model):
 
 	def __str__(self):
 		return self.division
+
+	def get_class(self):
+		return 'División'
 
 	class Meta:
 		ordering = ('division',)
