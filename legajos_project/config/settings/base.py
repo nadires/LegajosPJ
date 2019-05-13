@@ -18,13 +18,11 @@ from django.urls import reverse_lazy
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '!_k3q45i0m8nr3!ky3mnv^$c6+@@xf*h9uzh5z-^=rak6mib=n'
-
 
 # Application definition
 
@@ -41,7 +39,7 @@ INSTALLED_APPS = [
     'apps.util',
     'apps.core',
 
-    #Apps externas
+    # Apps externas
     'rest_framework',
     'easy_pdf',
     'dal',
@@ -79,7 +77,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 
@@ -110,7 +107,7 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = False
 
-TIME_INPUT_FORMATS = ['%H:%M',]
+TIME_INPUT_FORMATS = ['%H:%M', ]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
@@ -123,10 +120,8 @@ STATICFILES_DIRS = (
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.abspath(BASE_DIR), 'media')
 
-
 LOGIN_REDIRECT_URL = reverse_lazy('home')
 LOGOUT_REDIRECT_URL = reverse_lazy('login')
-
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
