@@ -1,4 +1,7 @@
 $(document).ready( function () {
+    $('#modalBuscarDependencias').on('shown.bs.modal', function () {
+        $('#input_search').focus();
+    });
     $('.btnSeleccionarDependencia').on("click", function() {
         var tipo = $(this).parents('td').siblings('.fila_tipo').html();
         var codigo = $(this).parents('td').siblings('.fila_codigo').html();
