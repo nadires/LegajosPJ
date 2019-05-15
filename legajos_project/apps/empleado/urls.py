@@ -21,8 +21,9 @@ from django.conf.urls.static import static
 from apps.empleado.views import EmpleadoList, EmpleadoListDowns, EmpleadoDetail, EmpleadoCreate, \
     EmpleadoUpdate, EmpleadoDown, EmpleadoRestore, CargoCreate, CargoUpdate, FojaServicios, \
     DependenciaLaboralCreate, DependenciaLaboralUpdate, \
-    ImagenesEmpleadoView, EmpleadoPDF, exportar_excel, DependenciasAutocomplete
-from apps.empleado.api.views import EmpleadoModelViewSet, EmpleadoViewSet, EmpleadoViewSetReadOnly, EmpleadoApiView
+    ImagenesEmpleadoView, EmpleadoPDF, exportar_excel
+from .api.views import EmpleadoModelViewSet, EmpleadoViewSet, EmpleadoViewSetReadOnly, \
+                        EmpleadoApiView, EndpointDependencias
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -57,10 +58,11 @@ urlpatterns = [
 
     path('api/v1/', include(router.urls)),
     path('api/v1/apiview', EmpleadoApiView.as_view(), name="empleadoapiview"),
+    path('api/v1/dependencias', EndpointDependencias.as_view(), name="endpoint_dependencias"),
 
     path('exportar/', exportar_excel, name="exportar"),
 
-    path('dependencias-autocomplete/', DependenciasAutocomplete.as_view(), name='dependencias-autocomplete'),
+    # path('dependencias-autocomplete/', DependenciasAutocomplete.as_view(), name='dependencias-autocomplete'),
 
     # path('familiar-autocomplete/', FamiliarAutocomplete.as_view(), name='familiar-autocomplete',),
 
