@@ -279,6 +279,9 @@ class DependenciaLaboral(models.Model):
 		verbose_name_plural = 'Dependencias Laborales'
 
 # ------------------------------ FIN DEPENDENCIA ----------------------------------------
+# Genera una url con el formato /media/empleado/(nro_legajo)/nombre_archivo.jpg
+def url_upload_to(instance, filename):
+		return '/'.join(['empleado/%s/' %instance.empleado.legajo, filename])
 
 
 class Empleado(Signature, AbstractDireccion):	
@@ -321,6 +324,7 @@ class Empleado(Signature, AbstractDireccion):
 	tel_fijo = models.CharField('Teléfono Fijo', max_length=17, blank=True, null=True)
 	tel_cel = models.CharField('Teléfono Celular', max_length=17, blank=True, null=True)
 	email = models.EmailField('E-mail', blank=True, null=True)
+	foto_perfil = models.ImageField(upload_to='empleados', blank=True, null=True)
 
 	# DATOS LABORALES
 	legajo = models.PositiveIntegerField()

@@ -27,7 +27,7 @@ class EmpleadosAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Datos Personales', {'fields': ('apellido', 'nombre', 'tipo_doc', 'documento', 'cuil', 
                                 'sexo', 'fecha_nac', 'estado_civil', 'nacionalidad', 'lugar_nac', 
-                                'tel_fijo', 'tel_cel', 'email')}),
+                                'tel_fijo', 'tel_cel', 'email', 'foto_perfil')}),
         ('Domicilio', {'fields': ('domicilio', 'barrio', 'piso', 'dpto', 
                                     'localidad', 'cod_postal', 'departamento', 'provincia')}),
         ('Datos Laborales', {'fields': ('legajo', 'fecha_ingreso', 
@@ -62,17 +62,16 @@ class ImagenesEmpleadosAdmin(admin.ModelAdmin):
         (None, {'fields': ('imagen', 'persona', 'seccion', 'fecha_subida')}),
         ('Datos Extras', {'fields': ('created_on', 'created_by', 'modified_on', 'modified_by')}),
     )
-    
 
     def save_model(self, request, instance, form, change):
-    	user = request.user
-    	instance = form.save(commit=False)
-    	if not change or not instance.created_by:
-    		instance.created_by = user
-    		instance.modified_by = user
-    		return instance
-    	instance.save()
-    	form.save_m2m()
+        user = request.user
+        instance = form.save(commit=False)
+        if not change or not instance.created_by:
+            instance.created_by = user
+            instance.modified_by = user
+            return instance
+        instance.save()
+        form.save_m2m()
 
 
 admin.site.register(Empleado, EmpleadosAdmin)
