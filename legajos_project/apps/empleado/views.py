@@ -245,7 +245,7 @@ class EmpleadoRestore(SuccessMessageMixin, UpdateView):
 class CargoCreate(SuccessMessageMixin, CreateView):
     model = Cargo
     form_class = CargoForm
-    template_name = 'empleado/cargo_form.html'
+    template_name = 'empleado/cargo/cargo_form.html'
     success_message = "¡El cargo fue agregado con éxito!"
 
     def get_success_url(self, **kwargs):
@@ -301,7 +301,7 @@ class CargoCreate(SuccessMessageMixin, CreateView):
 class CargoUpdate(SuccessMessageMixin, UpdateView):
     model = Cargo
     form_class = CargoForm
-    template_name = 'empleado/cargo_form.html'
+    template_name = 'empleado/cargo/cargo_form.html'
     success_message = "¡El cargo fue modificado con éxito!"
 
     def get_success_url(self, **kwargs):
@@ -356,7 +356,7 @@ class CargoUpdate(SuccessMessageMixin, UpdateView):
 
 class FojaServicios(DetailView):
     model = Empleado
-    template_name = 'empleado/foja_servicios.html'
+    template_name = 'empleado/cargo/foja_servicios.html'
     context_object_name = 'empleado'
 
     def get_context_data(self, **kwargs):
@@ -388,7 +388,7 @@ class FojaServicios(DetailView):
 class DependenciaLaboralCreate(SuccessMessageMixin, CreateView):
     model = DependenciaLaboral
     form_class = DependenciaLaboralForm
-    template_name = 'empleado/dependencia_form.html'
+    template_name = 'empleado/dependencia/dependencia_form.html'
     success_message = "¡La dependencia laboral fue agregada con éxito!"
 
     def get_success_url(self, **kwargs):
@@ -457,7 +457,7 @@ class DependenciaLaboralCreate(SuccessMessageMixin, CreateView):
 class DependenciaLaboralUpdate(SuccessMessageMixin, UpdateView):
     model = DependenciaLaboral
     form_class = DependenciaLaboralForm
-    template_name = 'empleado/dependencia_form.html'
+    template_name = 'empleado/dependencia/dependencia_form.html'
     success_message = "¡La dependencia fue modificada con éxito!"
 
     def get_success_url(self, **kwargs):
@@ -519,7 +519,7 @@ class DependenciaLaboralUpdate(SuccessMessageMixin, UpdateView):
 
 class HistorialTraslados(DetailView):
     model = Empleado
-    template_name = 'empleado/foja_servicios.html'
+    template_name = 'empleado/dependencia/historial_traslados.html'
     context_object_name = 'empleado'
 
     def get_context_data(self, **kwargs):
