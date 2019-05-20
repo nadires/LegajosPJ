@@ -262,7 +262,14 @@ class CargoCreate(SuccessMessageMixin, CreateView):
             cargo_anterior = Cargo.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
         except Cargo.DoesNotExist:
             cargo_anterior = None
-        context['cargo_anterior'] = cargo_anterior
+        # Intenta consultar la dependencia, si no tiene lanza la excepcion y pone cargo = None
+        try:
+            dependencia = DependenciaLaboral.objects.get(object_id=empleado.id, content_type=contenttype_obj,
+                                                         actual=True)
+        except DependenciaLaboral.DoesNotExist:
+            dependencia = None
+        context['dependencia'] = dependencia
+        context['cargo'] = cargo_anterior
         context['titulo'] = "Agregar Cargo"
         context['CargoCreate'] = True
         return context
@@ -305,6 +312,20 @@ class CargoUpdate(SuccessMessageMixin, UpdateView):
         id_empleado = self.kwargs.get('id_empleado', 0)
         empleado = Empleado.objects.get(pk=id_empleado)
         context['empleado'] = empleado
+        contenttype_obj = ContentType.objects.get_for_model(Empleado)
+        # Intenta consultar el cargo, si no tiene lanza la excepcion y pone cargo_anterior = None
+        try:
+            cargo = Cargo.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
+        except Cargo.DoesNotExist:
+            cargo = None
+        context['cargo'] = cargo
+        # Intenta consultar la dependencia, si no tiene lanza la excepcion y pone cargo = None
+        try:
+            dependencia = DependenciaLaboral.objects.get(object_id=empleado.id, content_type=contenttype_obj,
+                                                         actual=True)
+        except DependenciaLaboral.DoesNotExist:
+            dependencia = None
+        context['dependencia'] = dependencia
         context['titulo'] = "Modificar Cargo"
         context['CargoUpdate'] = True
         return context
@@ -342,6 +363,20 @@ class FojaServicios(DetailView):
         context = super(FojaServicios, self).get_context_data(**kwargs)
 
         contenttype_obj = ContentType.objects.get_for_model(self.object)
+        # Intenta consultar el cargo, si no tiene lanza la excepcion y pone cargo_anterior = None
+        try:
+            cargo = Cargo.objects.get(object_id=self.object.id, content_type=contenttype_obj, actual=True)
+        except Cargo.DoesNotExist:
+            cargo = None
+        context['cargo'] = cargo
+        # Intenta consultar la dependencia, si no tiene lanza la excepcion y pone cargo = None
+        try:
+            dependencia = DependenciaLaboral.objects.get(object_id=self.object.id, content_type=contenttype_obj,
+                                                         actual=True)
+        except DependenciaLaboral.DoesNotExist:
+            dependencia = None
+        context['dependencia'] = dependencia
+
         cargos = Cargo.objects.filter(object_id=self.object.id, content_type=contenttype_obj).order_by('-fecha_ingreso_cargo')
         context['cargos'] = cargos
         context['FojaServicios'] = True
@@ -365,6 +400,19 @@ class DependenciaLaboralCreate(SuccessMessageMixin, CreateView):
         empleado = Empleado.objects.get(pk=id_empleado)
         context['empleado'] = empleado
         contenttype_obj = ContentType.objects.get_for_model(Empleado)
+        # Intenta consultar el cargo, si no tiene lanza la excepcion y pone cargo_anterior = None
+        try:
+            cargo = Cargo.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
+        except Cargo.DoesNotExist:
+            cargo = None
+        context['cargo'] = cargo
+        # Intenta consultar la dependencia, si no tiene lanza la excepcion y pone cargo = None
+        try:
+            dependencia = DependenciaLaboral.objects.get(object_id=empleado.id, content_type=contenttype_obj,
+                                                         actual=True)
+        except DependenciaLaboral.DoesNotExist:
+            dependencia = None
+        context['dependencia'] = dependencia
         # Intenta consultar la dependencia, si no tiene lanza la excepcion y pone dependencia_anterior = None
         try:
             dependencia_anterior = DependenciaLaboral.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
@@ -419,6 +467,20 @@ class DependenciaLaboralUpdate(SuccessMessageMixin, UpdateView):
         context = super(DependenciaLaboralUpdate, self).get_context_data(**kwargs)
         id_empleado = self.kwargs.get('id_empleado', 0)
         empleado = Empleado.objects.get(pk=id_empleado)
+        contenttype_obj = ContentType.objects.get_for_model(Empleado)
+        # Intenta consultar el cargo, si no tiene lanza la excepcion y pone cargo_anterior = None
+        try:
+            cargo = Cargo.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
+        except Cargo.DoesNotExist:
+            cargo = None
+        context['cargo'] = cargo
+        # Intenta consultar la dependencia, si no tiene lanza la excepcion y pone cargo = None
+        try:
+            dependencia = DependenciaLaboral.objects.get(object_id=empleado.id, content_type=contenttype_obj,
+                                                         actual=True)
+        except DependenciaLaboral.DoesNotExist:
+            dependencia = None
+        context['dependencia'] = dependencia
         circunscripciones = Circunscripcion.objects.all()
         unidades = Unidad.objects.all()
         organismos = Organismo.objects.all()
@@ -455,7 +517,7 @@ class DependenciaLaboralUpdate(SuccessMessageMixin, UpdateView):
         return super().form_valid(form)
 
 
-class FojaServicios(DetailView):
+class HistorialTraslados(DetailView):
     model = Empleado
     template_name = 'empleado/foja_servicios.html'
     context_object_name = 'empleado'

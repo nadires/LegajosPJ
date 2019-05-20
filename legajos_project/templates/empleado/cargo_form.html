@@ -8,54 +8,7 @@
   <div class="container-fluid">
 
     <div class="row">
-      <div class="col-md-3">
-        <!-- Profile Image -->
-        <div class="card card-primary card-outline">
-          <div class="card-body box-profile">
-            <div class="text-center">
-              <img class="profile-user-img img-fluid img-circle"
-                   src="{% static 'images/perfil.png' %}"
-                   alt="User profile picture">
-            </div>
-
-            <h3 class="profile-username text-center">{{empleado.apellido|default_if_none:""}} {{empleado.nombre|default_if_none:""}}</h3>
-
-            <p class="text-muted text-center">{{ cargo|default_if_none:"" }}</p>
-
-            <strong><i class="fa fa-folder"></i> N° Legajo</strong>
-
-            <p class="text-muted">
-            <h1>
-              {{empleado.legajo|default_if_none:""}}
-            </h1>
-            </p>
-
-            <hr>
-
-            <strong><i class="fa fa-map-marker mr-1"></i> Domicilio</strong>
-
-            <p class="text-muted">{{empleado.domicilio|default_if_none:""}}, {{empleado.localidad|default_if_none:""}}, {{empleado.get_departamento_display|default_if_none:""}}, {{empleado.get_provincia_display|default_if_none:""}}</p>
-
-            <hr>
-
-            <strong><i class="fa fa-phone"></i> Teléfono/s</strong>
-
-            <p class="text-muted">{{empleado.tel_fijo|default_if_none:""}}
-              {% if empleado.tel_fijo and empleado.tel_cel %}-{% endif %}
-              {{empleado.tel_cel|default_if_none:""}}</p>
-
-            <hr>
-
-            <strong><i class="fa fa-envelope"></i> Email</strong>
-
-            <p class="text-muted">{{empleado.email|default_if_none:""}}</p>
-
-          </div>
-          <!-- /.card-body -->
-        </div>
-        <!-- /.card -->
-      </div>
-      <!-- /.col -->
+      {% include 'empleado/base/resumen_perfil.html' %}
       <div class="col-md-9">
 
         <div class="card card-info">
