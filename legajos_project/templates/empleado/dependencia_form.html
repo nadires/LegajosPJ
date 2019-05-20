@@ -141,22 +141,15 @@
             {% endif %}
             <form method="post">
               {% csrf_token %}
-            <p class="text-center texto_grande">Nueva Dependencia Laboral</p>
-            <div class="row">
-              <div class="col-md-12">
-                <div id="custom-search-input">
-                  <div class="input-group col-md-12">
-                    <!--<input type="text" id="input_search" class="form-control input-lg" placeholder="Buscar por lugar de trabajo" />-->
-                    {{form.dependencias_list}}
-
-                                        <label class="">
-                                            <i class="fa fa-search"></i>
-                                        </label>
-
-                  </div>
+              <p class="text-center texto_grande">Nueva Dependencia Laboral</p>
+              <div class="row">
+                <div class="col-md-12">
+                  <!-- Button trigger modal -->
+                  <button type="button" id="btnSearch" class="btn btn-primary" data-toggle="modal" data-target="#modalBuscarDependencias" style="margin-bottom: 30px;">
+                    <i class="fa fa-search"></i> Buscar dependencia
+                  </button>
                 </div>
               </div>
-            </div>
 
 
               <div class="row">
@@ -366,9 +359,69 @@
   </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
+
+<!-- Modal -->
+<div class="modal fade" id="modalBuscarDependencias" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Buscar dependencia</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div id="custom-search-input">
+              <div class="input-group col-md-12">
+                <input type="text" id="input_search" class="form-control input-lg" placeholder="Ingrese clave de búsqueda" />
+                <span class="input-group-btn">
+                              <label class="">
+                                  <i class="fa fa-search"></i>
+                              </label>
+                          </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <table id="listTable" class="table table-hover">
+          <thead>
+          <tr>
+            <th data-field="nivel">NIVEL</th>
+            <th hidden>CÓDIGO</th>
+            <th data-field="dependencia">DEPENDENCIA</th>
+            <th>ACCIÓN</th>
+          </tr>
+          </thead>
+          <tbody id="cuerpo_tabla">
+          <div>
+            {% for dependencia in listado_dependencias %}
+            <tr>
+
+              <td class="fila_tipo" >{{ dependencia.get_class }}</td>
+              <td class="fila_codigo" hidden >{{ dependencia.pk }}</td>
+              <td>{{ dependencia }}</td>
+              <td><button type="button" class="btn btn-info btnSeleccionarDependencia">Seleccionar</button></td>
+            </tr>
+            {% endfor %}
+          </div>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
 {% block staticfiles_javascript %}
 {{ form.media }}
+
+<script type="text/javascript" src="{% static 'js/custom_datatable.js' %}"></script>
+  <script type="text/javascript" src="{% static 'DataTables/datatables.min.js' %}"></script>
 <!-- InputMask -->
 <script src="{% static 'plugins/input-mask/jquery.inputmask.js' %}"></script>
 <script src="{% static 'plugins/input-mask/jquery.inputmask.date.extensions.js' %}"></script>
@@ -385,7 +438,8 @@
           
         })
       </script>
-
+<script type="text/javascript" src="{% static 'js/djangoAjax.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/buscar_dependencia.js' %}"></script>
 {% endblock %}
 
 

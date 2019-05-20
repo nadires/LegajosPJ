@@ -176,14 +176,14 @@ class CargoForm(forms.ModelForm):
 
 class DependenciaLaboralForm(forms.ModelForm):
     # dependencias_list = forms.TypedChoiceField(required=False, widget=autocomplete.ModelSelect2(url='dependencias-autocomplete-list'))
-    dependencias_list = forms.ModelChoiceField(required=False, queryset=Circunscripcion.objects.values_list('circunscripcion'), widget=autocomplete.ModelSelect2(url='dependencias-autocomplete', attrs={'class': 'form-control', 'data-html': True}))
+    # dependencias_list = forms.ModelChoiceField(required=False, queryset=Circunscripcion.objects.values_list('circunscripcion'), widget=autocomplete.ModelSelect2(url='dependencias-autocomplete', attrs={'class': 'form-control', 'data-html': True}))
 
     class Meta:
         model = DependenciaLaboral
         exclude = ['actual']
 
         widgets = {
-            'circunscripcion': autocomplete.ModelSelect2(url='dependencias-autocomplete', attrs={'class': 'form-control', 'data-html': True}),
+            'circunscripcion': forms.Select(attrs={'class': 'form-control'}),
             'unidad': forms.Select(attrs={'class': 'form-control'}),
             'organismo': forms.Select(attrs={'class': 'form-control'}),
             'dependencia': forms.Select(attrs={'class': 'form-control'}),

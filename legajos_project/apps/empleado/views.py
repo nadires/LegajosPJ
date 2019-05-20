@@ -2,6 +2,8 @@ from itertools import chain
 
 from django.core.exceptions import ValidationError
 from django.db.models import Q
+from django.forms import ModelChoiceField
+from django import forms
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views import View
@@ -14,7 +16,7 @@ from datetime import datetime
 from django.core.cache import cache
 
 from .models import Empleado, Cargo, ImagenEmpleado, DependenciaLaboral, \
-					Circunscripcion, Unidad, Organismo, Dependencia, Direccion, Departamento, Division
+    Circunscripcion, Unidad, Organismo, Dependencia, Direccion, Departamento, Division
 from apps.util.models import Seccion
 from .forms import EmpleadoForm, CargoForm, DependenciaLaboralForm
 
@@ -29,438 +31,456 @@ from django.contrib.contenttypes.models import ContentType
 
 
 class EmpleadoList(ListView):
-	model = Empleado
-	template_name = 'empleado/listado_empleados.html'
-	context_object_name = 'listado_empleados'
-	queryset = Empleado.activos.all()
+    model = Empleado
+    template_name = 'empleado/listado_empleados.html'
+    context_object_name = 'listado_empleados'
+    queryset = Empleado.activos.all()
 
-	def get_context_data(self, **kwargs):
-		context = super(EmpleadoList, self).get_context_data(**kwargs)	
-		context['titulo'] = "Listado de Empleados"
-		context['EmpleadoList'] = True
-		return context
+    def get_context_data(self, **kwargs):
+        context = super(EmpleadoList, self).get_context_data(**kwargs)
+        context['titulo'] = "Listado de Empleados"
+        context['EmpleadoList'] = True
+        return context
 
 
 class EmpleadoListDowns(ListView):
-	"""
-		Muestra el listado de empleados eliminados
-	"""
-	model = Empleado
-	template_name = 'empleado/listado_empleados_baja.html'
-	context_object_name = 'listado_empleados_baja'
-	queryset = Empleado.objects.filter(borrado=True)
+    """
+        Muestra el listado de empleados eliminados
+    """
+    model = Empleado
+    template_name = 'empleado/listado_empleados_baja.html'
+    context_object_name = 'listado_empleados_baja'
+    queryset = Empleado.objects.filter(borrado=True)
 
-	def get_context_data(self, **kwargs):
-		context = super(EmpleadoListDowns, self).get_context_data(**kwargs)	
-		context['titulo'] = "Listado de Empleados de Baja"
-		context['EmpleadoListDowns'] = True
-		return context
+    def get_context_data(self, **kwargs):
+        context = super(EmpleadoListDowns, self).get_context_data(**kwargs)
+        context['titulo'] = "Listado de Empleados de Baja"
+        context['EmpleadoListDowns'] = True
+        return context
 
 
 class EmpleadoDetail(DetailView):
-	model = Empleado
-	template_name = 'empleado/detalle_empleado.html'
-	context_object_name = 'empleado'
+    model = Empleado
+    template_name = 'empleado/detalle_empleado.html'
+    context_object_name = 'empleado'
 
-	def get_context_data(self, **kwargs):
-		context = super(EmpleadoDetail, self).get_context_data(**kwargs)
-		secciones = Seccion.objects.all() # Busco todas las secciones
-		listado = []  # Listado que contendrá los diccionarios
-		for seccion in secciones:  # Recorro el listado de secciones
-			elemento = {
-				'seccion': seccion}  # Creo un diccionario por cada seccion guardando el nombre y la cantidad de imagenes que tiene
-			id_empleado = self.kwargs.get('pk', 0) # Obtengo el id de la empleado
-			elemento['cantidad_imagenes'] = seccion.cantidad_imagenes_por_seccion(id_empleado)
-			listado.append(elemento)  # Agrego el diccionario a la lista a retornar
-	
-		context['seccion_list'] = listado
-		contenttype_obj = ContentType.objects.get_for_model(self.object)
-		# Intenta consultar el cargo, si no tiene lanza la excepcion y pone cargo = None
-		try:
-			cargo = Cargo.objects.get(object_id=self.object.id, content_type=contenttype_obj, actual=True)
-		except Cargo.DoesNotExist:
-			cargo = None
-		context['cargo'] = cargo
+    def get_context_data(self, **kwargs):
+        context = super(EmpleadoDetail, self).get_context_data(**kwargs)
+        secciones = Seccion.objects.all() # Busco todas las secciones
+        listado = []  # Listado que contendrá los diccionarios
+        for seccion in secciones:  # Recorro el listado de secciones
+            elemento = {
+                'seccion': seccion}  # Creo un diccionario por cada seccion guardando el nombre y la cantidad de imagenes que tiene
+            id_empleado = self.kwargs.get('pk', 0) # Obtengo el id de la empleado
+            elemento['cantidad_imagenes'] = seccion.cantidad_imagenes_por_seccion(id_empleado)
+            listado.append(elemento)  # Agrego el diccionario a la lista a retornar
 
-		# Intenta consultar la dependencia, si no tiene lanza la excepcion y pone cargo = None
-		try:
-			dependencia = DependenciaLaboral.objects.get(object_id=self.object.id, content_type=contenttype_obj, actual=True)
-		except DependenciaLaboral.DoesNotExist:
-			dependencia = None
-		context['dependencia'] = dependencia
+        context['seccion_list'] = listado
+        contenttype_obj = ContentType.objects.get_for_model(self.object)
+        # Intenta consultar el cargo, si no tiene lanza la excepcion y pone cargo = None
+        try:
+            cargo = Cargo.objects.get(object_id=self.object.id, content_type=contenttype_obj, actual=True)
+        except Cargo.DoesNotExist:
+            cargo = None
+        context['cargo'] = cargo
 
-		context['EmpleadoDetail'] = True
-		context['titulo'] = "Detalle del Empleado"
-		return context
+        # Intenta consultar la dependencia, si no tiene lanza la excepcion y pone cargo = None
+        try:
+            dependencia = DependenciaLaboral.objects.get(object_id=self.object.id, content_type=contenttype_obj, actual=True)
+        except DependenciaLaboral.DoesNotExist:
+            dependencia = None
+        context['dependencia'] = dependencia
+
+        context['EmpleadoDetail'] = True
+        context['titulo'] = "Detalle del Empleado"
+        return context
 
 
 class EmpleadoCreate(SuccessMessageMixin, CreateView):
-	model = Empleado
-	form_class = EmpleadoForm
-	template_name = 'empleado/empleado_form.html'
-	success_message = "¡%(calculated_field)s con éxito!"
+    model = Empleado
+    form_class = EmpleadoForm
+    template_name = 'empleado/empleado_form.html'
+    success_message = "¡%(calculated_field)s con éxito!"
 
-	def get_success_url(self, **kwargs):
-		return reverse_lazy('empleado_detail', args=[self.object.id])
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('empleado_detail', args=[self.object.id])
 
-	def get_context_data(self, **kwargs):
-		context = super(EmpleadoCreate, self).get_context_data(**kwargs)	
-		context['titulo'] = "Agregar Empleado"
-		context['EmpleadoCreate'] = True
-		return context
+    def get_context_data(self, **kwargs):
+        context = super(EmpleadoCreate, self).get_context_data(**kwargs)
+        context['titulo'] = "Agregar Empleado"
+        context['EmpleadoCreate'] = True
+        return context
 
-	def form_valid(self, form):
-		user = self.request.user
-		instance = form.save(commit=False)
-		instance.created_by = user
-		instance.modified_by = user
-		instance.save()
-		form.save_m2m()
-		return super().form_valid(form)
+    def form_valid(self, form):
+        user = self.request.user
+        instance = form.save(commit=False)
+        instance.created_by = user
+        instance.modified_by = user
+        instance.save()
+        form.save_m2m()
+        return super().form_valid(form)
 
-	def get_success_message(self, cleaned_data):
-		mensaje = ''
-		if self.object.sexo == 'M':
-			mensaje = 'El empleado '+self.object.nombre+' '+self.object.apellido+' fue agregado'
-		else:
-			mensaje = 'La empleada '+self.object.nombre+' '+self.object.apellido+' fue agregada'
-		return self.success_message % dict(
-			cleaned_data,
-			calculated_field=mensaje,
-		)
+    def get_success_message(self, cleaned_data):
+        mensaje = ''
+        if self.object.sexo == 'M':
+            mensaje = 'El empleado '+self.object.nombre+' '+self.object.apellido+' fue agregado'
+        else:
+            mensaje = 'La empleada '+self.object.nombre+' '+self.object.apellido+' fue agregada'
+        return self.success_message % dict(
+            cleaned_data,
+            calculated_field=mensaje,
+        )
 
 
 class EmpleadoUpdate(SuccessMessageMixin, UpdateView):
-	model = Empleado
-	form_class = EmpleadoForm
-	template_name = 'empleado/empleado_form.html'
-	success_message = "¡%(calculated_field)s con éxito!"
+    model = Empleado
+    form_class = EmpleadoForm
+    template_name = 'empleado/empleado_form.html'
+    success_message = "¡%(calculated_field)s con éxito!"
 
-	def get_success_url(self, **kwargs):
-		return reverse_lazy('empleado_detail', args=[self.object.id])
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('empleado_detail', args=[self.object.id])
 
-	def get_context_data(self, **kwargs):
-		context = super(EmpleadoUpdate, self).get_context_data(**kwargs)	
-		context['titulo'] = "Modificar Empleado"
-		context['EmpleadoUpdate'] = True
-		return context
+    def get_context_data(self, **kwargs):
+        context = super(EmpleadoUpdate, self).get_context_data(**kwargs)
+        context['titulo'] = "Modificar Empleado"
+        context['EmpleadoUpdate'] = True
+        return context
 
-	def form_valid(self, form):
-		user = self.request.user
-		instance = form.save(commit=False)
-		instance.modified_by = user
-		instance.save()
-		form.save_m2m()
-		return super().form_valid(form)
+    def form_valid(self, form):
+        user = self.request.user
+        instance = form.save(commit=False)
+        instance.modified_by = user
+        instance.save()
+        form.save_m2m()
+        return super().form_valid(form)
 
-	def get_success_message(self, cleaned_data):
-		if self.object.sexo == 'M':
-			mensaje = 'El empleado '+self.object.nombre+' '+self.object.apellido+' fue actualizado'
-		else:
-			mensaje = 'La empleada '+self.object.nombre+' '+self.object.apellido+' fue actualizada'
-		return self.success_message % dict(
-			cleaned_data,
-			calculated_field = mensaje,
-		)
+    def get_success_message(self, cleaned_data):
+        if self.object.sexo == 'M':
+            mensaje = 'El empleado '+self.object.nombre+' '+self.object.apellido+' fue actualizado'
+        else:
+            mensaje = 'La empleada '+self.object.nombre+' '+self.object.apellido+' fue actualizada'
+        return self.success_message % dict(
+            cleaned_data,
+            calculated_field = mensaje,
+        )
 
 
 class EmpleadoDown(DeleteView):
-	model = Empleado
-	template_name = 'empleado/baja_empleado.html'
-	success_url = reverse_lazy('empleado_list')
-	context_object_name = 'empleado'
+    model = Empleado
+    template_name = 'empleado/baja_empleado.html'
+    success_url = reverse_lazy('empleado_list')
+    context_object_name = 'empleado'
 
-	def delete(self, request, *args, **kwargs):
-		"""
-			Modifico el método eliminar, haciendo que cambie los estados de borrado y activo
-		"""
-		self.object = self.get_object()
-		self.object.borrado = True
-		self.object.activo = False
-		self.object.fecha_baja = datetime.strptime(request.POST.get('fecha_baja'), "%d/%m/%Y")
-		self.object.motivo_baja = request.POST.get('motivo')
-		# print(self.object.fecha_baja)
-		# Debería poner fecha de fin al cargo
-		self.object.save()
-		if self.object.sexo == 'M':
-			mensaje = '¡El empleado '+self.object.nombre+' '+self.object.apellido+' fue dado de baja con éxito!'
-		else:
-			mensaje = '¡La empleada '+self.object.nombre+' '+self.object.apellido+' fue dada de baja con éxito!'
-		messages.success(self.request, mensaje)
-		return HttpResponseRedirect(self.get_success_url())
+    def delete(self, request, *args, **kwargs):
+        """
+            Modifico el método eliminar, haciendo que cambie los estados de borrado y activo
+        """
+        self.object = self.get_object()
+        self.object.borrado = True
+        self.object.activo = False
+        self.object.fecha_baja = datetime.strptime(request.POST.get('fecha_baja'), "%d/%m/%Y")
+        self.object.motivo_baja = request.POST.get('motivo')
+        # print(self.object.fecha_baja)
+        # Debería poner fecha de fin al cargo
+        self.object.save()
+        if self.object.sexo == 'M':
+            mensaje = '¡El empleado '+self.object.nombre+' '+self.object.apellido+' fue dado de baja con éxito!'
+        else:
+            mensaje = '¡La empleada '+self.object.nombre+' '+self.object.apellido+' fue dada de baja con éxito!'
+        messages.success(self.request, mensaje)
+        return HttpResponseRedirect(self.get_success_url())
 
-	def get_context_data(self, **kwargs):
-		context = super(EmpleadoDown, self).get_context_data(**kwargs)
-		contenttype_obj = ContentType.objects.get_for_model(self.object)
-		# Intenta consultar el cargo, si no tiene lanza la excepcion y pone cargo = None
-		try:
-			cargo = Cargo.objects.get(object_id=self.object.id, content_type=contenttype_obj, actual=True)
-		except Cargo.DoesNotExist:
-			cargo = None
-		context['cargo'] = cargo
-		context['EmpleadoDown'] = True
-		context['titulo'] = "Baja Empleado"
-		return context
+    def get_context_data(self, **kwargs):
+        context = super(EmpleadoDown, self).get_context_data(**kwargs)
+        contenttype_obj = ContentType.objects.get_for_model(self.object)
+        # Intenta consultar el cargo, si no tiene lanza la excepcion y pone cargo = None
+        try:
+            cargo = Cargo.objects.get(object_id=self.object.id, content_type=contenttype_obj, actual=True)
+        except Cargo.DoesNotExist:
+            cargo = None
+        context['cargo'] = cargo
+        context['EmpleadoDown'] = True
+        context['titulo'] = "Baja Empleado"
+        return context
 
 
 class EmpleadoRestore(SuccessMessageMixin, UpdateView):
-	model = Empleado
-	form_class = EmpleadoForm
-	template_name = 'empleado/empleado_form.html'
-	success_message = "¡%(calculated_field)s con éxito!"
+    model = Empleado
+    form_class = EmpleadoForm
+    template_name = 'empleado/empleado_form.html'
+    success_message = "¡%(calculated_field)s con éxito!"
 
-	def get_success_url(self, **kwargs):
-		return reverse_lazy('empleado_detail', args=[self.object.id])
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('empleado_detail', args=[self.object.id])
 
-	def get_context_data(self, **kwargs):
-		context = super(EmpleadoRestore, self).get_context_data(**kwargs)	
-		context['titulo'] = "Restaurar Empleado"
-		context['EmpleadoRestore'] = True
-		return context
+    def get_context_data(self, **kwargs):
+        context = super(EmpleadoRestore, self).get_context_data(**kwargs)
+        context['titulo'] = "Restaurar Empleado"
+        context['EmpleadoRestore'] = True
+        return context
 
-	def form_valid(self, form):
-		user = self.request.user
-		instance = form.save(commit=False)
-		instance.modified_by = user
-		instance.activo = True
-		instance.borrado = False
-		instance.save()
-		form.save_m2m()
-		return super().form_valid(form)
+    def form_valid(self, form):
+        user = self.request.user
+        instance = form.save(commit=False)
+        instance.modified_by = user
+        instance.activo = True
+        instance.borrado = False
+        instance.save()
+        form.save_m2m()
+        return super().form_valid(form)
 
-	def get_success_message(self, cleaned_data):
-		if self.object.sexo == 'M':
-			mensaje = 'El empleado '+self.object.nombre+' '+self.object.apellido+' fue restaurado'
-		else:
-			mensaje = 'La empleada '+self.object.nombre+' '+self.object.apellido+' fue restaurada'
-		return self.success_message % dict(
-			cleaned_data,
-			calculated_field = mensaje,
-		)
+    def get_success_message(self, cleaned_data):
+        if self.object.sexo == 'M':
+            mensaje = 'El empleado '+self.object.nombre+' '+self.object.apellido+' fue restaurado'
+        else:
+            mensaje = 'La empleada '+self.object.nombre+' '+self.object.apellido+' fue restaurada'
+        return self.success_message % dict(
+            cleaned_data,
+            calculated_field = mensaje,
+        )
 
 
 # --------------------------------- CARGOS ------------------------------------------------------
 class CargoCreate(SuccessMessageMixin, CreateView):
-	model = Cargo
-	form_class = CargoForm
-	template_name = 'empleado/cargo_form.html'
-	success_message = "¡El cargo fue agregado con éxito!"
+    model = Cargo
+    form_class = CargoForm
+    template_name = 'empleado/cargo_form.html'
+    success_message = "¡El cargo fue agregado con éxito!"
 
-	def get_success_url(self, **kwargs):
-		return reverse_lazy('empleado_detail', args=[self.object.object_id])
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('empleado_detail', args=[self.object.object_id])
 
-	def get_context_data(self, **kwargs):
-		context = super(CargoCreate, self).get_context_data(**kwargs)	
-		id_empleado = self.kwargs.get('pk', 0)
-		empleado = Empleado.objects.get(pk=id_empleado)
-		context['empleado'] = empleado
-		contenttype_obj = ContentType.objects.get_for_model(Empleado)
-		# Intenta consultar el cargo, si no tiene lanza la excepcion y pone cargo_anterior = None
-		try:
-			cargo_anterior = Cargo.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
-		except Cargo.DoesNotExist:
-			cargo_anterior = None
-		context['cargo_anterior'] = cargo_anterior
-		context['titulo'] = "Agregar Cargo"
-		context['CargoCreate'] = True
-		return context
+    def get_context_data(self, **kwargs):
+        context = super(CargoCreate, self).get_context_data(**kwargs)
+        id_empleado = self.kwargs.get('pk', 0)
+        empleado = Empleado.objects.get(pk=id_empleado)
+        context['empleado'] = empleado
+        contenttype_obj = ContentType.objects.get_for_model(Empleado)
+        # Intenta consultar el cargo, si no tiene lanza la excepcion y pone cargo_anterior = None
+        try:
+            cargo_anterior = Cargo.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
+        except Cargo.DoesNotExist:
+            cargo_anterior = None
+        context['cargo_anterior'] = cargo_anterior
+        context['titulo'] = "Agregar Cargo"
+        context['CargoCreate'] = True
+        return context
 
-	def form_valid(self, form, **kwargs):
-		user = self.request.user
-		instance = form.save(commit=False)
-		instance.created_by = user
-		instance.modified_by = user
-		id_empleado = self.kwargs.get('pk', 0)
-		empleado = Empleado.objects.get(pk=id_empleado)
-		contenttype_obj = ContentType.objects.get_for_model(Empleado)
-		try:
-			# Busco el cargo anterior para ponerle actual = False, ya que el nuevo cargo será el actual
-			cargo_anterior = Cargo.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
-			cargo_anterior.actual = False
-			if self.request.POST.get('fecha_fin_cargo_anterior'):
-				cargo_anterior.fecha_fin_cargo = datetime.strptime(self.request.POST.get('fecha_fin_cargo_anterior'), "%d/%m/%Y")
-			cargo_anterior.save()
-		except Cargo.DoesNotExist:
-			cargo = None
-		instance.object_id = empleado.id
-		instance.content_type = contenttype_obj
-		instance.save()
-		form.save_m2m()
-		return super().form_valid(form)
+    def form_valid(self, form, **kwargs):
+        user = self.request.user
+        instance = form.save(commit=False)
+        instance.created_by = user
+        instance.modified_by = user
+        id_empleado = self.kwargs.get('pk', 0)
+        empleado = Empleado.objects.get(pk=id_empleado)
+        contenttype_obj = ContentType.objects.get_for_model(Empleado)
+        try:
+            # Busco el cargo anterior para ponerle actual = False, ya que el nuevo cargo será el actual
+            cargo_anterior = Cargo.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
+            cargo_anterior.actual = False
+            if self.request.POST.get('fecha_fin_cargo_anterior'):
+                cargo_anterior.fecha_fin_cargo = datetime.strptime(self.request.POST.get('fecha_fin_cargo_anterior'), "%d/%m/%Y")
+            cargo_anterior.save()
+        except Cargo.DoesNotExist:
+            cargo = None
+        instance.object_id = empleado.id
+        instance.content_type = contenttype_obj
+        instance.save()
+        form.save_m2m()
+        return super().form_valid(form)
 
 
 class CargoUpdate(SuccessMessageMixin, UpdateView):
-	model = Cargo
-	form_class = CargoForm
-	template_name = 'empleado/cargo_form.html'
-	success_message = "¡El cargo fue modificado con éxito!"
+    model = Cargo
+    form_class = CargoForm
+    template_name = 'empleado/cargo_form.html'
+    success_message = "¡El cargo fue modificado con éxito!"
 
-	def get_success_url(self, **kwargs):
-		return reverse_lazy('empleado_detail', args=[self.object.object_id])
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('empleado_detail', args=[self.object.object_id])
 
-	def get_context_data(self, **kwargs):
-		context = super(CargoUpdate, self).get_context_data(**kwargs)	
-		id_empleado = self.kwargs.get('id_empleado', 0)
-		empleado = Empleado.objects.get(pk=id_empleado)
-		context['empleado'] = empleado
-		context['titulo'] = "Modificar Cargo"
-		context['CargoUpdate'] = True
-		return context
+    def get_context_data(self, **kwargs):
+        context = super(CargoUpdate, self).get_context_data(**kwargs)
+        id_empleado = self.kwargs.get('id_empleado', 0)
+        empleado = Empleado.objects.get(pk=id_empleado)
+        context['empleado'] = empleado
+        context['titulo'] = "Modificar Cargo"
+        context['CargoUpdate'] = True
+        return context
 
-	def form_valid(self, form, **kwargs):
-		user = self.request.user
-		instance = form.save(commit=False)
-		instance.created_by = user
-		instance.modified_by = user
-		id_empleado = self.kwargs.get('id_empleado', 0)
-		empleado = Empleado.objects.get(pk=id_empleado)
-		contenttype_obj = ContentType.objects.get_for_model(Empleado)
-		try:
-			# Busco el cargo anterior para ponerle actual = False, ya que el nuevo cargo será el actual
-			cargo_anterior = Cargo.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
-			cargo_anterior.actual = False
-			if self.request.POST.get('fecha_fin_cargo_anterior'):
-				cargo_anterior.fecha_fin_cargo = datetime.strptime(self.request.POST.get('fecha_fin_cargo_anterior'), "%d/%m/%Y")
-			cargo_anterior.save()
-		except Cargo.DoesNotExist:
-			cargo = None
-		instance.object_id = empleado.id
-		instance.content_type = contenttype_obj
-		instance.save()
-		form.save_m2m()
-		return super().form_valid(form)
+    def form_valid(self, form, **kwargs):
+        user = self.request.user
+        instance = form.save(commit=False)
+        instance.created_by = user
+        instance.modified_by = user
+        id_empleado = self.kwargs.get('id_empleado', 0)
+        empleado = Empleado.objects.get(pk=id_empleado)
+        contenttype_obj = ContentType.objects.get_for_model(Empleado)
+        try:
+            # Busco el cargo anterior para ponerle actual = False, ya que el nuevo cargo será el actual
+            cargo_anterior = Cargo.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
+            cargo_anterior.actual = False
+            if self.request.POST.get('fecha_fin_cargo_anterior'):
+                cargo_anterior.fecha_fin_cargo = datetime.strptime(self.request.POST.get('fecha_fin_cargo_anterior'), "%d/%m/%Y")
+            cargo_anterior.save()
+        except Cargo.DoesNotExist:
+            cargo = None
+        instance.object_id = empleado.id
+        instance.content_type = contenttype_obj
+        instance.save()
+        form.save_m2m()
+        return super().form_valid(form)
 
 
 class FojaServicios(DetailView):
-	model = Empleado
-	template_name = 'empleado/foja_servicios.html'
-	context_object_name = 'empleado'
+    model = Empleado
+    template_name = 'empleado/foja_servicios.html'
+    context_object_name = 'empleado'
 
-	def get_context_data(self, **kwargs):
-		context = super(FojaServicios, self).get_context_data(**kwargs)
+    def get_context_data(self, **kwargs):
+        context = super(FojaServicios, self).get_context_data(**kwargs)
 
-		contenttype_obj = ContentType.objects.get_for_model(self.object)
-		cargos = Cargo.objects.filter(object_id=self.object.id, content_type=contenttype_obj).order_by('-fecha_ingreso_cargo')
-		context['cargos'] = cargos
-		context['FojaServicios'] = True
-		context['titulo'] = "Foja de Servicios"
-		return context
+        contenttype_obj = ContentType.objects.get_for_model(self.object)
+        cargos = Cargo.objects.filter(object_id=self.object.id, content_type=contenttype_obj).order_by('-fecha_ingreso_cargo')
+        context['cargos'] = cargos
+        context['FojaServicios'] = True
+        context['titulo'] = "Foja de Servicios"
+        return context
 
 
 # --------------------------------- DEPENDENCIAS ------------------------------------------------------
 class DependenciaLaboralCreate(SuccessMessageMixin, CreateView):
-	model = DependenciaLaboral
-	form_class = DependenciaLaboralForm
-	template_name = 'empleado/dependencia_form.html'
-	success_message = "¡La dependencia laboral fue agregada con éxito!"
+    model = DependenciaLaboral
+    form_class = DependenciaLaboralForm
+    template_name = 'empleado/dependencia_form.html'
+    success_message = "¡La dependencia laboral fue agregada con éxito!"
 
-	def get_success_url(self, **kwargs):
-		return reverse_lazy('empleado_detail', args=[self.object.object_id])
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('empleado_detail', args=[self.object.object_id])
 
-	def get_context_data(self, **kwargs):
-		context = super(DependenciaLaboralCreate, self).get_context_data(**kwargs)
-		id_empleado = self.kwargs.get('pk', 0)
-		empleado = Empleado.objects.get(pk=id_empleado)
-		context['empleado'] = empleado
-		contenttype_obj = ContentType.objects.get_for_model(Empleado)
-		# Intenta consultar la dependencia, si no tiene lanza la excepcion y pone dependencia_anterior = None
-		try:
-			dependencia_anterior = DependenciaLaboral.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
-		except DependenciaLaboral.DoesNotExist:
-			dependencia_anterior = None
-		context['dependencia_anterior'] = dependencia_anterior
-		context['titulo'] = "Agregar Dependencia Laboral"
-		context['DependenciaCreate'] = True
-		return context
+    def get_context_data(self, **kwargs):
+        context = super(DependenciaLaboralCreate, self).get_context_data(**kwargs)
+        id_empleado = self.kwargs.get('pk', 0)
+        empleado = Empleado.objects.get(pk=id_empleado)
+        context['empleado'] = empleado
+        contenttype_obj = ContentType.objects.get_for_model(Empleado)
+        # Intenta consultar la dependencia, si no tiene lanza la excepcion y pone dependencia_anterior = None
+        try:
+            dependencia_anterior = DependenciaLaboral.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
+        except DependenciaLaboral.DoesNotExist:
+            dependencia_anterior = None
+        context['dependencia_anterior'] = dependencia_anterior
+        circunscripciones = Circunscripcion.objects.all()
+        unidades = Unidad.objects.all()
+        organismos = Organismo.objects.all()
+        dependencias = Dependencia.objects.all()
+        direcciones = Direccion.objects.all()
+        departamentos = Departamento.objects.all()
+        divisiones = Division.objects.all()
+        result_list = list(chain(circunscripciones, unidades, organismos, dependencias, direcciones, departamentos, divisiones))
+        context['listado_dependencias'] = result_list
+        context['titulo'] = "Agregar Dependencia Laboral"
+        context['DependenciaCreate'] = True
+        return context
 
-	def form_valid(self, form, **kwargs):
-		user = self.request.user
-		instance = form.save(commit=False)
-		instance.created_by = user
-		instance.modified_by = user
-		id_empleado = self.kwargs.get('pk', 0)
-		empleado = Empleado.objects.get(pk=id_empleado)
-		contenttype_obj = ContentType.objects.get_for_model(Empleado)
-		try:
-			# Busco la dependencia anterior para ponerle actual = False, ya que la nueva dependencia será el actual
-			dependencia_anterior = DependenciaLaboral.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
-			dependencia_anterior.actual = False
-			dependencia_anterior.save()
-		except DependenciaLaboral.DoesNotExist:
-			dependencia = None
-		instance.object_id = empleado.id
-		instance.content_type = contenttype_obj
-		instance.save()
-		form.save_m2m()
-		return super().form_valid(form)
+    def form_valid(self, form, **kwargs):
+        user = self.request.user
+        instance = form.save(commit=False)
+        instance.created_by = user
+        instance.modified_by = user
+        id_empleado = self.kwargs.get('pk', 0)
+        empleado = Empleado.objects.get(pk=id_empleado)
+        contenttype_obj = ContentType.objects.get_for_model(Empleado)
+        try:
+            # Busco la dependencia anterior para ponerle actual = False, ya que la nueva dependencia será el actual
+            dependencia_anterior = DependenciaLaboral.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
+            dependencia_anterior.actual = False
+            dependencia_anterior.save()
+        except DependenciaLaboral.DoesNotExist:
+            dependencia = None
+        instance.object_id = empleado.id
+        instance.content_type = contenttype_obj
+        instance.save()
+        form.save_m2m()
+        return super().form_valid(form)
 
 
 class DependenciaLaboralUpdate(SuccessMessageMixin, UpdateView):
-	model = DependenciaLaboral
-	form_class = DependenciaLaboralForm
-	template_name = 'empleado/dependencia_form.html'
-	success_message = "¡La dependencia fue modificada con éxito!"
+    model = DependenciaLaboral
+    form_class = DependenciaLaboralForm
+    template_name = 'empleado/dependencia_form.html'
+    success_message = "¡La dependencia fue modificada con éxito!"
 
-	def get_success_url(self, **kwargs):
-		return reverse_lazy('empleado_detail', args=[self.object.object_id])
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('empleado_detail', args=[self.object.object_id])
 
-	def get_context_data(self, **kwargs):
-		context = super(DependenciaLaboralUpdate, self).get_context_data(**kwargs)
-		id_empleado = self.kwargs.get('id_empleado', 0)
-		empleado = Empleado.objects.get(pk=id_empleado)
-		context['empleado'] = empleado
-		context['titulo'] = "Modificar Dependencia Laboral"
-		context['DependenciaUpdate'] = True
-		return context
+    def get_context_data(self, **kwargs):
+        context = super(DependenciaLaboralUpdate, self).get_context_data(**kwargs)
+        id_empleado = self.kwargs.get('id_empleado', 0)
+        empleado = Empleado.objects.get(pk=id_empleado)
+        circunscripciones = Circunscripcion.objects.all()
+        unidades = Unidad.objects.all()
+        organismos = Organismo.objects.all()
+        dependencias = Dependencia.objects.all()
+        direcciones = Direccion.objects.all()
+        departamentos = Departamento.objects.all()
+        divisiones = Division.objects.all()
+        result_list = list(chain(circunscripciones, unidades, organismos, dependencias, direcciones, departamentos, divisiones))
+        context['listado_dependencias'] = result_list
+        context['empleado'] = empleado
+        context['titulo'] = "Modificar Dependencia Laboral"
+        context['DependenciaUpdate'] = True
+        return context
 
-	def form_valid(self, form, **kwargs):
-		user = self.request.user
-		instance = form.save(commit=False)
-		instance.created_by = user
-		instance.modified_by = user
-		id_empleado = self.kwargs.get('id_empleado', 0)
-		empleado = Empleado.objects.get(pk=id_empleado)
-		contenttype_obj = ContentType.objects.get_for_model(Empleado)
-		try:
-			# Busco la dependencia anterior para ponerle actual = False, ya que la nueva dependencia será la actual
-			dependencia_anterior = DependenciaLaboral.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
-			dependencia_anterior.actual = False
-			dependencia_anterior.save()
-		except DependenciaLaboral.DoesNotExist:
-			dependencia = None
-		instance.object_id = empleado.id
-		instance.content_type = contenttype_obj
-		instance.save()
-		form.save_m2m()
-		return super().form_valid(form)
+    def form_valid(self, form, **kwargs):
+        user = self.request.user
+        instance = form.save(commit=False)
+        instance.created_by = user
+        instance.modified_by = user
+        id_empleado = self.kwargs.get('id_empleado', 0)
+        empleado = Empleado.objects.get(pk=id_empleado)
+        contenttype_obj = ContentType.objects.get_for_model(Empleado)
+        try:
+            # Busco la dependencia anterior para ponerle actual = False, ya que la nueva dependencia será la actual
+            dependencia_anterior = DependenciaLaboral.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
+            dependencia_anterior.actual = False
+            dependencia_anterior.save()
+        except DependenciaLaboral.DoesNotExist:
+            dependencia = None
+        instance.object_id = empleado.id
+        instance.content_type = contenttype_obj
+        instance.save()
+        form.save_m2m()
+        return super().form_valid(form)
 
 
 class FojaServicios(DetailView):
-	model = Empleado
-	template_name = 'empleado/foja_servicios.html'
-	context_object_name = 'empleado'
+    model = Empleado
+    template_name = 'empleado/foja_servicios.html'
+    context_object_name = 'empleado'
 
-	def get_context_data(self, **kwargs):
-		context = super(FojaServicios, self).get_context_data(**kwargs)
+    def get_context_data(self, **kwargs):
+        context = super(FojaServicios, self).get_context_data(**kwargs)
 
-		contenttype_obj = ContentType.objects.get_for_model(self.object)
-		cargos = Cargo.objects.filter(object_id=self.object.id, content_type=contenttype_obj).order_by('-fecha_ingreso_cargo')
-		context['cargos'] = cargos
+        contenttype_obj = ContentType.objects.get_for_model(self.object)
+        cargos = Cargo.objects.filter(object_id=self.object.id, content_type=contenttype_obj).order_by('-fecha_ingreso_cargo')
+        context['cargos'] = cargos
 
-		# key_cache = "empleado_{}".format(self.object.id)
-		# cache.set(key_cache, list(cargos.values_list('id', flat=True)))
-		#
-		# context['key_cache'] = key_cache
-		context['FojaServicios'] = True
-		context['titulo'] = "Foja de Servicios"
-		return context
+        # key_cache = "empleado_{}".format(self.object.id)
+        # cache.set(key_cache, list(cargos.values_list('id', flat=True)))
+        #
+        # context['key_cache'] = key_cache
+        context['FojaServicios'] = True
+        context['titulo'] = "Foja de Servicios"
+        return context
 
 
 def exportar_excel(request):
-	# key_cache = request.GET.get('key_cache')
-	response = HttpResponse(content_type='application/vnd.ms-excel')
-	response['Content-Disposition'] = 'attachment; filename=Report.xlsx'
-	return response
+    # key_cache = request.GET.get('key_cache')
+    response = HttpResponse(content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=Report.xlsx'
+    return response
 
 
 # class ListadoSeccionesView(View):
@@ -474,94 +494,91 @@ def exportar_excel(request):
 # 			id_empleado = self.kwargs.get('pk', 0) # Obtengo el id de la empleado
 # 			elemento['cantidad_imagenes'] = seccion.cantidad_imagenes_por_seccion(id_empleado)
 # 			listado.append(elemento) # Agrego el diccionario a la lista a retornar
-	
+
 # 		# context['seccion_list'] = listado
 # 		return JsonResponse(listado)
 
 
 class ImagenesEmpleadoView(View):
-	def get(self, request, *args, **kwargs):
-		id_empleado = self.kwargs.get('id_empleado', 0)
-		id_seccion = self.kwargs.get('id_seccion', 0)
-		empleado = Empleado.objects.get(pk=id_empleado)
-		seccion = Seccion.objects.get(pk=id_seccion)
-		imagenes_list = ImagenEmpleado.objects.filter(empleado=empleado, seccion=seccion)
-		secciones = Seccion.objects.all()
-		listado = [] # Listado que contendrá los diccionarios
-		for elem_seccion in secciones: # Recorro el listado de secciones
-			elemento = {'seccion': elem_seccion, 'cantidad_imagenes': elem_seccion.cantidad_imagenes_por_seccion(
-				id_empleado)}  # Creo un diccionario por cada seccion guardando el nombre y la cantidad de imagenes que tiene
-			listado.append(elemento) # Agrego el diccionario a la lista a retornar
-		context = {
-					'imagenes_list': imagenes_list,
-					'empleado' : empleado,
-					'seccion' : seccion,
-					'seccion_list' : listado,
-					}
-		return render(self.request, 'empleado/imagenes_empleado.html', context)
+    def get(self, request, *args, **kwargs):
+        id_empleado = self.kwargs.get('id_empleado', 0)
+        id_seccion = self.kwargs.get('id_seccion', 0)
+        empleado = Empleado.objects.get(pk=id_empleado)
+        seccion = Seccion.objects.get(pk=id_seccion)
+        imagenes_list = ImagenEmpleado.objects.filter(empleado=empleado, seccion=seccion)
+        secciones = Seccion.objects.all()
+        listado = [] # Listado que contendrá los diccionarios
+        for elem_seccion in secciones: # Recorro el listado de secciones
+            elemento = {'seccion': elem_seccion, 'cantidad_imagenes': elem_seccion.cantidad_imagenes_por_seccion(
+                id_empleado)}  # Creo un diccionario por cada seccion guardando el nombre y la cantidad de imagenes que tiene
+            listado.append(elemento) # Agrego el diccionario a la lista a retornar
+        context = {
+            'imagenes_list': imagenes_list,
+            'empleado' : empleado,
+            'seccion' : seccion,
+            'seccion_list' : listado,
+        }
+        return render(self.request, 'empleado/imagenes_empleado.html', context)
 
-	def post(self, request, *args, **kwargs):
-		form = ImagenForm(self.request.POST, self.request.FILES)
-		if form.is_valid():
-			imagen = form.save(commit=False)
-			imagen.created_by = request.user
-			imagen.modified_by = request.user
-			imagen.save()
-			form.save_m2m()
-			data = {'mensaje':'Success', 'is_valid': True, 'name': imagen.imagen.name, 'url': imagen.imagen.url}
-		else:
-			data = {'mensaje':'Error', 'is_valid': False}
-		return JsonResponse(data)
+    def post(self, request, *args, **kwargs):
+        form = ImagenForm(self.request.POST, self.request.FILES)
+        if form.is_valid():
+            imagen = form.save(commit=False)
+            imagen.created_by = request.user
+            imagen.modified_by = request.user
+            imagen.save()
+            form.save_m2m()
+            data = {'mensaje':'Success', 'is_valid': True, 'name': imagen.imagen.name, 'url': imagen.imagen.url}
+        else:
+            data = {'mensaje':'Error', 'is_valid': False}
+        return JsonResponse(data)
 
 
 class EmpleadoPDF(PDFTemplateResponseMixin, DetailView):
-	model = Empleado
-	template_name = 'empleado/pdf.html'
-	context_object_name = 'empleado'
-	base_url = 'file://{}/'.format(settings.STATIC_ROOT)
-	download_filename = 'LegajoDigital.pdf'
+    model = Empleado
+    template_name = 'empleado/pdf.html'
+    context_object_name = 'empleado'
+    base_url = 'file://{}/'.format(settings.STATIC_ROOT)
+    download_filename = 'LegajoDigital.pdf'
 
-	def get_context_data(self, **kwargs):
-		context = super(EmpleadoPDF, self).get_context_data(**kwargs)
-		id_empleado = self.kwargs.get('pk', 0)
-		empleado = Empleado.objects.get(pk=id_empleado)
-		imagenes_list = ImagenEmpleado.objects.filter(empleado=empleado)
-		context['imagenes_list'] = imagenes_list
-		return context
+    def get_context_data(self, **kwargs):
+        context = super(EmpleadoPDF, self).get_context_data(**kwargs)
+        id_empleado = self.kwargs.get('pk', 0)
+        empleado = Empleado.objects.get(pk=id_empleado)
+        imagenes_list = ImagenEmpleado.objects.filter(empleado=empleado)
+        context['imagenes_list'] = imagenes_list
+        return context
 
 
-class DependenciasAutocomplete(autocomplete.Select2QuerySetView):
-	def get_queryset(self):
-		circunscripciones = Circunscripcion.objects.all()
-		unidades = Unidad.objects.all()
-		organismos = Organismo.objects.all()
-		dependencias = Dependencia.objects.all()
-		direcciones = Direccion.objects.all()
-		departamentos = Departamento.objects.all()
-		divisiones = Division.objects.all()
+# class DependenciasAutocomplete(autocomplete.Select2QuerySetView):
+# 	def get_queryset(self):
+# 		circunscripciones = Circunscripcion.objects.all()
+# 		unidades = Unidad.objects.all()
+# 		organismos = Organismo.objects.all()
+# 		dependencias = Dependencia.objects.all()
+# 		direcciones = Direccion.objects.all()
+# 		departamentos = Departamento.objects.all()
+# 		divisiones = Division.objects.all()
+#
+# 		if self.q:
+# 			circunscripciones = circunscripciones.filter(circunscripcion__icontains=self.q)
+# 			unidades = unidades.filter(unidad__icontains=self.q)
+# 			organismos = organismos.filter(organismo__icontains=self.q)
+# 			dependencias = dependencias.filter(dependencia__icontains=self.q)
+# 			direcciones = direcciones.filter(direccion__icontains=self.q)
+# 			departamentos = departamentos.filter(departamento__icontains=self.q)
+# 			divisiones = divisiones.filter(division__icontains=self.q)
+#
+# 		result_list = list(chain(circunscripciones, unidades, organismos, dependencias, direcciones, departamentos, divisiones))
+#
+# 		return result_list
+#
+# 	def get_result_value(self, result):
+# 		"""Return the value of a result."""
+# 		print(type(result))
+# 		return str(result.pk)+'-'+str(type(result))
 
-		if self.q:
-			circunscripciones = circunscripciones.filter(circunscripcion__icontains=self.q)
-			unidades = unidades.filter(unidad__icontains=self.q)
-			organismos = organismos.filter(organismo__icontains=self.q)
-			dependencias = dependencias.filter(dependencia__icontains=self.q)
-			direcciones = direcciones.filter(direccion__icontains=self.q)
-			departamentos = departamentos.filter(departamento__icontains=self.q)
-			divisiones = divisiones.filter(division__icontains=self.q)
-
-		# Aggregate querysets
-		# qs = autocomplete.QuerySetSequence(circunscripciones, dependencias)
-		result_list = list(chain(circunscripciones, unidades, organismos, dependencias, direcciones, departamentos, divisiones))
-
-		# This will limit each queryset so that they show an equal number
-		# of results.
-		# qs = self.mixup_querysets(qs)
-		# qs = circunscripciones
-		# if self.q:
-		# 	qs = qs.filter(circunscripcion__icontains=self.q)
-		# print(qs)
-		return result_list
-	# class FamiliarAutocomplete(autocomplete.Select2QuerySetView):
+# class FamiliarAutocomplete(autocomplete.Select2QuerySetView):
 # 	def get_queryset(self):
 # 		# Don't forget to filter out results depending on the visitor !
 # 		# if not self.request.user.is_authenticated():
@@ -574,40 +591,40 @@ class DependenciasAutocomplete(autocomplete.Select2QuerySetView):
 
 # 		return qs
 
-	# def get_result_label(self, item):
-	# 	# print('get_result_label: '+item.nombre)
-	# 	return item.nombre
+# def get_result_label(self, item):
+# 	# print('get_result_label: '+item.nombre)
+# 	return item.nombre
 
-	# def get_selected_result_label(self, item):
-	# 	# print('Inyectar html en tabla: '+item.nombre)
-	# 	return ''
+# def get_selected_result_label(self, item):
+# 	# print('Inyectar html en tabla: '+item.nombre)
+# 	return ''
 
-	# def get_result_value(self, result):
-	# 	"""Return the value of a result."""
-	# 	# print('get_result_value:'+result.nombre)
-	# 	return str(result.pk)
+# def get_result_value(self, result):
+# 	"""Return the value of a result."""
+# 	# print('get_result_value:'+result.nombre)
+# 	return str(result.pk)
 
-	# def post(self, request):
-	# 	"""Create an object given a text after checking permissions."""
-	# 	if not self.has_add_permission(request):
-	# 		return http.HttpResponseForbidden()
+# def post(self, request):
+# 	"""Create an object given a text after checking permissions."""
+# 	if not self.has_add_permission(request):
+# 		return http.HttpResponseForbidden()
 
-	# 	if not self.create_field:
-	# 		raise ImproperlyConfigured('Missing "create_field"')
+# 	if not self.create_field:
+# 		raise ImproperlyConfigured('Missing "create_field"')
 
-	# 	text = request.POST.get('text', None)
+# 	text = request.POST.get('text', None)
 
-	# 	if text is None:
-	# 		return http.HttpResponseBadRequest()
+# 	if text is None:
+# 		return http.HttpResponseBadRequest()
 
-	# 	result = self.create_object(text)
-	# 	print(result.pk)
-	# 	return http.JsonResponse({
-	# 		'id': result.pk,
-	# 		'text': self.get_result_label(result),
-	# 	})
+# 	result = self.create_object(text)
+# 	print(result.pk)
+# 	return http.JsonResponse({
+# 		'id': result.pk,
+# 		'text': self.get_result_label(result),
+# 	})
 
-	# def results(self, results):
-	# 	"""Return the result dictionary."""
-	# 	print("results")
-	# 	return [dict(id=x, text=x) for x in results]
+# def results(self, results):
+# 	"""Return the result dictionary."""
+# 	print("results")
+# 	return [dict(id=x, text=x) for x in results]

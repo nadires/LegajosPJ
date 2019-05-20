@@ -7,6 +7,24 @@
     margin-bottom: 30px;
 }
 
+#dependencias-search-input{
+    padding: 12px 3px 3px 3px;
+    border: solid 1px #E4E4E4;
+    border-radius: 6px;
+    background-color: #fff;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+}
+
+#dependencias-search-input label{
+    margin: 2px 0 0 0;
+    background: none;
+    box-shadow: none;
+    border: 0;
+    color: #666666;
+    padding: 0 8px 0 10px;
+}
+
 #custom-search-input input{
     border: 0;
     box-shadow: none;
@@ -38,4 +56,7 @@
     border-color: #80bdff;
     outline: 0;
     box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+.select2-container--default.select2-container--focus{
+    width: inherit !important;
 }
