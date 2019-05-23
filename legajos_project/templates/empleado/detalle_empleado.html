@@ -352,7 +352,7 @@
                             {% if dependencia %}
                             <a href="{% url 'dependencia_create' empleado.pk %}" class="btn btn-success  separa_boton"><i class="fa fa-plus"></i> Agregar traslado</a>
                             <a href="{% url 'dependencia_update' empleado.pk dependencia.pk %}" class="btn btn-primary  separa_boton"><i class="fa fa-pencil"></i> Modificar dependencia existente</a>
-                            <a href="{% url 'foja_servicios' empleado.pk %}" class="btn btn-info  separa_boton"><i class="fa fa-file-text-o"></i> Ver Historial de Traslados</a>
+                            <a href="{% url 'historial_traslados' empleado.pk %}" class="btn btn-info  separa_boton"><i class="fa fa-file-text-o"></i> Ver Historial de Traslados</a>
                             {% else %}
                             <a href="{% url 'dependencia_create' empleado.pk %}" class="btn btn-success  separa_boton"><i class="fa fa-plus"></i> Agregar dependencia</a>
                             {% endif %}

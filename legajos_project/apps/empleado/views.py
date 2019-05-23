@@ -523,18 +523,27 @@ class HistorialTraslados(DetailView):
     context_object_name = 'empleado'
 
     def get_context_data(self, **kwargs):
-        context = super(FojaServicios, self).get_context_data(**kwargs)
+        context = super(HistorialTraslados, self).get_context_data(**kwargs)
 
         contenttype_obj = ContentType.objects.get_for_model(self.object)
-        cargos = Cargo.objects.filter(object_id=self.object.id, content_type=contenttype_obj).order_by('-fecha_ingreso_cargo')
-        context['cargos'] = cargos
+        # Intenta consultar el cargo, si no tiene lanza la excepcion y pone cargo_anterior = None
+        try:
+            cargo = Cargo.objects.get(object_id=self.object.id, content_type=contenttype_obj, actual=True)
+        except Cargo.DoesNotExist:
+            cargo = None
+        context['cargo'] = cargo
+        # Intenta consultar la dependencia, si no tiene lanza la excepcion y pone cargo = None
+        try:
+            dependencia = DependenciaLaboral.objects.get(object_id=self.object.id, content_type=contenttype_obj,
+                                                         actual=True)
+        except DependenciaLaboral.DoesNotExist:
+            dependencia = None
+        context['dependencia'] = dependencia
 
-        # key_cache = "empleado_{}".format(self.object.id)
-        # cache.set(key_cache, list(cargos.values_list('id', flat=True)))
-        #
-        # context['key_cache'] = key_cache
-        context['FojaServicios'] = True
-        context['titulo'] = "Foja de Servicios"
+        dependencias = DependenciaLaboral.objects.filter(object_id=self.object.id, content_type=contenttype_obj).order_by('-fecha_ingreso_dependencia')
+        context['dependencias'] = dependencias
+        context['HistorialTraslados'] = True
+        context['titulo'] = "Historial de Traslados"
         return context
 
 

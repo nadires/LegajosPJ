@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 
 from apps.empleado.views import EmpleadoList, EmpleadoListDowns, EmpleadoDetail, EmpleadoCreate, \
     EmpleadoUpdate, EmpleadoDown, EmpleadoRestore, CargoCreate, CargoUpdate, FojaServicios, \
-    DependenciaLaboralCreate, DependenciaLaboralUpdate, \
+    DependenciaLaboralCreate, DependenciaLaboralUpdate, HistorialTraslados, \
     ImagenesEmpleadoView, EmpleadoPDF, exportar_excel
 from .api.views import EmpleadoModelViewSet, EmpleadoViewSet, EmpleadoViewSetReadOnly, \
                         EmpleadoApiView, EndpointDependencias
@@ -51,6 +51,7 @@ urlpatterns = [
 # ----------------------------------- DEPENDENCIA -----------------------------------------
     path('<int:pk>/nueva-dependencia/', DependenciaLaboralCreate.as_view(), name="dependencia_create"),
     path('<int:id_empleado>/modificar-dependencia/<int:pk>', DependenciaLaboralUpdate.as_view(), name="dependencia_update"),
+    path('<int:pk>/historial-traslados/', HistorialTraslados.as_view(), name="historial_traslados"),
 
 # ----------------------------------- OTROS -----------------------------------------
     path('<int:id_empleado>/<int:id_seccion>/', ImagenesEmpleadoView.as_view(), name='imagenes_empleado'),

@@ -1,0 +1,118 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+<!-- Main content -->
+<section class="content content_principal">
+  <div class="container-fluid">
+
+      <div class="row">
+          {% include 'empleado/base/resumen_perfil.html' %}
+          <div class="col-md-9">
+            <div class="card card-info">
+              <div class="card-header">
+                <h3 class="card-title">Historial de Traslados</h3>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                    <!-- The timeline -->
+                    <ul class="timeline timeline-inverse">
+                      {% for dependencia_empleado in dependencias %}
+                      <!-- timeline time label -->
+                      <li class="time-label">
+                        <span class="{% if dependencia_empleado.actual %}bg-success {% else %}bg-danger{% endif %}">
+                          {{dependencia_empleado.fecha_ingreso_dependencia|default_if_none:""}}
+                        </span>
+                      </li>
+                      <!-- /.timeline-label -->
+                      <!-- timeline item -->
+                      <li>
+                        <i class="fa fa-address-card-o bg-primary"></i>
+
+                        <div class="timeline-item">
+
+                          <h2 class="timeline-header text-bold texto_grande">{{dependencia_empleado.dependencia|default_if_none:""}}  {% if dependencia_empleado.actual %}(Actual){% endif %}</h2>
+
+                          <div class="timeline-body">
+                            <div class="row">
+                      <div class="col-md-12">
+                        <p><strong></i> Circunscripción: </strong><span class="texto_detalle">{{dependencia_empleado.circunscripcion|default_if_none:""}}</span></p>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                            <div class="col-md-12">
+                              <p><strong>Unidad: </strong><span class="texto_detalle">{{dependencia_empleado.unidad|default_if_none:""}}</span></p>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-12">
+                              <p><strong>Organismo: </strong><span class="texto_detalle">{{dependencia_empleado.organismo|default_if_none:""}}</span></p>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-12">
+                              <p><strong>Dependencia: </strong><span class="texto_detalle">{{dependencia_empleado.dependencia|default_if_none:""}}</span></p>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-12">
+                              <p><strong>Dirección: </strong><span class="texto_detalle">{{dependencia_empleado.direccion|default_if_none:""}}</span></p>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-12">
+                              <p><strong>Departamento: </strong><span class="texto_detalle">{{dependencia_empleado.departamento|default_if_none:""}}</span></p>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-12">
+                              <p><strong>División: </strong><span class="texto_detalle">{{dependencia_empleado.division|default_if_none:""}}</span></p>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-4">
+                              <p><strong>Tipo Intr. legal: </strong><span>{{dependencia_empleado.tipo_instrumento_legal|default_if_none:""}}</span></p>
+                            </div>
+                            <div class="col-md-4">
+                              <p><strong>Instrumento legal: </strong><span>{{dependencia_empleado.instrumento_legal|default_if_none:""}}</span></p>
+                            </div>
+                            <div class="col-md-4">
+                              <p><strong>Fecha Inst. legal: </strong><span>{{dependencia_empleado.fecha_instr_legal|date:"d/m/Y"|default_if_none:""}}</span></p>
+                            </div>
+                          </div>
+                          </div>
+                        </div>
+                      </li>
+                      <!-- END timeline item -->
+                      {% endfor %}
+                    </ul>
+              </div><!-- /.card-body -->
+              <div class="card-footer">
+                <a href="{% url 'exportar' %}?key_cache={{key_cache}}" class="btn btn-success float-right separa_boton">
+                 <i class="fa fa-file-excel-o"></i> Exportar a Excel
+                </a>
+                <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary"><i class="fa fa-arrow-circle-left"></i> Volver</a>
+              </div>
+
+
+            </div>
+            <!-- /.nav-tabs-custom -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+
+
+  </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+{% endblock %} 
+
