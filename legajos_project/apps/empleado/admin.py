@@ -1,9 +1,10 @@
 from django.contrib import admin
 
 from .models import Empleado, ImagenEmpleado, HorarioLaboral, \
-                    Cargo, TipoCargo, NivelCargo, AgrupamientoCargo, TipoInstrumentoLegalCargo, \
                     DependenciaLaboral, Circunscripcion, Unidad, Organismo, Dependencia, Direccion, \
                     Departamento, Division, TipoInstrumentoLegalDependencia
+
+from apps.cargo.models import Cargo, TipoCargo, NivelCargo, AgrupamientoCargo, TipoInstrumentoLegalCargo
 
 from django.contrib.contenttypes.admin import GenericTabularInline
 
