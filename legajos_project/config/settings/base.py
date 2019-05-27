@@ -36,6 +36,8 @@ INSTALLED_APPS = [
 
     # Apps propias
     'apps.empleado',
+    'apps.dependencia',
+    'apps.cargo',
     'apps.util',
     'apps.core',
 
