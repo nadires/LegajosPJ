@@ -19,9 +19,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from apps.empleado.views import EmpleadoList, EmpleadoListDowns, EmpleadoDetail, EmpleadoCreate, \
-    EmpleadoUpdate, EmpleadoDown, EmpleadoRestore, CargoCreate, CargoUpdate, FojaServicios, \
-    DependenciaLaboralCreate, DependenciaLaboralUpdate, HistorialTraslados, \
-    ImagenesEmpleadoView, EmpleadoPDF, exportar_excel
+    EmpleadoUpdate, EmpleadoDown, EmpleadoRestore, ImagenesEmpleadoView, EmpleadoPDF, exportar_excel
+from apps.cargo.views import CargoCreate, CargoUpdate, FojaServicios
+from apps.dependencia.views import DependenciaLaboralCreate, DependenciaLaboralUpdate, HistorialTraslados
 from .api.views import EmpleadoModelViewSet, EmpleadoViewSet, EmpleadoViewSetReadOnly, \
                         EmpleadoApiView, EndpointDependencias
 from rest_framework.routers import DefaultRouter
@@ -43,12 +43,7 @@ urlpatterns = [
     path('empleados-eliminados', EmpleadoListDowns.as_view(), name="empleado_list_downs"),
     path('restaurar/<int:pk>', EmpleadoRestore.as_view(), name="empleado_restore"),
 
-# ----------------------------------- CARGO -----------------------------------------
-    path('<int:pk>/nuevo-cargo/', CargoCreate.as_view(), name="cargo_create"),
-    path('<int:id_empleado>/modificar-cargo/<int:pk>', CargoUpdate.as_view(), name="cargo_update"),
-    path('<int:pk>/foja-servicios/', FojaServicios.as_view(), name="foja_servicios"),
-
-# ----------------------------------- DEPENDENCIA -----------------------------------------
+# ----------------------------------- DEP                                                                                                       ENDENCIA -----------------------------------------
     path('<int:pk>/nueva-dependencia/', DependenciaLaboralCreate.as_view(), name="dependencia_create"),
     path('<int:id_empleado>/modificar-dependencia/<int:pk>', DependenciaLaboralUpdate.as_view(), name="dependencia_update"),
     path('<int:pk>/historial-traslados/', HistorialTraslados.as_view(), name="historial_traslados"),

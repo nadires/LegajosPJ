@@ -7,7 +7,8 @@ from rest_framework.response import Response
 from django.http import Http404
 
 from .serializers import EmpleadoSerializer
-from ..models import Empleado, Circunscripcion, Unidad, Organismo, Dependencia, Direccion, Departamento, Division
+from ..models import Empleado
+from apps.dependencia.models import Circunscripcion, Unidad, Organismo, Dependencia, Direccion, Departamento, Division
 from rest_framework import filters
 
 

@@ -18,26 +18,12 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from .views import Home, Login, Error404
+from apps.dependencia.views import DependenciaLaboralCreate, DependenciaLaboralUpdate, HistorialTraslados
 
-from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', Home.as_view(), name='home'),
-    path('empleado/', include('apps.empleado.urls')),
-    path('dependencia/', include('apps.dependencia.urls')),
-    path('cargo/', include('apps.cargo.urls')),
+    path('<int:pk>/nueva-dependencia/', DependenciaLaboralCreate.as_view(), name="dependencia_create"),
+    path('<int:id_empleado>/modificar-dependencia/<int:pk>', DependenciaLaboralUpdate.as_view(), name="dependencia_update"),
+    path('<int:pk>/historial-traslados/', HistorialTraslados.as_view(), name="historial_traslados"),
 
-    path('login/', Login.as_view(), name="login"),
-    path('logout/', LogoutView.as_view(), name='logout'),
-
-    path('error404', Error404.as_view(), name='error404'),
-
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-if settings.DEBUG:
-    import debug_toolbar
-    urlpatterns += [
-        path('__debug__/', include(debug_toolbar.urls)),
-    ]
+]
