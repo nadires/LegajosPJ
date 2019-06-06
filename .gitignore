@@ -45,3 +45,4 @@ legajos_project/*.json
 # db
 legajos_project/db.sqlite3
 deploy/backup
+deploy/despliegue.txt
