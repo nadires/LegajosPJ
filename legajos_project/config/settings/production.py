@@ -9,7 +9,7 @@ ALLOWED_HOSTS = ['127.0.0.1']
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'SistemaLegajos',
+        'NAME': 'sistemalegajos',
         'USER': 'admin',
         'PASSWORD': 'infoper123asd',
         'HOST': '127.0.0.1',
