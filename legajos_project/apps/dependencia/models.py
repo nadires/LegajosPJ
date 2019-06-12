@@ -123,8 +123,7 @@ class TipoInstrumentoLegalDependencia(models.Model):
 
 
 class DependenciaLaboral(models.Model):
-    id = models.UUIDField(default=uuid.uuid4, editable=False)
-    id_dependencia = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     circunscripcion = models.ForeignKey(Circunscripcion, on_delete=models.SET_NULL, related_name="dependencias_circunscripcion", null=True, blank=True)
     unidad = models.ForeignKey(Unidad, on_delete=models.SET_NULL, related_name="dependencias_unidad", null=True, blank=True)
     organismo = models.ForeignKey(Organismo, on_delete=models.SET_NULL, related_name="dependencias_laborales_organismo", null=True, blank=True)

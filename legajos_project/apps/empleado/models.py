@@ -61,8 +61,7 @@ class Empleado(Signature, AbstractDireccion):
 	)
 
 	# DATOS PERSONALES
-	id = models.UUIDField(default=uuid.uuid4, editable=False)
-	id_empleado = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+	id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 	apellido = models.CharField(max_length=200)
 	nombre = models.CharField(max_length=200)
 	tipo_doc = models.CharField(max_length=2, choices=TIPO_DOC, default='DU')
