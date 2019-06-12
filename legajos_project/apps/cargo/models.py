@@ -67,7 +67,7 @@ class Cargo(models.Model):
         ('MP', 'Ministerio Público'),
         ('PO', 'Policia Judicial'),
     )
-
+    id = models.UUIDField(default=uuid.uuid4, editable=False)
     id_cargo = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     cargo = models.ForeignKey(TipoCargo, on_delete=models.SET_NULL, related_name="cargos_tipo", null=True)
     nivel = models.ForeignKey(NivelCargo, on_delete=models.SET_NULL, related_name="cargos_nivel", null=True)
