@@ -2,14 +2,14 @@
 from django import forms
 from dal import autocomplete
 
-from .models import Empleado, ImagenEmpleado
+from .models import Empleado
 import datetime
 
 
-class ImagenEmpleadoForm(forms.ModelForm):
-    class Meta:
-        model = ImagenEmpleado
-        fields = ('imagen', 'empleado', 'seccion',)
+# class ImagenEmpleadoForm(forms.ModelForm):
+#     class Meta:
+#         model = ImagenEmpleado
+#         fields = ('imagen', 'empleado', 'seccion',)
 
 
 class EmpleadoForm(forms.ModelForm):

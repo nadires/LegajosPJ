@@ -1,3 +1,5 @@
+import uuid
+
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
@@ -121,6 +123,7 @@ class TipoInstrumentoLegalDependencia(models.Model):
 
 
 class DependenciaLaboral(models.Model):
+    id_dependencia = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     circunscripcion = models.ForeignKey(Circunscripcion, on_delete=models.SET_NULL, related_name="dependencias_circunscripcion", null=True, blank=True)
     unidad = models.ForeignKey(Unidad, on_delete=models.SET_NULL, related_name="dependencias_unidad", null=True, blank=True)
     organismo = models.ForeignKey(Organismo, on_delete=models.SET_NULL, related_name="dependencias_laborales_organismo", null=True, blank=True)
@@ -140,7 +143,7 @@ class DependenciaLaboral(models.Model):
         on_delete=models.CASCADE,
         null=True, blank=True
     )
-    object_id = models.PositiveIntegerField(null=True, blank=True)
+    object_id = models.TextField(null=True, blank=True)
     content_object = GenericForeignKey('content_type', 'object_id')
 
     def __str__(self):

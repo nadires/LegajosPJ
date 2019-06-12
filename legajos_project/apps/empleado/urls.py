@@ -19,7 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from apps.empleado.views import EmpleadoList, EmpleadoListDowns, EmpleadoDetail, EmpleadoCreate, \
-    EmpleadoUpdate, EmpleadoDown, EmpleadoRestore, ImagenesEmpleadoView, EmpleadoPDF, exportar_excel
+    EmpleadoUpdate, EmpleadoDown, EmpleadoRestore, EmpleadoPDF, exportar_excel
 from apps.cargo.views import CargoCreate, CargoUpdate, FojaServicios
 from apps.dependencia.views import DependenciaLaboralCreate, DependenciaLaboralUpdate, HistorialTraslados
 from .api.views import EmpleadoModelViewSet, EmpleadoViewSet, EmpleadoViewSetReadOnly, \
@@ -30,27 +30,22 @@ router = DefaultRouter()
 router.register('empleado',EmpleadoModelViewSet, basename='empleado')
 router.register('readonly-viewset',EmpleadoViewSetReadOnly, basename='viewSetReadOnly')
 router.register('viewset',EmpleadoViewSet, basename='empleadoviewset')
-router.register('viewset/<int:pk>',EmpleadoViewSet, basename='empleadoviewset')
+router.register('viewset/<str:pk>',EmpleadoViewSet, basename='empleadoviewset')
 router.register('viewset/<string:apellido>',EmpleadoViewSet, basename='empleadoviewset')
 
 urlpatterns = [
 # ----------------------------------- EMPLEADO -----------------------------------------
     path('', EmpleadoList.as_view(), name="empleado_list"),
-    path('<int:pk>/', EmpleadoDetail.as_view(), name="empleado_detail"),
-    path('nuevo/', EmpleadoCreate.as_view(), name="empleado_create"),
-    path('modificar/<int:pk>', EmpleadoUpdate.as_view(), name="empleado_update"),
-    path('baja/<int:pk>', EmpleadoDown.as_view(), name="empleado_down"),
+    path('<str:pk>/', EmpleadoDetail.as_view(), name="empleado_detail"),
+    path('nuevo', EmpleadoCreate.as_view(), name="empleado_create"),
+    path('modificar/<str:pk>', EmpleadoUpdate.as_view(), name="empleado_update"),
+    path('baja/<str:pk>', EmpleadoDown.as_view(), name="empleado_down"),
     path('empleados-eliminados', EmpleadoListDowns.as_view(), name="empleado_list_downs"),
-    path('restaurar/<int:pk>', EmpleadoRestore.as_view(), name="empleado_restore"),
-
-# ----------------------------------- DEP                                                                                                       ENDENCIA -----------------------------------------
-    path('<int:pk>/nueva-dependencia/', DependenciaLaboralCreate.as_view(), name="dependencia_create"),
-    path('<int:id_empleado>/modificar-dependencia/<int:pk>', DependenciaLaboralUpdate.as_view(), name="dependencia_update"),
-    path('<int:pk>/historial-traslados/', HistorialTraslados.as_view(), name="historial_traslados"),
+    path('restaurar/<str:pk>', EmpleadoRestore.as_view(), name="empleado_restore"),
 
 # ----------------------------------- OTROS -----------------------------------------
-    path('<int:id_empleado>/<int:id_seccion>/', ImagenesEmpleadoView.as_view(), name='imagenes_empleado'),
-    path('pdf/<int:pk>', EmpleadoPDF.as_view(), name="empleado_pdf"),
+#     path('<str:id_empleado>/<int:id_seccion>/', ImagenesEmpleadoView.as_view(), name='imagenes_empleado'),
+    path('pdf/<str:pk>', EmpleadoPDF.as_view(), name="empleado_pdf"),
 
     path('api/v1/', include(router.urls)),
     path('api/v1/apiview', EmpleadoApiView.as_view(), name="empleadoapiview"),

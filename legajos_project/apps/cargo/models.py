@@ -1,3 +1,5 @@
+import uuid
+
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
@@ -66,6 +68,7 @@ class Cargo(models.Model):
         ('PO', 'Policia Judicial'),
     )
 
+    id_cargo = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     cargo = models.ForeignKey(TipoCargo, on_delete=models.SET_NULL, related_name="cargos_tipo", null=True)
     nivel = models.ForeignKey(NivelCargo, on_delete=models.SET_NULL, related_name="cargos_nivel", null=True)
     agrupamiento = models.ForeignKey(AgrupamientoCargo, on_delete=models.SET_NULL, related_name="cargos_agrupamiento", null=True)
@@ -85,7 +88,7 @@ class Cargo(models.Model):
         on_delete=models.CASCADE,
         null=True, blank=True
     )
-    object_id = models.PositiveIntegerField(null=True, blank=True)
+    object_id = models.TextField(null=True, blank=True)
     content_object = GenericForeignKey('content_type', 'object_id')
 
     def __str__(self):

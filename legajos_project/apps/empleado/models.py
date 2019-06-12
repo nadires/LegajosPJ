@@ -2,6 +2,7 @@ from django.db import models
 from datetime import datetime, date
 from dateutil.relativedelta import relativedelta
 from apps.core.models import Signature
+import uuid
 
 from apps.util.models import Seccion, AbstractDireccion
 
@@ -60,6 +61,7 @@ class Empleado(Signature, AbstractDireccion):
 	)
 
 	# DATOS PERSONALES
+	id_empleado = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 	apellido = models.CharField(max_length=200)
 	nombre = models.CharField(max_length=200)
 	tipo_doc = models.CharField(max_length=2, choices=TIPO_DOC, default='DU')
@@ -119,10 +121,10 @@ class Empleado(Signature, AbstractDireccion):
 		else:
 			return ''
 
-	def images_count(self):
-		empleado = Empleado.objects.get(pk=self.pk)
-		cantidad = empleado.imagenes_empleado.all().count()
-		return cantidad
+	# def images_count(self):
+	# 	empleado = Empleado.objects.get(pk=self.pk)
+	# 	cantidad = empleado.imagenes_empleado.all().count()
+	# 	return cantidad
 
 
 # Obtiene la sección Otros para asignar por defecto a la imagen al eliminar, si no encuentra la crea 
@@ -140,15 +142,15 @@ def url_upload_to(instance, filename):
 		return '/'.join(['empleado/%s/' %instance.empleado.legajo, filename])
 		
 
-class ImagenEmpleado(Signature):
-	imagen = models.ImageField(upload_to=url_upload_to)
-	empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE, related_name='imagenes_empleado')
-	seccion = models.ForeignKey(Seccion, on_delete=models.SET(default_seccion), related_name='imagenes_seccion')
-	fecha_subida = models.DateTimeField(auto_now_add = True, editable = False)
-
-	class Meta:
-		verbose_name = 'Imagen'
-		verbose_name_plural = 'Imágenes'
-
-	def __str__(self):
-		return '{} - {} {} - {}'.format(self.empleado.legajo, self.empleado.apellido, self.empleado.nombre, self.seccion.nombre_seccion)
+# class ImagenEmpleado(Signature):
+# 	imagen = models.ImageField(upload_to=url_upload_to)
+# 	empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE, related_name='imagenes_empleado')
+# 	seccion = models.ForeignKey(Seccion, on_delete=models.SET(default_seccion), related_name='imagenes_seccion')
+# 	fecha_subida = models.DateTimeField(auto_now_add = True, editable = False)
+#
+# 	class Meta:
+# 		verbose_name = 'Imagen'
+# 		verbose_name_plural = 'Imágenes'
+#
+# 	def __str__(self):
+# 		return '{} - {} {} - {}'.format(self.empleado.legajo, self.empleado.apellido, self.empleado.nombre, self.seccion.nombre_seccion)

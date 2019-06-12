@@ -16,7 +16,7 @@ from datetime import datetime
 from django.core.cache import cache
 
 from apps.dependencia.models import DependenciaLaboral
-from .models import Empleado, Cargo, ImagenEmpleado
+from .models import Empleado, Cargo
 from apps.util.models import Seccion
 from .forms import EmpleadoForm
 from apps.cargo.forms import CargoForm
@@ -70,12 +70,12 @@ class EmpleadoDetail(DetailView):
         context = super(EmpleadoDetail, self).get_context_data(**kwargs)
         secciones = Seccion.objects.all() # Busco todas las secciones
         listado = []  # Listado que contendrá los diccionarios
-        for seccion in secciones:  # Recorro el listado de secciones
-            elemento = {
-                'seccion': seccion}  # Creo un diccionario por cada seccion guardando el nombre y la cantidad de imagenes que tiene
-            id_empleado = self.kwargs.get('pk', 0) # Obtengo el id de la empleado
-            elemento['cantidad_imagenes'] = seccion.cantidad_imagenes_por_seccion(id_empleado)
-            listado.append(elemento)  # Agrego el diccionario a la lista a retornar
+        # for seccion in secciones:  # Recorro el listado de secciones
+        #     elemento = {
+        #         'seccion': seccion}  # Creo un diccionario por cada seccion guardando el nombre y la cantidad de imagenes que tiene
+        #     id_empleado = self.kwargs.get('pk', 0) # Obtengo el id de la empleado
+        #     elemento['cantidad_imagenes'] = seccion.cantidad_imagenes_por_seccion(id_empleado)
+        #     listado.append(elemento)  # Agrego el diccionario a la lista a retornar
 
         context['seccion_list'] = listado
         contenttype_obj = ContentType.objects.get_for_model(self.object)
@@ -266,39 +266,39 @@ def exportar_excel(request):
 # 		return JsonResponse(listado)
 
 
-class ImagenesEmpleadoView(View):
-    def get(self, request, *args, **kwargs):
-        id_empleado = self.kwargs.get('id_empleado', 0)
-        id_seccion = self.kwargs.get('id_seccion', 0)
-        empleado = Empleado.objects.get(pk=id_empleado)
-        seccion = Seccion.objects.get(pk=id_seccion)
-        imagenes_list = ImagenEmpleado.objects.filter(empleado=empleado, seccion=seccion)
-        secciones = Seccion.objects.all()
-        listado = [] # Listado que contendrá los diccionarios
-        for elem_seccion in secciones: # Recorro el listado de secciones
-            elemento = {'seccion': elem_seccion, 'cantidad_imagenes': elem_seccion.cantidad_imagenes_por_seccion(
-                id_empleado)}  # Creo un diccionario por cada seccion guardando el nombre y la cantidad de imagenes que tiene
-            listado.append(elemento) # Agrego el diccionario a la lista a retornar
-        context = {
-            'imagenes_list': imagenes_list,
-            'empleado' : empleado,
-            'seccion' : seccion,
-            'seccion_list' : listado,
-        }
-        return render(self.request, 'empleado/imagenes_empleado.html', context)
-
-    def post(self, request, *args, **kwargs):
-        form = ImagenForm(self.request.POST, self.request.FILES)
-        if form.is_valid():
-            imagen = form.save(commit=False)
-            imagen.created_by = request.user
-            imagen.modified_by = request.user
-            imagen.save()
-            form.save_m2m()
-            data = {'mensaje':'Success', 'is_valid': True, 'name': imagen.imagen.name, 'url': imagen.imagen.url}
-        else:
-            data = {'mensaje':'Error', 'is_valid': False}
-        return JsonResponse(data)
+# class ImagenesEmpleadoView(View):
+#     def get(self, request, *args, **kwargs):
+#         id_empleado = self.kwargs.get('id_empleado', 0)
+#         id_seccion = self.kwargs.get('id_seccion', 0)
+#         empleado = Empleado.objects.get(pk=id_empleado)
+#         seccion = Seccion.objects.get(pk=id_seccion)
+#         imagenes_list = ImagenEmpleado.objects.filter(empleado=empleado, seccion=seccion)
+#         secciones = Seccion.objects.all()
+#         listado = [] # Listado que contendrá los diccionarios
+#         for elem_seccion in secciones: # Recorro el listado de secciones
+#             elemento = {'seccion': elem_seccion, 'cantidad_imagenes': elem_seccion.cantidad_imagenes_por_seccion(
+#                 id_empleado)}  # Creo un diccionario por cada seccion guardando el nombre y la cantidad de imagenes que tiene
+#             listado.append(elemento) # Agrego el diccionario a la lista a retornar
+#         context = {
+#             'imagenes_list': imagenes_list,
+#             'empleado' : empleado,
+#             'seccion' : seccion,
+#             'seccion_list' : listado,
+#         }
+#         return render(self.request, 'empleado/imagenes_empleado.html', context)
+#
+#     def post(self, request, *args, **kwargs):
+#         form = ImagenForm(self.request.POST, self.request.FILES)
+#         if form.is_valid():
+#             imagen = form.save(commit=False)
+#             imagen.created_by = request.user
+#             imagen.modified_by = request.user
+#             imagen.save()
+#             form.save_m2m()
+#             data = {'mensaje':'Success', 'is_valid': True, 'name': imagen.imagen.name, 'url': imagen.imagen.url}
+#         else:
+#             data = {'mensaje':'Error', 'is_valid': False}
+#         return JsonResponse(data)
 
 
 class EmpleadoPDF(PDFTemplateResponseMixin, DetailView):
@@ -312,8 +312,8 @@ class EmpleadoPDF(PDFTemplateResponseMixin, DetailView):
         context = super(EmpleadoPDF, self).get_context_data(**kwargs)
         id_empleado = self.kwargs.get('pk', 0)
         empleado = Empleado.objects.get(pk=id_empleado)
-        imagenes_list = ImagenEmpleado.objects.filter(empleado=empleado)
-        context['imagenes_list'] = imagenes_list
+        # imagenes_list = ImagenEmpleado.objects.filter(empleado=empleado)
+        # context['imagenes_list'] = imagenes_list
         return context
 
 

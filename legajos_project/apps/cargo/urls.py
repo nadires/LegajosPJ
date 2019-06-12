@@ -21,7 +21,7 @@ from .views import CargoCreate, CargoUpdate, FojaServicios
 
 urlpatterns = [
 
-    path('<int:pk>/nuevo-cargo/', CargoCreate.as_view(), name="cargo_create"),
-    path('<int:id_empleado>/modificar-cargo/<int:pk>', CargoUpdate.as_view(), name="cargo_update"),
-    path('<int:pk>/foja-servicios/', FojaServicios.as_view(), name="foja_servicios"),
+    path('<str:pk>/nuevo-cargo', CargoCreate.as_view(), name="cargo_create"),
+    path('<str:id_empleado>/modificar-cargo/<str:pk>', CargoUpdate.as_view(), name="cargo_update"),
+    path('<str:pk>/foja-servicios', FojaServicios.as_view(), name="foja_servicios"),
 ]

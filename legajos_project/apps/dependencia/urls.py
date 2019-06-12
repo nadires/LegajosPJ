@@ -22,8 +22,8 @@ from apps.dependencia.views import DependenciaLaboralCreate, DependenciaLaboralU
 
 
 urlpatterns = [
-    path('<int:pk>/nueva-dependencia/', DependenciaLaboralCreate.as_view(), name="dependencia_create"),
-    path('<int:id_empleado>/modificar-dependencia/<int:pk>', DependenciaLaboralUpdate.as_view(), name="dependencia_update"),
-    path('<int:pk>/historial-traslados/', HistorialTraslados.as_view(), name="historial_traslados"),
+    path('<str:pk>/nueva-dependencia', DependenciaLaboralCreate.as_view(), name="dependencia_create"),
+    path('<str:id_empleado>/modificar-dependencia/<str:pk>', DependenciaLaboralUpdate.as_view(), name="dependencia_update"),
+    path('<str:pk>/historial-traslados', HistorialTraslados.as_view(), name="historial_traslados"),
 
 ]
