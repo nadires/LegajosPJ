@@ -2,45 +2,47 @@
 {% load staticfiles %}
 
 {% block extrastatic %}
-	<link href="{% static 'css/login.css' %}" type="text/css" rel="stylesheet">
-{% endblock %} 
+	<!--<link href="{% static 'css/login.css' %}" type="text/css" rel="stylesheet">-->
+{% endblock %}
 
-{% block content %}
-	<div id="login-page" class="row">
-	    <div class="col s12 z-depth-4 card-panel">
-	      <form class="login-form">
-	        <div class="row">
-	          <div class="input-field col s12 center">
-	            <img src="{% static 'images/logo_legajodigital_login.png' %}" alt="" >
-	            <p class="center login-form-text"> <h5>BIENVENIDO </h5></p>
-          
-	            <div class="alert-danger" hidden>
-	                  Por favor, comprueba tu e-mail o contraseña. 
-	            </div>
+{% block body %}
+<body class="hold-transition login-page">
+	<div class="login-box">
 
-	          </div>
-	        </div>
-	        <div class="row margin">
-	          <div class="input-field col s12">
-	            <i class="mdi-social-person-outline prefix"></i>
-	            <input id="username" type="text">
-	            <label for="username" class="center-align">Usuario</label>
-	          </div>
-	        </div>
-	        <div class="row margin">
-	          <div class="input-field col s12">
-	            <i class="mdi-action-lock-outline prefix"></i>
-	            <input id="password" type="password">
-	            <label for="password">Contraseña</label>
-	          </div>
-	        </div>
-	        
-	        <div class="row">
-	          <div class="input-field col s12">
-	            <a href="{% url 'home' %}" class="btn btn_login waves-effect waves-light col s12">Ingresar</a>
-	          </div>
-	        </div>
-	      </form>
-	    </div>
-	  </div>
+  <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">Iniciar tu sesión con cuenta de Administrador</p>
+
+      <form action="#" method="post">
+		  {% csrf_token %}
+                            {% if form.errors %}
+                            <div class="row">
+                                    <label class="text-danger">{{ form.non_field_errors }}</label>
+                            </div>
+                            {% endif %}
+        <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                  </div>
+                  {{form.email}}
+                </div>
+		  <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                  </div>
+                  {{form.password}}
+                </div>
+        <div class="row">
+
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!-- /.login-card-body -->
+  </div>
+</div>
+<!-- /.login-box -->
+	</body>
 {% endblock %} 

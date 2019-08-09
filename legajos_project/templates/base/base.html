@@ -41,7 +41,7 @@
 </head>
 
 
-
+{% block body %}
 <body class="hold-transition sidebar-mini">
 
     {% include 'base/navbar.html' %}
@@ -103,5 +103,5 @@
     {% block staticfiles_javascript %} {% endblock %} 
     
 </body>
-
+{% endblock %}
 </html>
