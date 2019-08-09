@@ -22,9 +22,5 @@ class Home(TemplateView):
 		return context
 
 
-class Login(LoginView):
-    template_name = 'base/login.html'
-
-
 class Error404(TemplateView):
     template_name = 'base/error_404.html'

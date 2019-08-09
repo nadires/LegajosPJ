@@ -18,7 +18,8 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from .views import Home, Login, Error404
+from apps.usuario.views import Login
+from .views import Home, Error404
 
 from django.contrib.auth.views import LogoutView
 
