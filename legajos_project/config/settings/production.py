@@ -1,3 +1,5 @@
+import os
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
@@ -7,11 +9,11 @@ ALLOWED_HOSTS = ['127.0.0.1', '172.16.28.200']
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'sistemalegajos',
-        'USER': 'admin',
-        'PASSWORD': 'infoper123asd',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': os.environ['DATABASE_ENGINE'],
+        'NAME': os.environ['DATABASE_NAME'],
+        'USER': os.environ['DATABASE_USER'],
+        'PASSWORD': os.environ['DATABASE_PASSWORD'],
+        'HOST': os.environ['DATABASE_HOST'],
+        'PORT': os.environ['DATABASE_PORT'],
     }
 }
