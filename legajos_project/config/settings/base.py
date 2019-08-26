@@ -11,8 +11,11 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-from .dev import *
 from django.urls import reverse_lazy
+if os.environ['DJANGO_DEV'] is not None:
+    from .dev import *
+else:
+    from .production import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
