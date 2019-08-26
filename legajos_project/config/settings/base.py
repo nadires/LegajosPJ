@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 from django.urls import reverse_lazy
-if os.environ['DJANGO_DEV'] is not None:
+if os.environ['DJANGO_DEV'] == 'true':
     from .dev import *
 else:
     from .production import *
