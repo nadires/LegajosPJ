@@ -16,7 +16,7 @@ from datetime import datetime
 from django.core.cache import cache
 
 from apps.dependencia.models import DependenciaLaboral
-from .models import Empleado, Cargo, ImagenEmpleado
+from .models import Empleado, ImagenEmpleado
 from apps.util.models import Seccion
 from .forms import EmpleadoForm
 from apps.cargo.forms import CargoForm
@@ -78,20 +78,20 @@ class EmpleadoDetail(DetailView):
             listado.append(elemento)  # Agrego el diccionario a la lista a retornar
 
         context['seccion_list'] = listado
-        contenttype_obj = ContentType.objects.get_for_model(self.object)
-        # Intenta consultar el cargo, si no tiene lanza la excepcion y pone cargo = None
-        try:
-            cargo = Cargo.objects.get(object_id=self.object.id, content_type=contenttype_obj, actual=True)
-        except Cargo.DoesNotExist:
-            cargo = None
-        context['cargo'] = cargo
+        # contenttype_obj = ContentType.objects.get_for_model(self.object)
+        # # Intenta consultar el cargo, si no tiene lanza la excepcion y pone cargo = None
+        # try:
+        #     cargo = Cargo.objects.get(object_id=self.object.id, content_type=contenttype_obj, actual=True)
+        # except Cargo.DoesNotExist:
+        #     cargo = None
+        # context['cargo'] = cargo
 
         # Intenta consultar la dependencia, si no tiene lanza la excepcion y pone cargo = None
-        try:
-            dependencia = DependenciaLaboral.objects.get(object_id=self.object.id, content_type=contenttype_obj, actual=True)
-        except DependenciaLaboral.DoesNotExist:
-            dependencia = None
-        context['dependencia'] = dependencia
+        # try:
+        #     dependencia = DependenciaLaboral.objects.get(object_id=self.object.id, content_type=contenttype_obj, actual=True)
+        # except DependenciaLaboral.DoesNotExist:
+        #     dependencia = None
+        # context['dependencia'] = dependencia
 
         context['EmpleadoDetail'] = True
         context['titulo'] = "Detalle del Empleado"
@@ -195,13 +195,13 @@ class EmpleadoDown(DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super(EmpleadoDown, self).get_context_data(**kwargs)
-        contenttype_obj = ContentType.objects.get_for_model(self.object)
-        # Intenta consultar el cargo, si no tiene lanza la excepcion y pone cargo = None
-        try:
-            cargo = Cargo.objects.get(object_id=self.object.id, content_type=contenttype_obj, actual=True)
-        except Cargo.DoesNotExist:
-            cargo = None
-        context['cargo'] = cargo
+        # contenttype_obj = ContentType.objects.get_for_model(self.object)
+        # # Intenta consultar el cargo, si no tiene lanza la excepcion y pone cargo = None
+        # try:
+        #     cargo = Cargo.objects.get(object_id=self.object.id, content_type=contenttype_obj, actual=True)
+        # except Cargo.DoesNotExist:
+        #     cargo = None
+        # context['cargo'] = cargo
         context['EmpleadoDown'] = True
         context['titulo'] = "Baja Empleado"
         return context

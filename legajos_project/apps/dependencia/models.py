@@ -1,6 +1,6 @@
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
 from django.db import models
+
+from apps.empleado.models import Empleado
 
 
 class Circunscripcion(models.Model):
@@ -121,6 +121,7 @@ class TipoInstrumentoLegalDependencia(models.Model):
 
 
 class DependenciaLaboral(models.Model):
+    empleado = models.ForeignKey(Empleado, related_name="dependencias_empleado", on_delete=models.CASCADE)
     circunscripcion = models.ForeignKey(Circunscripcion, on_delete=models.SET_NULL, related_name="dependencias_circunscripcion", null=True, blank=True)
     unidad = models.ForeignKey(Unidad, on_delete=models.SET_NULL, related_name="dependencias_unidad", null=True, blank=True)
     organismo = models.ForeignKey(Organismo, on_delete=models.SET_NULL, related_name="dependencias_laborales_organismo", null=True, blank=True)
@@ -133,15 +134,6 @@ class DependenciaLaboral(models.Model):
     tipo_instrumento_legal = models.ForeignKey(TipoInstrumentoLegalDependencia, on_delete=models.SET_NULL, related_name="dependencias_instrumento", null=True)
     fecha_instr_legal = models.DateField('Fecha de instrumento legal', blank=True, null=True)
     actual = models.BooleanField(default=True)
-
-    content_type = models.ForeignKey(
-        ContentType,
-        limit_choices_to={'model__in': 'empleado'},
-        on_delete=models.CASCADE,
-        null=True, blank=True
-    )
-    object_id = models.PositiveIntegerField(null=True, blank=True)
-    content_object = GenericForeignKey('content_type', 'object_id')
 
     def __str__(self):
         if self.division:

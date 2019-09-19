@@ -1,6 +1,6 @@
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
 from django.db import models
+
+from apps.empleado.models import Empleado
 
 
 class TipoCargo(models.Model):
@@ -66,6 +66,7 @@ class Cargo(models.Model):
         ('PO', 'Policia Judicial'),
     )
 
+    empleado = models.ForeignKey(Empleado, related_name="cargos_empleado", on_delete=models.CASCADE)
     cargo = models.ForeignKey(TipoCargo, on_delete=models.SET_NULL, related_name="cargos_tipo", null=True)
     nivel = models.ForeignKey(NivelCargo, on_delete=models.SET_NULL, related_name="cargos_nivel", null=True)
     agrupamiento = models.ForeignKey(AgrupamientoCargo, on_delete=models.SET_NULL, related_name="cargos_agrupamiento", null=True)
@@ -78,15 +79,6 @@ class Cargo(models.Model):
     tipo_instrumento_legal = models.ForeignKey(TipoInstrumentoLegalCargo, on_delete=models.SET_NULL, related_name="cargos_instrumento", null=True)
     fecha_instr_legal = models.DateField('Fecha de instrumento legal', blank=True, null=True)
     actual = models.BooleanField(default=True)
-
-    content_type = models.ForeignKey(
-        ContentType,
-        limit_choices_to={'model__in': 'empleado'},
-        on_delete=models.CASCADE,
-        null=True, blank=True
-    )
-    object_id = models.PositiveIntegerField(null=True, blank=True)
-    content_object = GenericForeignKey('content_type', 'object_id')
 
     def __str__(self):
         return self.cargo.tipo_cargo
