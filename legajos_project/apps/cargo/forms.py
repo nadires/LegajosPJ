@@ -9,6 +9,7 @@ class CargoForm(forms.ModelForm):
     fecha_fin_cargo_anterior = forms.DateField(required=False, widget=forms.DateInput(
         attrs={'class': 'form-control', 'placeholder': 'dd/mm/yyyy', 'data-inputmask': "'alias': 'dd/mm/yyyy'",
                'data-mask': ''}))
+    empleado = forms.UUIDField(required=False)
 
     class Meta:
         model = Cargo

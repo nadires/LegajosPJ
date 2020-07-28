@@ -9,14 +9,14 @@ from apps.dependencia.models import DependenciaLaboral, Circunscripcion, Unidad,
 from django.contrib.contenttypes.admin import GenericTabularInline
 
 
-class CargoInline(GenericTabularInline):
-    model = Cargo
-    extra = 1
-
-
-class DependenciaLaboralInline(GenericTabularInline):
-    model = DependenciaLaboral
-    extra = 1
+# class CargoInline(GenericTabularInline):
+#     model = Cargo
+#     extra = 1
+#
+#
+# class DependenciaLaboralInline(GenericTabularInline):
+#     model = DependenciaLaboral
+#     extra = 1
 
 
 class EmpleadosAdmin(admin.ModelAdmin):
@@ -26,21 +26,21 @@ class EmpleadosAdmin(admin.ModelAdmin):
     readonly_fields = ('created_on', 'created_by', 'modified_on', 'modified_by', 'activo', 'borrado')
 
     fieldsets = (
-        ('Datos Personales', {'fields': ('apellido', 'nombre', 'tipo_doc', 'documento', 'cuil', 
-                                'sexo', 'fecha_nac', 'estado_civil', 'nacionalidad', 'lugar_nac', 
+        ('Datos Personales', {'fields': ('apellido', 'nombre', 'tipo_doc', 'documento', 'cuil',
+                                'sexo', 'fecha_nac', 'estado_civil', 'nacionalidad', 'lugar_nac',
                                 'tel_fijo', 'tel_cel', 'email', 'foto_perfil')}),
-        ('Domicilio', {'fields': ('domicilio', 'barrio', 'piso', 'dpto', 
+        ('Domicilio', {'fields': ('domicilio', 'barrio', 'piso', 'dpto',
                                     'localidad', 'cod_postal', 'departamento', 'provincia')}),
-        ('Datos Laborales', {'fields': ('legajo', 'fecha_ingreso', 
+        ('Datos Laborales', {'fields': ('legajo', 'fecha_ingreso',
                                 'estado_laboral', 'fecha_cambio_estado_lab', 'horario')}),
-        ('Datos Extras', {'fields': ('fecha_baja', 'motivo_baja', 'created_on', 'created_by', 'modified_on', 'modified_by', 
+        ('Datos Extras', {'fields': ('fecha_baja', 'motivo_baja', 'created_on', 'created_by', 'modified_on', 'modified_by',
                             'activo', 'borrado')}),
     )
-
-    inlines = (
-        CargoInline,
-        DependenciaLaboralInline,
-    )
+    #
+    # inlines = (
+    #     CargoInline,
+    #     DependenciaLaboralInline,
+    # )
 
     search_fields = ('apellido', 'nombre', 'activo', 'borrado')
 
@@ -48,8 +48,8 @@ class EmpleadosAdmin(admin.ModelAdmin):
         user = request.user
         instance = form.save(commit=False)
         if not change or not instance.created_by:
-            instance.created_by = user        
-        instance.modified_by = user	
+            instance.created_by = user
+        instance.modified_by = user
         instance.save()
         form.save_m2m()
         return instance

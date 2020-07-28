@@ -1,12 +1,10 @@
 from itertools import chain
 
-from django.contrib.contenttypes.models import ContentType
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DetailView
 
-from apps.cargo.models import Cargo
 from apps.empleado.models import Empleado
 from .models import DependenciaLaboral, Circunscripcion, Unidad, Organismo, Dependencia, Direccion, Departamento, \
     Division
@@ -20,33 +18,15 @@ class DependenciaLaboralCreate(SuccessMessageMixin, CreateView):
     success_message = "¡La dependencia laboral fue agregada con éxito!"
 
     def get_success_url(self, **kwargs):
-        return reverse_lazy('empleado_detail', args=[self.object.object_id])
+        return reverse_lazy('empleado_detail', args=[self.object.empleado.id])
 
     def get_context_data(self, **kwargs):
         context = super(DependenciaLaboralCreate, self).get_context_data(**kwargs)
         id_empleado = self.kwargs.get('pk', 0)
         empleado = Empleado.objects.get(pk=id_empleado)
         context['empleado'] = empleado
-        contenttype_obj = ContentType.objects.get_for_model(Empleado)
-        # Intenta consultar el cargo, si no tiene lanza la excepcion y pone cargo_anterior = None
-        try:
-            cargo = Cargo.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
-        except Cargo.DoesNotExist:
-            cargo = None
-        context['cargo'] = cargo
-        # Intenta consultar la dependencia, si no tiene lanza la excepcion y pone cargo = None
-        try:
-            dependencia = DependenciaLaboral.objects.get(object_id=empleado.id, content_type=contenttype_obj,
-                                                         actual=True)
-        except DependenciaLaboral.DoesNotExist:
-            dependencia = None
-        context['dependencia'] = dependencia
-        # Intenta consultar la dependencia, si no tiene lanza la excepcion y pone dependencia_anterior = None
-        try:
-            dependencia_anterior = DependenciaLaboral.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
-        except DependenciaLaboral.DoesNotExist:
-            dependencia_anterior = None
-        context['dependencia_anterior'] = dependencia_anterior
+        context['cargo'] = empleado.cargos_empleado.filter(actual=True).first()
+        context['dependencia_anterior'] = empleado.dependencias_empleado.filter(actual=True).first()
         circunscripciones = Circunscripcion.objects.all()
         unidades = Unidad.objects.all()
         organismos = Organismo.objects.all()
@@ -67,16 +47,8 @@ class DependenciaLaboralCreate(SuccessMessageMixin, CreateView):
         instance.modified_by = user
         id_empleado = self.kwargs.get('pk', 0)
         empleado = Empleado.objects.get(pk=id_empleado)
-        contenttype_obj = ContentType.objects.get_for_model(Empleado)
-        try:
-            # Busco la dependencia anterior para ponerle actual = False, ya que la nueva dependencia será el actual
-            dependencia_anterior = DependenciaLaboral.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
-            dependencia_anterior.actual = False
-            dependencia_anterior.save()
-        except DependenciaLaboral.DoesNotExist:
-            dependencia = None
-        instance.object_id = empleado.id
-        instance.content_type = contenttype_obj
+        DependenciaLaboral.objects.all().update(actual=False)
+        instance.empleado = empleado
         instance.save()
         form.save_m2m()
         return super().form_valid(form)
@@ -89,26 +61,15 @@ class DependenciaLaboralUpdate(SuccessMessageMixin, UpdateView):
     success_message = "¡La dependencia fue modificada con éxito!"
 
     def get_success_url(self, **kwargs):
-        return reverse_lazy('empleado_detail', args=[self.object.object_id])
+        return reverse_lazy('empleado_detail', args=[self.object.empleado.id])
 
     def get_context_data(self, **kwargs):
         context = super(DependenciaLaboralUpdate, self).get_context_data(**kwargs)
         id_empleado = self.kwargs.get('id_empleado', 0)
         empleado = Empleado.objects.get(pk=id_empleado)
-        contenttype_obj = ContentType.objects.get_for_model(Empleado)
-        # Intenta consultar el cargo, si no tiene lanza la excepcion y pone cargo_anterior = None
-        try:
-            cargo = Cargo.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
-        except Cargo.DoesNotExist:
-            cargo = None
-        context['cargo'] = cargo
-        # Intenta consultar la dependencia, si no tiene lanza la excepcion y pone cargo = None
-        try:
-            dependencia = DependenciaLaboral.objects.get(object_id=empleado.id, content_type=contenttype_obj,
-                                                         actual=True)
-        except DependenciaLaboral.DoesNotExist:
-            dependencia = None
-        context['dependencia'] = dependencia
+        context['empleado'] = empleado
+        context['cargo'] = empleado.cargos_empleado.filter(actual=True).first()
+        context['dependencia'] = empleado.dependencias_empleado.filter(actual=True).first()
         circunscripciones = Circunscripcion.objects.all()
         unidades = Unidad.objects.all()
         organismos = Organismo.objects.all()
@@ -118,7 +79,6 @@ class DependenciaLaboralUpdate(SuccessMessageMixin, UpdateView):
         divisiones = Division.objects.all()
         result_list = list(chain(circunscripciones, unidades, organismos, dependencias, direcciones, departamentos, divisiones))
         context['listado_dependencias'] = result_list
-        context['empleado'] = empleado
         context['titulo'] = "Modificar Dependencia Laboral"
         context['DependenciaUpdate'] = True
         return context
@@ -126,20 +86,11 @@ class DependenciaLaboralUpdate(SuccessMessageMixin, UpdateView):
     def form_valid(self, form, **kwargs):
         user = self.request.user
         instance = form.save(commit=False)
-        instance.created_by = user
+        # instance.created_by = user
         instance.modified_by = user
         id_empleado = self.kwargs.get('id_empleado', 0)
         empleado = Empleado.objects.get(pk=id_empleado)
-        contenttype_obj = ContentType.objects.get_for_model(Empleado)
-        try:
-            # Busco la dependencia anterior para ponerle actual = False, ya que la nueva dependencia será la actual
-            dependencia_anterior = DependenciaLaboral.objects.get(object_id=empleado.id, content_type=contenttype_obj, actual=True)
-            dependencia_anterior.actual = False
-            dependencia_anterior.save()
-        except DependenciaLaboral.DoesNotExist:
-            dependencia = None
-        instance.object_id = empleado.id
-        instance.content_type = contenttype_obj
+        instance.empleado = empleado
         instance.save()
         form.save_m2m()
         return super().form_valid(form)
@@ -152,24 +103,9 @@ class HistorialTraslados(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(HistorialTraslados, self).get_context_data(**kwargs)
-
-        contenttype_obj = ContentType.objects.get_for_model(self.object)
-        # Intenta consultar el cargo, si no tiene lanza la excepcion y pone cargo_anterior = None
-        try:
-            cargo = Cargo.objects.get(object_id=self.object.id, content_type=contenttype_obj, actual=True)
-        except Cargo.DoesNotExist:
-            cargo = None
-        context['cargo'] = cargo
-        # Intenta consultar la dependencia, si no tiene lanza la excepcion y pone cargo = None
-        try:
-            dependencia = DependenciaLaboral.objects.get(object_id=self.object.id, content_type=contenttype_obj,
-                                                         actual=True)
-        except DependenciaLaboral.DoesNotExist:
-            dependencia = None
-        context['dependencia'] = dependencia
-
-        dependencias = DependenciaLaboral.objects.filter(object_id=self.object.id, content_type=contenttype_obj).order_by('-fecha_ingreso_dependencia')
-        context['dependencias'] = dependencias
+        context['cargo'] = self.object.cargos_empleado.filter(actual=True).first()
+        context['dependencia'] = self.object.dependencias_empleado.filter(actual=True).first()
+        context['dependencias'] = self.object.dependencias_empleado.all().order_by('-fecha_ingreso_dependencia')
         context['HistorialTraslados'] = True
         context['titulo'] = "Historial de Traslados"
         return context

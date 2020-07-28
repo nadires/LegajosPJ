@@ -7,6 +7,7 @@ import datetime
 
 
 class DependenciaLaboralForm(forms.ModelForm):
+    empleado = forms.UUIDField(required=False)
 
     class Meta:
         model = DependenciaLaboral

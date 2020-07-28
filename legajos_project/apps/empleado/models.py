@@ -6,15 +6,7 @@ import uuid
 
 from apps.util.models import Seccion, AbstractDireccion
 
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.fields import GenericRelation
 
-from apps.cargo.models import Cargo
-from apps.dependencia.models import DependenciaLaboral
-
-
-# ------------------------------ FIN DEPENDENCIA ----------------------------------------
 class HorarioLaboral(models.Model):
 	ingreso = models.TimeField()
 	salida = models.TimeField()
@@ -83,10 +75,6 @@ class Empleado(Signature, AbstractDireccion):
 	estado_laboral = models.CharField(max_length=3, choices=ESTADO_LABORAL, default='AC', blank=True, null=True)
 	fecha_cambio_estado_lab = models.DateField('Fecha de cambio de Estado Laboral',  default=date.today, blank=True, null=True)
 	horario = models.ForeignKey(HorarioLaboral, on_delete=models.SET_NULL, related_name="empleados_horario", blank=True, null=True)
-
-	# cargo = models.ForeignKey(Cargo, on_delete=models.SET_NULL, related_name="empleados_cargo", blank=True, null=True)
-	cargo = GenericRelation(Cargo, related_query_name='empleados')
-	dependencia_laboral = GenericRelation(DependenciaLaboral, related_query_name='empleados')
 
 	fecha_baja = models.DateField('Fecha de baja', blank=True, null=True)
 	motivo_baja = models.TextField('Motivo de baja', blank=True)

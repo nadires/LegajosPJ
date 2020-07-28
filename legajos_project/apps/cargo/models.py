@@ -1,8 +1,7 @@
 import uuid
-
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
 from django.db import models
+
+from apps.empleado.models import Empleado
 
 
 class TipoCargo(models.Model):
@@ -68,6 +67,7 @@ class Cargo(models.Model):
         ('PO', 'Policia Judicial'),
     )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE, related_name="cargos_empleado")
     cargo = models.ForeignKey(TipoCargo, on_delete=models.SET_NULL, related_name="cargos_tipo", null=True)
     nivel = models.ForeignKey(NivelCargo, on_delete=models.SET_NULL, related_name="cargos_nivel", null=True)
     agrupamiento = models.ForeignKey(AgrupamientoCargo, on_delete=models.SET_NULL, related_name="cargos_agrupamiento", null=True)
@@ -76,19 +76,10 @@ class Cargo(models.Model):
     fecha_ingreso_cargo = models.DateField('Fecha de ingreso al cargo', blank=True, null=True)
     fecha_fin_cargo = models.DateField('Fecha de fin del cargo', blank=True, null=True)
     fecha_vencimiento_cargo = models.DateField('Fecha de vencimiento del cargo', blank=True, null=True)
-    instrumento_legal = models.CharField(max_length=20, blank=True)
+    instrumento_legal = models.CharField(max_length=20)
     tipo_instrumento_legal = models.ForeignKey(TipoInstrumentoLegalCargo, on_delete=models.SET_NULL, related_name="cargos_instrumento", null=True)
-    fecha_instr_legal = models.DateField('Fecha de instrumento legal', blank=True, null=True)
+    fecha_instr_legal = models.DateField('Fecha de instrumento legal')
     actual = models.BooleanField(default=True)
-
-    content_type = models.ForeignKey(
-        ContentType,
-        limit_choices_to={'model__in': 'empleado'},
-        on_delete=models.CASCADE,
-        null=True, blank=True
-    )
-    object_id = models.TextField(null=True, blank=True)
-    content_object = GenericForeignKey('content_type', 'object_id')
 
     def __str__(self):
         return self.cargo.tipo_cargo

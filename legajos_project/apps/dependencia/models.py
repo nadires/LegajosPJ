@@ -1,8 +1,8 @@
 import uuid
 
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
 from django.db import models
+
+from apps.empleado.models import Empleado
 
 
 class Circunscripcion(models.Model):
@@ -124,6 +124,7 @@ class TipoInstrumentoLegalDependencia(models.Model):
 
 class DependenciaLaboral(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE, related_name="dependencias_empleado")
     circunscripcion = models.ForeignKey(Circunscripcion, on_delete=models.SET_NULL, related_name="dependencias_circunscripcion", null=True, blank=True)
     unidad = models.ForeignKey(Unidad, on_delete=models.SET_NULL, related_name="dependencias_unidad", null=True, blank=True)
     organismo = models.ForeignKey(Organismo, on_delete=models.SET_NULL, related_name="dependencias_laborales_organismo", null=True, blank=True)
@@ -131,20 +132,11 @@ class DependenciaLaboral(models.Model):
     direccion = models.ForeignKey(Direccion, on_delete=models.SET_NULL, related_name="dependencias_direccion", null=True, blank=True)
     departamento = models.ForeignKey(Departamento, on_delete=models.SET_NULL, related_name="dependencias_departamento", null=True, blank=True)
     division = models.ForeignKey(Division, on_delete=models.SET_NULL, related_name="dependencias_division", null=True, blank=True)
-    fecha_ingreso_dependencia = models.DateField('Fecha de ingreso a la Dependencia Laboral', blank=True, null=True)
-    instrumento_legal = models.CharField(max_length=20, blank=True)
+    fecha_ingreso_dependencia = models.DateField('Fecha de ingreso a la Dependencia Laboral')
+    instrumento_legal = models.CharField(max_length=20)
     tipo_instrumento_legal = models.ForeignKey(TipoInstrumentoLegalDependencia, on_delete=models.SET_NULL, related_name="dependencias_instrumento", null=True)
-    fecha_instr_legal = models.DateField('Fecha de instrumento legal', blank=True, null=True)
+    fecha_instr_legal = models.DateField('Fecha de instrumento legal')
     actual = models.BooleanField(default=True)
-
-    content_type = models.ForeignKey(
-        ContentType,
-        limit_choices_to={'model__in': 'empleado'},
-        on_delete=models.CASCADE,
-        null=True, blank=True
-    )
-    object_id = models.TextField(null=True, blank=True)
-    content_object = GenericForeignKey('content_type', 'object_id')
 
     def __str__(self):
         if self.division:
