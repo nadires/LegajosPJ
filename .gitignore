@@ -33,6 +33,7 @@ legajos_project/apps/*/migrations/0*
 
 # archivos de configuracion
 /legajos_project/config/settings/dev.py
+/legajos_project/config/
 
 # static y temporales
 legajos_project/media/*
